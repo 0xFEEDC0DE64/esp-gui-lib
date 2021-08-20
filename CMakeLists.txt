@@ -1,17 +1,59 @@
 set(headers
+    src/accessorinterface.h
+    src/actioninterface.h
+    src/changevaluedisplay.h
+    src/changevaluedisplay_bool.h
+    src/changevaluedisplay_daylightsavingmode.h
+    src/changevaluedisplay_sntp_sync_mode_t.h
+    src/checkboxicon.h
+    src/colorinterface.h
+    src/display.h
+    src/fontinterface.h
     src/icon.h
+    src/iconinterface.h
+    src/menudisplay.h
+    src/menuitem.h
+    src/tftinstance.h
+    src/textinterface.h
+    src/actions/backproxyaction.h
+    src/actions/dummyaction.h
+    src/actions/setvalueaction.h
+    src/actions/switchscreenaction.h
+    src/icons/back.h
+    src/icons/checked.h
+    src/icons/unchecked.h
+    src/widgets/graph.h
+    src/widgets/label.h
+    src/widgets/progressbar.h
+    src/widgets/reverseprogressbar.h
+    src/widgets/verticalmeter.h
+    src/widgets/vumeter.h
 )
 
 set(sources
+    src/changevaluedisplay.cpp
+    src/changevaluedisplay_bool.cpp
+    src/changevaluedisplay_daylightsavingmode.cpp
+    src/changevaluedisplay_sntp_sync_mode_t.cpp
+    src/menudisplay.cpp
+    src/tftinstance.cpp
+    src/icons/back.cpp
+    src/icons/checked.cpp
+    src/icons/unchecked.cpp
+    src/widgets/label.cpp
+    src/widgets/progressbar.cpp
+    src/widgets/reverseprogressbar.cpp
+    src/widgets/verticalmeter.cpp
+    src/widgets/vumeter.cpp
 )
 
 set(dependencies
     cpputils
+    cxx-ring-buffer
     espchrono
     espcpputils
     expected
     fmt
-
     TFT_eSPI
 )
 
