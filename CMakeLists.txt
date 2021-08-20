@@ -20,6 +20,7 @@ set(headers
     src/actions/dummyaction.h
     src/actions/setvalueaction.h
     src/actions/switchscreenaction.h
+    src/actions/toggleboolaction.h
     src/icons/back.h
     src/icons/checked.h
     src/icons/unchecked.h
