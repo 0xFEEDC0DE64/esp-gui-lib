@@ -2,6 +2,7 @@
 
 // local includes
 #include "actioninterface.h"
+#include "screenmanager.h"
 
 namespace espgui {
 template<typename Tscreen, typename ...Targs>

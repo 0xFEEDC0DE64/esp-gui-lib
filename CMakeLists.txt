@@ -13,6 +13,7 @@ set(headers
     src/iconinterface.h
     src/menudisplay.h
     src/menuitem.h
+    src/screenmanager.h
     src/tftinstance.h
     src/textinterface.h
     src/actions/backproxyaction.h
@@ -36,6 +37,7 @@ set(sources
     src/changevaluedisplay_daylightsavingmode.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
     src/menudisplay.cpp
+    src/screenmanager.cpp
     src/tftinstance.cpp
     src/icons/back.cpp
     src/icons/checked.cpp
