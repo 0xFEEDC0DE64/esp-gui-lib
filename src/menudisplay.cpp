@@ -93,7 +93,7 @@ void MenuDisplay::redraw()
     const auto drawItemRect = [](const auto &label, const auto color){
         tft.drawRect(5,
                      label.y()-1,
-                     240 - 10,
+                     tft.width() - 10,
                      lineHeight+2,
                      color);
     };
@@ -121,7 +121,7 @@ void MenuDisplay::redraw()
 
         if (item.icon() != *iconsIter)
         {
-            tft.fillRect(5, labelsIter->y()+1, 24, 24, TFT_BLACK);
+            tft.fillRect(6, labelsIter->y()+1, 24, 24, TFT_BLACK);
 
             auto icon = item.icon();
             if (icon)
