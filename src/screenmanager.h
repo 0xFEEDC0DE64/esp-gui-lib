@@ -23,7 +23,20 @@ inline void deconstructScreen()
 }
 
 template<typename T, typename... Args>
-void switchScreenImpl(Args&&... args)
+void switchScreenImpl(Args... args)
+{
+    deconstructScreen();
+
+    std::unique_ptr<T> ptr = std::make_unique<T>(args...);
+    currentDisplay = std::move(ptr);
+    currentDisplay->start();
+    currentDisplay->initScreen();
+    currentDisplay->update();
+    currentDisplay->redraw();
+}
+
+template<typename T, typename... Args>
+void switchScreenRefImpl(Args&&... args)
 {
     deconstructScreen();
 
@@ -38,12 +51,21 @@ void switchScreenImpl(Args&&... args)
 extern std::function<void()> changeScreenCallback;
 
 template<typename T, typename... Args>
-void switchScreen(Args&&... args)
+void switchScreen(Args... args)
 {
     if (currentDisplay)
-        changeScreenCallback = [&args...](){ switchScreenImpl<T>(std::forward<Args>(args)...); };
+        changeScreenCallback = [args...](){ switchScreenImpl<T>(args...); };
     else
-        switchScreenImpl<T>(std::forward<Args>(args)...);
+        switchScreenImpl<T>(args...);
+}
+
+template<typename T, typename... Args>
+void switchScreenRef(Args&&... args)
+{
+    if (currentDisplay)
+        changeScreenCallback = [args...](){ switchScreenRefImpl<T>(std::forward<Args>(args)...); };
+    else
+        switchScreenRefImpl<T>(std::forward<Args>(args)...);
 }
 
 } // namespace espgui
