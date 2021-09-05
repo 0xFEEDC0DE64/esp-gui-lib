@@ -13,6 +13,7 @@ set(headers
     src/iconinterface.h
     src/menudisplay.h
     src/menuitem.h
+    src/richtextrenderer.h
     src/screenmanager.h
     src/tftinstance.h
     src/textinterface.h
@@ -39,6 +40,7 @@ set(sources
     src/changevaluedisplay_sntp_sync_mode_t.cpp
     src/menudisplay.cpp
     src/screenmanager.cpp
+    src/richtextrenderer.cpp
     src/tftinstance.cpp
     src/icons/back.cpp
     src/icons/checked.cpp

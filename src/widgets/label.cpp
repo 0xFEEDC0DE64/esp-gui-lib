@@ -2,6 +2,7 @@
 
 // local includes
 #include "tftinstance.h"
+#include "richtextrenderer.h"
 
 namespace espgui {
 Label::Label(int x, int y) :
@@ -28,7 +29,7 @@ void Label::redraw(std::string_view str, bool forceRedraw)
         !forceRedraw)
         return;
 
-    const auto renderedWidth = str.empty() ? 0 : tft.drawString(str.data(), m_x, m_y);
+    const auto renderedWidth = renderRichText(str, m_x, m_y);
     const auto renderedHeight = tft.fontHeight();
 
     if (renderedWidth < m_lastWidth)
