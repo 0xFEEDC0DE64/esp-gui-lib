@@ -7,7 +7,7 @@ void ChangeValueDisplayInterface::initScreen()
 
     m_titleLabel.start();
 
-    tft.fillRect(0, 34, tft.width(), 3, TFT_WHITE);
+    tft.fillRect(0, 33, tft.width(), 3, TFT_WHITE);
 
     tft.drawRect(25, 75, 190, 65, TFT_WHITE);
     m_valueLabel.start();

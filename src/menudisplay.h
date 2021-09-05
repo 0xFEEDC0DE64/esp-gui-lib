@@ -99,9 +99,9 @@ private:
     static constexpr size_t rowCount = CONFIG_ESPGUI_MENUDISPLAY_ROWS;
     static constexpr auto iconWidth = 25;
     static constexpr auto horizontalSpacing = 10;
-    static constexpr auto topMargin = 40;
-    static constexpr auto lineHeight = 25;
-    static constexpr auto verticalSpacing = 4;
+    static constexpr auto topMargin = 39;
+    static constexpr auto lineHeight = 27;
+    static constexpr auto verticalSpacing = 2;
 
     std::array<Label, rowCount> m_labels {{
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 1
