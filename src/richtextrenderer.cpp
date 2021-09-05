@@ -28,9 +28,29 @@ int16_t renderRichText(std::string_view str, int32_t poX, int32_t poY, uint8_t f
     if (str.empty())
         return 0;
 
+    const int16_t fontHeight = tft.fontHeight(font);
+
+    const uint8_t oldFont = font;
     const uint16_t oldColor = tft.textcolor;
 
     int16_t width{};
+
+    const auto drawString = [&poX, &poY, &font, &width, &fontHeight, &oldFont](std::string_view str) {
+        const auto addedWith = tft.drawString(str, poX, poY, font);
+
+        if (font != oldFont)
+        {
+            if (const int16_t newFontHeight = tft.fontHeight(font); newFontHeight < fontHeight)
+            {
+                tft.fillRect(poX, poY + newFontHeight,
+                             addedWith, fontHeight - newFontHeight,
+                             tft.textbgcolor);
+            }
+        }
+
+        poX += addedWith;
+        width += addedWith;
+    };
 
 again:
     if (const auto index = str.find('&'); index != std::string_view::npos)
@@ -38,11 +58,7 @@ again:
         {
             std::string_view tempStr{std::begin(str), index};
             if (!tempStr.empty())
-            {
-                const auto addedWith = tft.drawString(tempStr, poX, poY, font);
-                poX += addedWith;
-                width += addedWith;
-            }
+                drawString(tempStr);
         }
 
         auto newIter = std::begin(str) + index + 1;
@@ -84,27 +100,32 @@ again:
                 }
                 break;
             }
-//            case '&':
-//            {
-//                const char buf[1] = { '&' };
-//                const auto addedWith = tft.drawString(std::string_view{buf, std::size(buf)}, poX, poY, font);
-//                poX += addedWith;
-//                width += addedWith;
+            case 'f':
+            case 's':
+            case 'm':
+            {
+                font = [&controlChar,&oldFont]() -> uint8_t {
+                    switch (controlChar)
+                    {
+                    case 'f': return oldFont;
+                    case 's': return 2;
+                    case 'm': return 4;
+                    }
+                    __builtin_unreachable();
+                }();
 
-//                auto newNewIter = newIter + 1;
-//                if (newNewIter != std::end(str))
-//                {
-//                    str = std::string_view(newNewIter, std::distance(newNewIter, std::end(str)));
-//                    goto again;
-//                }
-//                break;
-//            }
+                auto newNewIter = newIter + 1;
+                if (newNewIter != std::end(str))
+                {
+                    str = std::string_view(newNewIter, std::distance(newNewIter, std::end(str)));
+                    goto again;
+                }
+                break;
+            }
             default:
             {
                 const char buf[2] = { '&', controlChar };
-                const auto addedWith = tft.drawString(std::string_view{buf, std::size(buf)}, poX, poY, font);
-                poX += addedWith;
-                width += addedWith;
+                drawString(std::string_view{buf, std::size(buf)});
 
                 auto newNewIter = newIter + 1;
                 if (newNewIter != std::end(str))
@@ -119,16 +140,12 @@ again:
         else
         {
             const char buf[1] = { '&' };
-            const auto addedWith = tft.drawString(std::string_view{buf, std::size(buf)}, poX, poY, font);
-            poX += addedWith;
-            width += addedWith;
+            drawString(std::string_view{buf, std::size(buf)});
         }
     }
     else if (!str.empty())
     {
-        const auto addedWith = tft.drawString(str, poX, poY, font);
-        poX += addedWith;
-        width += addedWith;
+        drawString(str);
     }
 
     tft.setTextColor(oldColor, tft.textbgcolor);
