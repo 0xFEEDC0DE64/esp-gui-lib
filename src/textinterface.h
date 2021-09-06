@@ -32,7 +32,7 @@ class ChangeableText : public virtual TextInterface
 public:
     ChangeableText() = default;
     ChangeableText(std::string &&title) : m_title{std::move(title)} {}
-    ChangeableText(const std::string &title) : m_title{title} {}
+    ChangeableText(std::string_view title) : m_title{title} {}
 
     std::string text() const override { return m_title; }
     void setTitle(std::string &&title) { m_title = std::move(title); }
