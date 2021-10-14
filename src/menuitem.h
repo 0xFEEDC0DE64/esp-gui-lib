@@ -27,4 +27,14 @@ public:
     virtual void update() {}
     virtual void stop() {}
 };
+
+template<typename T>
+class MenuItemWithMenuRef : public MenuItem
+{
+public:
+    MenuItemWithMenuRef(T &menu) : m_menu{menu} {}
+
+protected:
+    T &m_menu;
+};
 } // namespace espgui
