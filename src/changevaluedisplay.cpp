@@ -1,13 +1,12 @@
 #include "changevaluedisplay.h"
 
+// 3rdparty lib includes
+#include <fmt/core.h>
+
 namespace espgui {
 void ChangeValueDisplayInterface::initScreen()
 {
-    tft.fillScreen(TFT_BLACK);
-
-    m_titleLabel.start();
-
-    tft.fillRect(0, 33, tft.width(), 3, TFT_WHITE);
+    Base::initScreen();
 
     tft.drawRect(25, 75, 190, 65, TFT_WHITE);
     m_valueLabel.start();
@@ -23,9 +22,7 @@ void ChangeValueDisplayInterface::initScreen()
 template<>
 void ChangeValueDisplay<float>::redraw()
 {
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_YELLOW);
-    m_titleLabel.redraw(text());
+    Base::redraw();
 
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setTextFont(7);

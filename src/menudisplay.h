@@ -10,14 +10,16 @@
 #include <memory>
 
 // local includes
-#include "display.h"
+#include "displaywithtitle.h"
 #include "textinterface.h"
 #include "widgets/label.h"
 #include "menuitem.h"
 
 namespace espgui {
-class MenuDisplay : public Display, public virtual TextInterface
+class MenuDisplay : public DisplayWithTitle
 {
+    using Base = DisplayWithTitle;
+
 public:
     void start() override;
     void initScreen() override;
@@ -27,9 +29,6 @@ public:
 
     void rotate(int offset) override;
     void confirm() override;
-
-    TextInterface *asTextInterface() override { return this; }
-    const TextInterface *asTextInterface() const override { return this; }
 
     MenuDisplay *asMenuDisplay() override { return this; }
     const MenuDisplay *asMenuDisplay() const override { return this; }
@@ -94,8 +93,6 @@ protected:
     void setSelectedIndex(int selectedIndex) { m_selectedIndex = selectedIndex; }
 
 private:
-    Label m_titleLabel{5, 5}; // 230, 25
-
     static constexpr size_t rowCount = CONFIG_ESPGUI_MENUDISPLAY_ROWS;
     static constexpr auto iconWidth = 25;
     static constexpr auto horizontalSpacing = 10;

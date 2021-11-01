@@ -64,14 +64,17 @@ public:
     void back() override {}
 };
 
-class Display : public virtual ConfirmInterface, public virtual BackInterface {
+class Display :
+    public virtual ConfirmInterface,
+    public virtual BackInterface
+{
 public:
     virtual ~Display() = default;
 
-    virtual void start() {};
-    virtual void initScreen() {};
-    virtual void update() {};
-    virtual void redraw() {};
+    virtual void start() {}
+    virtual void initScreen();
+    virtual void update() {}
+    virtual void redraw() {}
     virtual void stop() {}
 
     virtual void rotate(int offset) {}

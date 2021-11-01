@@ -8,6 +8,7 @@ set(headers
     src/checkboxicon.h
     src/colorinterface.h
     src/display.h
+    src/displaywithtitle.h
     src/fontinterface.h
     src/icon.h
     src/iconinterface.h
@@ -38,6 +39,8 @@ set(sources
     src/changevaluedisplay_bool.cpp
     src/changevaluedisplay_daylightsavingmode.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
+    src/display.cpp
+    src/displaywithtitle.cpp
     src/menudisplay.cpp
     src/screenmanager.cpp
     src/richtextrenderer.cpp

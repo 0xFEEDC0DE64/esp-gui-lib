@@ -1,10 +1,7 @@
 #pragma once
 
-// 3rdparty lib includes
-#include <fmt/core.h>
-
 // local includes
-#include "display.h"
+#include "displaywithtitle.h"
 #include "textinterface.h"
 #include "actioninterface.h"
 #include "accessorinterface.h"
@@ -13,15 +10,12 @@
 
 namespace espgui {
 class ChangeValueDisplayInterface :
-    public Display,
-    public virtual TextInterface,
+    public DisplayWithTitle,
     public virtual ActionInterface
 {
+    using Base = DisplayWithTitle;
 public:
     void initScreen() override;
-
-    TextInterface *asTextInterface() override { return this; }
-    const TextInterface *asTextInterface() const override { return this; }
 
     ChangeValueDisplayInterface *asChangeValueDisplayInterface() override { return this; }
     const ChangeValueDisplayInterface *asChangeValueDisplayInterface() const override { return this; }
@@ -30,7 +24,6 @@ public:
     virtual void setShownValue(int value) = 0;
 
 protected:
-    Label m_titleLabel{5, 5}; // 230, 25
     Label m_valueLabel{26, 81}; // 188, 53
 };
 
@@ -86,6 +79,8 @@ void ChangeValueDisplay<Tvalue>::start()
 template<typename Tvalue>
 void ChangeValueDisplay<Tvalue>::update()
 {
+    Base::update();
+
     if (!m_pressed)
     {
         const auto rotateOffset = m_rotateOffset;
@@ -103,9 +98,7 @@ void ChangeValueDisplay<Tvalue>::update()
 template<typename Tvalue>
 void ChangeValueDisplay<Tvalue>::redraw()
 {
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_YELLOW);
-    m_titleLabel.redraw(text());
+    Base::redraw();
 
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setTextFont(7);

@@ -6,6 +6,8 @@
 namespace espgui {
 void MenuDisplay::start()
 {
+    Base::start();
+
     m_selectedIndex = 0;
     m_scrollOffset = 0;
 
@@ -15,10 +17,7 @@ void MenuDisplay::start()
 
 void MenuDisplay::initScreen()
 {
-    tft.fillScreen(TFT_BLACK);
-
-    m_titleLabel.start();
-    tft.fillRect(0, 33, tft.width(), 3, TFT_WHITE);
+    Base::initScreen();
 
     for (auto &label : m_labels)
         label.start();
@@ -34,6 +33,8 @@ void MenuDisplay::initScreen()
 
 void MenuDisplay::update()
 {
+    Base::update();
+
     if (!m_pressed)
     {
         const auto offset = m_rotateOffset;
@@ -78,9 +79,10 @@ void MenuDisplay::update()
 
 void MenuDisplay::redraw()
 {
+    Base::redraw();
+
     tft.setTextFont(4);
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-    m_titleLabel.redraw(text());
 
     int i{0};
 
@@ -163,6 +165,8 @@ void MenuDisplay::redraw()
 
 void MenuDisplay::stop()
 {
+    Base::stop();
+
     runForEveryMenuItem([](MenuItem &item){
         item.stop();
     });
@@ -170,11 +174,13 @@ void MenuDisplay::stop()
 
 void MenuDisplay::rotate(int offset)
 {
+    Base::rotate(offset);
     m_rotateOffset += offset;
 }
 
 void MenuDisplay::confirm()
 {
+    //Base::confirm();
     m_pressed = true;
 }
 } // namespace espgui
