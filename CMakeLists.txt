@@ -10,12 +10,14 @@ set(headers
     src/display.h
     src/displaywithtitle.h
     src/fontinterface.h
+    src/graphdisplay.h
     src/icon.h
     src/iconinterface.h
     src/menudisplay.h
     src/menuitem.h
     src/richtextrenderer.h
     src/screenmanager.h
+    src/splitgraphdisplay.h
     src/tftinstance.h
     src/textinterface.h
     src/actions/backproxyaction.h
@@ -41,8 +43,10 @@ set(sources
     src/changevaluedisplay_sntp_sync_mode_t.cpp
     src/display.cpp
     src/displaywithtitle.cpp
+    src/graphdisplay.cpp
     src/menudisplay.cpp
     src/screenmanager.cpp
+    src/splitgraphdisplay.cpp
     src/richtextrenderer.cpp
     src/tftinstance.cpp
     src/icons/back.cpp

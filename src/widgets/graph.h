@@ -9,6 +9,7 @@
 
 // local includes
 #include "label.h"
+#include "tftinstance.h"
 
 namespace espgui {
 template<size_t LENGTH, size_t COUNT>
