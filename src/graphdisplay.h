@@ -67,6 +67,8 @@ void GraphDisplay<COUNT>::initScreen()
 template<size_t COUNT>
 void GraphDisplay<COUNT>::redraw()
 {
+    Base::redraw();
+
     m_graph.redraw(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
 }
 }
