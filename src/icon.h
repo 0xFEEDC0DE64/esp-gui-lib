@@ -11,5 +11,7 @@ struct Icon
     static constexpr auto HEIGHT=height;
 
     const unsigned short buffer[width*height];
+    const char * const name{};
+    
 };
 } // namespace espgui
