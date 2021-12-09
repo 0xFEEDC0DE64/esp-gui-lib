@@ -2,8 +2,6 @@
 
 // system includes
 #include <cstdint>
-#include <optional>
-#include <string>
 
 namespace espgui {
 template<uint16_t width, uint16_t height>
