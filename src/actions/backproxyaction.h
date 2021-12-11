@@ -2,6 +2,7 @@
 
 // local includes
 #include "actioninterface.h"
+#include "display.h"
 
 namespace espgui {
 class BackProxyAction : public virtual ActionInterface
