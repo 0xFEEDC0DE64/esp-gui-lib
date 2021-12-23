@@ -66,7 +66,7 @@ again:
         {
             switch (const auto controlChar = *newIter)
             {
-            case '0':
+            case 'c':
             case '1':
             case '2':
             case '3':
@@ -78,10 +78,10 @@ again:
                 const auto color = [&controlChar,&oldColor](){
                     switch (controlChar)
                     {
-                    case '0': return oldColor;
+                    case 'c': return oldColor;
                     case '1': return TFT_RED;
                     case '2': return TFT_GREEN;
-                    case '3': return TFT_BLUE;
+                    case '3': return TFT_NICEBLUE;
                     case '4': return TFT_YELLOW;
                     case '5': return TFT_BLACK;
                     case '6': return TFT_WHITE;
