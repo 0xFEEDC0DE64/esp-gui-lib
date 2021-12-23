@@ -1,7 +1,6 @@
 #pragma once
 
 // local includes
-#include "display.h"
 #include "actioninterface.h"
 #include "accessorinterface.h"
 
@@ -10,10 +9,10 @@ template<typename T>
 class SetValueAction : public virtual ActionInterface
 {
 public:
-    SetValueAction(T value, AccessorInterface<T> &accessorInterface, BackInterface &backInterface) :
+    SetValueAction(T value, AccessorInterface<T> &accessorInterface, ActionInterface &actionInterface) :
         m_value{value},
         m_accessorInterface{accessorInterface},
-        m_backInterface{backInterface}
+        m_actionInterface{actionInterface}
     {
     }
 
@@ -22,7 +21,7 @@ public:
         // TODO: implement error handling and show popup in case of error
         m_accessorInterface.setValue(m_value);
 
-        m_backInterface.back();
+        m_actionInterface.triggered();
     }
 
     T value() const { return m_value; }
@@ -30,6 +29,6 @@ public:
 private:
     const T m_value;
     AccessorInterface<T> &m_accessorInterface;
-    BackInterface &m_backInterface;
+    ActionInterface &m_actionInterface;
 };
 } // namespace espgui
