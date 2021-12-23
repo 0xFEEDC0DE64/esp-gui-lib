@@ -1,6 +1,7 @@
 #pragma once
 
 // local includes
+#include "display.h"
 #include "actioninterface.h"
 #include "accessorinterface.h"
 
@@ -18,7 +19,10 @@ public:
 
     void triggered() override
     {
+        // TODO: implement error handling and show popup in case of error
         m_accessorInterface.setValue(m_value);
+
+        m_backInterface.back();
     }
 
     T value() const { return m_value; }
