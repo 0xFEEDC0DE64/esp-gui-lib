@@ -7,6 +7,7 @@
 #include "accessorinterface.h"
 #include "widgets/label.h"
 #include "tftinstance.h"
+#include "backinterface.h"
 
 namespace espgui {
 class ChangeValueDisplayInterface :
@@ -14,6 +15,7 @@ class ChangeValueDisplayInterface :
     public virtual ActionInterface
 {
     using Base = DisplayWithTitle;
+
 public:
     void initScreen() override;
 
@@ -45,7 +47,8 @@ template<typename Tvalue>
 class ChangeValueDisplay :
     public ChangeValueDisplayInterface,
     public virtual AccessorInterface<Tvalue>,
-    public virtual ChangeValueDisplaySettingsInterface<Tvalue>
+    public virtual ChangeValueDisplaySettingsInterface<Tvalue>,
+    public virtual BackInterface
 {
     using Base = ChangeValueDisplayInterface;
 
@@ -54,8 +57,7 @@ public:
     void update() override;
     void redraw() override;
 
-    void rotate(int offset) override;
-    void confirm() override;
+    void buttonPressed(Button button) override;
 
     int shownValue() const { return m_value; }
     void setShownValue(int value) { m_value = value; }
@@ -70,6 +72,8 @@ private:
 template<typename Tvalue>
 void ChangeValueDisplay<Tvalue>::start()
 {
+    Base::start();
+
     m_value = static_cast<AccessorInterface<Tvalue>*>(this)->getValue();
 
     m_rotateOffset = 0;
@@ -109,14 +113,16 @@ template<>
 void ChangeValueDisplay<float>::redraw();
 
 template<typename Tvalue>
-void ChangeValueDisplay<Tvalue>::rotate(int offset)
+void ChangeValueDisplay<Tvalue>::buttonPressed(Button button)
 {
-    m_rotateOffset += offset;
-}
+    Base::buttonPressed(button);
 
-template<typename Tvalue>
-void ChangeValueDisplay<Tvalue>::confirm()
-{
-    m_pressed = true;
+    switch (button)
+    {
+    case Button::Left: this->back(); break;
+    case Button::Right: m_pressed = true; break;
+    case Button::Up: m_rotateOffset--; break;
+    case Button::Down: m_rotateOffset++; break;
+    }
 }
 } // namespace espgui

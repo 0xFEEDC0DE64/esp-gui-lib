@@ -172,15 +172,16 @@ void MenuDisplay::stop()
     });
 }
 
-void MenuDisplay::rotate(int offset)
+void MenuDisplay::buttonPressed(Button button)
 {
-    Base::rotate(offset);
-    m_rotateOffset += offset;
-}
+    Base::buttonPressed(button);
 
-void MenuDisplay::confirm()
-{
-    //Base::confirm();
-    m_pressed = true;
+    switch (button)
+    {
+    case Button::Left: this->back(); break;
+    case Button::Right: m_pressed = true; break;
+    case Button::Up: m_rotateOffset--; break;
+    case Button::Down: m_rotateOffset++; break;
+    }
 }
 } // namespace espgui

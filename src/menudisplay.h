@@ -14,9 +14,10 @@
 #include "textinterface.h"
 #include "widgets/label.h"
 #include "menuitem.h"
+#include "backinterface.h"
 
 namespace espgui {
-class MenuDisplay : public DisplayWithTitle
+class MenuDisplay : public DisplayWithTitle, public virtual BackInterface
 {
     using Base = DisplayWithTitle;
 
@@ -27,8 +28,7 @@ public:
     void redraw() override;
     void stop() override;
 
-    void rotate(int offset) override;
-    void confirm() override;
+    void buttonPressed(Button button) override;
 
     MenuDisplay *asMenuDisplay() override { return this; }
     const MenuDisplay *asMenuDisplay() const override { return this; }

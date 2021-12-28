@@ -1,12 +1,14 @@
 set(headers
     src/accessorinterface.h
     src/actioninterface.h
+    src/backinterface.h
     src/changevaluedisplay.h
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_daylightsavingmode.h
     src/changevaluedisplay_sntp_sync_mode_t.h
     src/checkboxicon.h
     src/colorinterface.h
+    src/confirminterface.h
     src/display.h
     src/displaywithtitle.h
     src/fontinterface.h

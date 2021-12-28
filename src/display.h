@@ -2,6 +2,7 @@
 
 // system includes
 #include <string>
+#include <cstdint>
 
 // forward declares
 namespace espgui {
@@ -26,58 +27,40 @@ public:
     }
 };
 
-class ConfirmInterface
+enum Button
 {
-public:
-    virtual void confirm() = 0;
+    Left,
+    Right,
+    Up,
+    Down,
+    ButtonMax = Down
 };
 
-class BackInterface
-{
-public:
-    virtual void back() = 0;
-};
-
-template<typename T>
-class ConfirmActionInterface : public virtual ConfirmInterface
-{
-public:
-    void confirm() override { T{}.triggered(); }
-};
-
-class DummyConfirm : public virtual ConfirmInterface
-{
-public:
-    void confirm() override {}
-};
-
-template<typename T>
-class BackActionInterface : public virtual BackInterface
-{
-public:
-    void back() override { T{}.triggered(); }
-};
-
-class DummyBack : public virtual BackInterface
-{
-public:
-    void back() override {}
-};
-
-class Display :
-    public virtual ConfirmInterface,
-    public virtual BackInterface
+class Display
 {
 public:
     virtual ~Display() = default;
 
+    //! Display comes into existance, is shown
     virtual void start() {}
+
+    //! Display needs to fully initialize screen
     virtual void initScreen();
+
+    //! Display can do work needed to update correctly
     virtual void update() {}
+
+    //! Display can update screen incrementally
     virtual void redraw() {}
+
+    //! Display goes out of existance, is not shown anymore
     virtual void stop() {}
 
-    virtual void rotate(int offset) {}
+    virtual void rawButtonPressed(uint8_t button) = 0;
+    virtual void rawButtonReleased(uint8_t button) = 0;
+
+    virtual void buttonPressed(Button button) = 0;
+    virtual void buttonReleased(Button button) = 0;
 
     virtual TextInterface *asTextInterface() { return nullptr; }
     virtual const TextInterface *asTextInterface() const { return nullptr; }
