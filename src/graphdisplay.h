@@ -9,6 +9,8 @@
 #include "widgets/label.h"
 #include "widgets/graph.h"
 #include "tftinstance.h"
+#include "confirminterface.h"
+#include "backinterface.h"
 
 namespace espgui {
 template<size_t COUNT>
@@ -41,13 +43,17 @@ public:
 template<size_t COUNT>
 class GraphDisplay :
     public DisplayWithTitle,
-    public virtual GraphAccessorInterface<COUNT>
+    public virtual GraphAccessorInterface<COUNT>,
+    public virtual ConfirmInterface,
+    public virtual BackInterface
 {
     using Base = DisplayWithTitle;
 
 public:
     void initScreen() override;
     void redraw() override;
+
+    void buttonPressed(Button button) override;
 
 private:
     static constexpr int screenHeight = 320, topMargin = 40, bottomMargin = 10, labelOffset = -5;
@@ -70,5 +76,18 @@ void GraphDisplay<COUNT>::redraw()
     Base::redraw();
 
     m_graph.redraw(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
+}
+
+template<size_t COUNT>
+void GraphDisplay<COUNT>::buttonPressed(Button button)
+{
+    Base::buttonPressed(button);
+
+    switch (button)
+    {
+    case Button::Left: back(); break;
+    case Button::Right: confirm(); break;
+    default:;
+    }
 }
 }
