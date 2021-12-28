@@ -10,6 +10,7 @@
 #include "backinterface.h"
 
 namespace espgui {
+
 class ChangeValueDisplayInterface :
     public DisplayWithTitle,
     public virtual ActionInterface
@@ -115,7 +116,7 @@ void ChangeValueDisplay<float>::redraw();
 template<typename Tvalue>
 void ChangeValueDisplay<Tvalue>::buttonPressed(Button button)
 {
-    Base::buttonPressed(button);
+    //Base::buttonPressed(button);
 
     switch (button)
     {
@@ -125,4 +126,5 @@ void ChangeValueDisplay<Tvalue>::buttonPressed(Button button)
     case Button::Down: m_rotateOffset++; break;
     }
 }
+
 } // namespace espgui

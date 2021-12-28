@@ -13,6 +13,7 @@
 #include "backinterface.h"
 
 namespace espgui {
+
 template<size_t COUNT>
 class GraphAccessorInterface
 {
@@ -81,7 +82,7 @@ void GraphDisplay<COUNT>::redraw()
 template<size_t COUNT>
 void GraphDisplay<COUNT>::buttonPressed(Button button)
 {
-    Base::buttonPressed(button);
+    //Base::buttonPressed(button);
 
     switch (button)
     {
@@ -90,4 +91,5 @@ void GraphDisplay<COUNT>::buttonPressed(Button button)
     default:;
     }
 }
-}
+
+} // namespace espgui

@@ -2,6 +2,7 @@ set(headers
     src/accessorinterface.h
     src/actioninterface.h
     src/backinterface.h
+    src/buttonsinterface.h
     src/changevaluedisplay.h
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_daylightsavingmode.h

@@ -4,6 +4,9 @@
 #include <string>
 #include <cstdint>
 
+// local includes
+#include "buttonsinterface.h"
+
 // forward declares
 namespace espgui {
 class TextInterface;
@@ -27,16 +30,7 @@ public:
     }
 };
 
-enum Button
-{
-    Left,
-    Right,
-    Up,
-    Down,
-    ButtonMax = Down
-};
-
-class Display
+class Display : public virtual ButtonsInterface
 {
 public:
     virtual ~Display() = default;
@@ -55,12 +49,6 @@ public:
 
     //! Display goes out of existance, is not shown anymore
     virtual void stop() {}
-
-    virtual void rawButtonPressed(uint8_t button) = 0;
-    virtual void rawButtonReleased(uint8_t button) = 0;
-
-    virtual void buttonPressed(Button button) = 0;
-    virtual void buttonReleased(Button button) = 0;
 
     virtual TextInterface *asTextInterface() { return nullptr; }
     virtual const TextInterface *asTextInterface() const { return nullptr; }

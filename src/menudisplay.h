@@ -17,7 +17,9 @@
 #include "backinterface.h"
 
 namespace espgui {
-class MenuDisplay : public DisplayWithTitle, public virtual BackInterface
+class MenuDisplay :
+    public DisplayWithTitle,
+    public virtual BackInterface
 {
     using Base = DisplayWithTitle;
 

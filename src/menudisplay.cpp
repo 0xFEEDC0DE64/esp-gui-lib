@@ -174,7 +174,7 @@ void MenuDisplay::stop()
 
 void MenuDisplay::buttonPressed(Button button)
 {
-    Base::buttonPressed(button);
+    //Base::buttonPressed(button);
 
     switch (button)
     {
