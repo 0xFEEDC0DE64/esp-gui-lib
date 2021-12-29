@@ -14,12 +14,14 @@ set(headers
     src/confirminterface.h
     src/display.h
     src/displaywithtitle.h
+    src/errorhandlerinterface.h
     src/fontinterface.h
     src/graphdisplay.h
     src/icon.h
     src/iconinterface.h
     src/menudisplay.h
     src/menuitem.h
+    src/popupdisplay.h
     src/richtextrenderer.h
     src/screenmanager.h
     src/splitgraphdisplay.h
@@ -56,6 +58,7 @@ set(sources
     src/menudisplay.cpp
     src/screenmanager.cpp
     src/splitgraphdisplay.cpp
+    src/popupdisplay.cpp
     src/richtextrenderer.cpp
     src/tftinstance.cpp
     src/icons/back.cpp

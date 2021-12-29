@@ -3,17 +3,20 @@
 // local includes
 #include "displaywithtitle.h"
 #include "textinterface.h"
-#include "actioninterface.h"
+#include "confirminterface.h"
+#include "backinterface.h"
+#include "errorhandlerinterface.h"
 #include "accessorinterface.h"
 #include "widgets/label.h"
 #include "tftinstance.h"
-#include "backinterface.h"
 
 namespace espgui {
 
 class ChangeValueDisplayInterface :
     public DisplayWithTitle,
-    public virtual ActionInterface
+    public virtual ConfirmInterface,
+    public virtual BackInterface,
+    public virtual ErrorHandlerInterface
 {
     using Base = DisplayWithTitle;
 
@@ -48,8 +51,7 @@ template<typename Tvalue>
 class ChangeValueDisplay :
     public ChangeValueDisplayInterface,
     public virtual AccessorInterface<Tvalue>,
-    public virtual ChangeValueDisplaySettingsInterface<Tvalue>,
-    public virtual BackInterface
+    public virtual ChangeValueDisplaySettingsInterface<Tvalue>
 {
     using Base = ChangeValueDisplayInterface;
 
@@ -95,8 +97,11 @@ void ChangeValueDisplay<Tvalue>::update()
     }
     else
     {
-        static_cast<AccessorInterface<Tvalue>*>(this)->setValue(m_value);
-        triggered();
+        m_pressed = false;
+        if (auto result = static_cast<AccessorInterface<Tvalue>*>(this)->setValue(m_value); result)
+            confirm();
+        else
+            errorOccured(std::move(result).error());
     }
 }
 
