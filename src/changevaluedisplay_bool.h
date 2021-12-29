@@ -6,6 +6,7 @@
 #include "actioninterface.h"
 
 namespace espgui {
+
 template<>
 class ChangeValueDisplay<bool> :
     public MenuDisplay,
@@ -19,4 +20,5 @@ public:
 
     void start() override;
 };
+
 } // namespace espgui

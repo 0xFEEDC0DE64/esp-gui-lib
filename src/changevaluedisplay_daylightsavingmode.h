@@ -9,6 +9,7 @@
 #include "actioninterface.h"
 
 namespace espgui {
+
 template<>
 class ChangeValueDisplay<espchrono::DayLightSavingMode> :
     public MenuDisplay,
@@ -22,4 +23,5 @@ public:
 
     void start() override;
 };
+
 } // namespace espgui

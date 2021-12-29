@@ -7,6 +7,7 @@ set(headers
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_daylightsavingmode.h
     src/changevaluedisplay_sntp_sync_mode_t.h
+    src/changevaluedisplay_wifi_mode_t.h
     src/checkboxicon.h
     src/colorinterface.h
     src/confirminterface.h
@@ -44,6 +45,7 @@ set(sources
     src/changevaluedisplay_bool.cpp
     src/changevaluedisplay_daylightsavingmode.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
+    src/changevaluedisplay_wifi_mode_t.cpp
     src/display.cpp
     src/displaywithtitle.cpp
     src/graphdisplay.cpp

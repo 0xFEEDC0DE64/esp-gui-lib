@@ -3,6 +3,9 @@
 // esp-idf includes
 #include <esp_log.h>
 
+// 3rdparty lib includes
+#include <futurecpp.h>
+
 // local includes
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
@@ -33,7 +36,7 @@ void ChangeValueDisplay<sntp_sync_mode_t>::start()
     case SNTP_SYNC_MODE_IMMED:  setSelectedIndex(0); break;
     case SNTP_SYNC_MODE_SMOOTH: setSelectedIndex(1); break;
     default:
-        ESP_LOGW("BOBBY", "Unknown sntp_sync_mode_t: %i", int(value));
+        ESP_LOGW(TAG, "Unknown sntp_sync_mode_t: %i", std::to_underlying(value));
         setSelectedIndex(2);
     }
 }

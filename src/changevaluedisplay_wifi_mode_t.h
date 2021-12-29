@@ -1,7 +1,7 @@
 #pragma once
 
 // esp-idf includes
-#include <esp_sntp.h>
+#include <esp_wifi_types.h>
 
 // local includes
 #include "changevaluedisplay.h"
@@ -11,9 +11,9 @@
 namespace espgui {
 
 template<>
-class ChangeValueDisplay<sntp_sync_mode_t> :
+class ChangeValueDisplay<wifi_mode_t> :
     public MenuDisplay,
-    public virtual AccessorInterface<sntp_sync_mode_t>,
+    public virtual AccessorInterface<wifi_mode_t>,
     public virtual ActionInterface
 {
     using Base = MenuDisplay;

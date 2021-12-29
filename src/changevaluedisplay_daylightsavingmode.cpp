@@ -3,6 +3,9 @@
 // esp-idf includes
 #include <esp_log.h>
 
+// 3rdparty lib includes
+#include <futurecpp.h>
+
 // local includes
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
@@ -36,7 +39,7 @@ void ChangeValueDisplay<espchrono::DayLightSavingMode>::start()
     case espchrono::DayLightSavingMode::EuropeanSummerTime: setSelectedIndex(1); break;
     case espchrono::DayLightSavingMode::UsDaylightTime:     setSelectedIndex(2); break;
     default:
-        ESP_LOGW(TAG, "Unknown DayLightSavingMode: %i", int(value));
+        ESP_LOGW(TAG, "Unknown DayLightSavingMode: %i", std::to_underlying(value));
         setSelectedIndex(3);
     }
 }
