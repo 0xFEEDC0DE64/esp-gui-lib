@@ -29,15 +29,15 @@ constexpr char TEXT_BACK[] = "BACK";
 
 ChangeValueDisplay<wifi_auth_mode_t>::ChangeValueDisplay()
 {
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_OPEN>>>(WIFI_AUTH_OPEN, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WEP>>>(WIFI_AUTH_WEP, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA_PSK>>>(WIFI_AUTH_WPA_PSK, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_PSK>>>(WIFI_AUTH_WPA2_PSK, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA_WPA2_PSK>>>(WIFI_AUTH_WPA_WPA2_PSK, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_ENTERPRISE>>>(WIFI_AUTH_WPA2_ENTERPRISE, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA3_PSK>>>(WIFI_AUTH_WPA3_PSK, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_WPA3_PSK>>>(WIFI_AUTH_WPA2_WPA3_PSK, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WAPI_PSK>>>(WIFI_AUTH_WAPI_PSK, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_OPEN>>>(WIFI_AUTH_OPEN, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WEP>>>(WIFI_AUTH_WEP, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA_PSK>>>(WIFI_AUTH_WPA_PSK, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_PSK>>>(WIFI_AUTH_WPA2_PSK, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA_WPA2_PSK>>>(WIFI_AUTH_WPA_WPA2_PSK, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_ENTERPRISE>>>(WIFI_AUTH_WPA2_ENTERPRISE, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA3_PSK>>>(WIFI_AUTH_WPA3_PSK, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_WPA3_PSK>>>(WIFI_AUTH_WPA2_WPA3_PSK, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WAPI_PSK>>>(WIFI_AUTH_WAPI_PSK, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&espgui::icons::back>>>(*this);
 }
 

@@ -14,8 +14,8 @@ constexpr char TEXT_BACK[] = "Back";
 
 ChangeValueDisplay<bool>::ChangeValueDisplay()
 {
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<bool>, StaticText<TEXT_TRUE>>>(true, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<bool>, StaticText<TEXT_FALSE>>>(false, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<bool>, StaticText<TEXT_TRUE>>>(true, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<bool>, StaticText<TEXT_FALSE>>>(false, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back>>>(*this);
 }
 

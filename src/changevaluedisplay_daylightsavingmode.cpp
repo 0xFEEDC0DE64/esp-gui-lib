@@ -23,9 +23,9 @@ constexpr char TEXT_BACK[] = "Back";
 
 ChangeValueDisplay<espchrono::DayLightSavingMode>::ChangeValueDisplay()
 {
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_NONE>>>(espchrono::DayLightSavingMode::None, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_EUROPEANSUMMERTIME>>>(espchrono::DayLightSavingMode::EuropeanSummerTime, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_USDAYLIGHTTIME>>>(espchrono::DayLightSavingMode::UsDaylightTime, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_NONE>>>(espchrono::DayLightSavingMode::None, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_EUROPEANSUMMERTIME>>>(espchrono::DayLightSavingMode::EuropeanSummerTime, *this, *this, *this);
+    constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<espchrono::DayLightSavingMode>, StaticText<TEXT_USDAYLIGHTTIME>>>(espchrono::DayLightSavingMode::UsDaylightTime, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back>>>(*this);
 }
 
