@@ -3,6 +3,9 @@
 // esp-idf includes
 #include <esp_log.h>
 
+// 3rdparty lib includes
+#include <futurecpp.h>
+
 // local includes
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
@@ -39,7 +42,7 @@ void ChangeValueDisplay<wifi_mode_t>::start()
     case WIFI_MODE_AP:    setSelectedIndex(2); break;
     case WIFI_MODE_APSTA: setSelectedIndex(3); break;
     default:
-        ESP_LOGW(TAG, "Unknown wifi_mode_t: %i", int(value));
+        ESP_LOGW(TAG, "Unknown wifi_mode_t: %i", std::to_underlying(value));
         setSelectedIndex(4);
     }
 }

@@ -7,6 +7,7 @@ set(headers
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_daylightsavingmode.h
     src/changevaluedisplay_sntp_sync_mode_t.h
+    src/changevaluedisplay_wifi_auth_mode_t.h
     src/changevaluedisplay_wifi_mode_t.h
     src/checkboxicon.h
     src/colorinterface.h
@@ -24,8 +25,10 @@ set(headers
     src/splitgraphdisplay.h
     src/tftinstance.h
     src/textinterface.h
+    src/textwithvaluehelper.h
     src/actions/backproxyaction.h
     src/actions/dummyaction.h
+    src/actions/multiaction.h
     src/actions/setvalueaction.h
     src/actions/switchscreenaction.h
     src/actions/toggleboolaction.h
@@ -45,6 +48,7 @@ set(sources
     src/changevaluedisplay_bool.cpp
     src/changevaluedisplay_daylightsavingmode.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
+    src/changevaluedisplay_wifi_auth_mode_t.cpp
     src/changevaluedisplay_wifi_mode_t.cpp
     src/display.cpp
     src/displaywithtitle.cpp
@@ -70,6 +74,7 @@ set(dependencies
     espchrono
     espcpputils
     expected
+    espwifistack
     fmt
     TFT_eSPI
 )

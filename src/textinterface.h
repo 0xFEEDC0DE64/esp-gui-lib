@@ -2,11 +2,10 @@
 
 // system includes
 #include <string>
-
-// 3rdparty lib includes
-#include <fmt/core.h>
+#include <utility>
 
 namespace espgui {
+
 class TextInterface {
 public:
     virtual std::string text() const = 0;
@@ -73,9 +72,4 @@ public:
     }
 };
 
-template<const char *Tprefix, typename Taccessor>
-struct TextWithValueHelper : public virtual TextInterface
-{
-    std::string text() const override { return fmt::format("{} {}", Tprefix, Taccessor{}.getValue()); }
-};
 } // namespace espgui
