@@ -12,9 +12,11 @@ namespace espgui {
 class TextInterface;
 class MenuDisplay;
 class ChangeValueDisplayInterface;
-}
+template<typename Tvalue> class ChangeValueDisplay;
+} // namespace espgui
 
 namespace espgui {
+
 template<typename ...T>
 class makeComponent : public T...
 {};
@@ -58,5 +60,9 @@ public:
 
     virtual ChangeValueDisplayInterface *asChangeValueDisplayInterface() { return nullptr; }
     virtual const ChangeValueDisplayInterface *asChangeValueDisplayInterface() const { return nullptr; }
+
+    virtual ChangeValueDisplay<std::string> *asChangeValueDisplayString() { return nullptr; }
+    virtual const ChangeValueDisplay<std::string> *asChangeValueDisplayString() const { return nullptr; }
 };
+
 } // namespace espgui
