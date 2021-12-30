@@ -12,23 +12,14 @@ namespace espgui {
 
 extern std::unique_ptr<Display> currentDisplay;
 
-inline void deconstructScreen()
-{
-    if (currentDisplay)
-    {
-        currentDisplay->stop();
-        //currentDisplay->~Display();
-        currentDisplay = nullptr;
-    }
-}
+void deconstructScreen();
 
 template<typename T, typename... Args>
 void switchScreenImpl(Args... args)
 {
     deconstructScreen();
 
-    std::unique_ptr<T> ptr = std::make_unique<T>(args...);
-    currentDisplay = std::move(ptr);
+    currentDisplay = std::make_unique<T>(args...);
     currentDisplay->start();
     currentDisplay->initScreen();
     currentDisplay->update();
@@ -40,8 +31,7 @@ void switchScreenRefImpl(Args&&... args)
 {
     deconstructScreen();
 
-    std::unique_ptr<T> ptr = std::make_unique<T>(std::forward<Args>(args)...);
-    currentDisplay = std::move(ptr);
+    currentDisplay = std::make_unique<T>(std::forward<Args>(args)...);
     currentDisplay->start();
     currentDisplay->initScreen();
     currentDisplay->update();
