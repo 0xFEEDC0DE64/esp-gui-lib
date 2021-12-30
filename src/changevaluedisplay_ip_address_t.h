@@ -1,7 +1,7 @@
 #pragma once
 
-// system includes
-#include <string>
+// 3rdparty lib includes
+#include <espwifiutils.h>
 
 // local includes
 #include "changevaluedisplay.h"
@@ -14,9 +14,9 @@
 namespace espgui {
 
 template<>
-class ChangeValueDisplay<std::string> :
+class ChangeValueDisplay<wifi_stack::ip_address_t> :
     public DisplayWithTitle,
-    public virtual AccessorInterface<std::string>,
+    public virtual AccessorInterface<wifi_stack::ip_address_t>,
     public virtual ConfirmInterface,
     public virtual BackInterface,
     public virtual ErrorHandlerInterface
@@ -24,8 +24,8 @@ class ChangeValueDisplay<std::string> :
     using Base = DisplayWithTitle;
 
 public:
-    ChangeValueDisplay<std::string> *asChangeValueDisplayString() override { return this; }
-    const ChangeValueDisplay<std::string> *asChangeValueDisplayString() const override { return this; }
+    ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() override { return this; }
+    const ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() const override { return this; }
 
     void start() override;
     void initScreen() override;
@@ -34,11 +34,11 @@ public:
 
     void buttonPressed(Button button) override;
 
-    const std::string &shownValue() const { return m_value; }
-    void setShownValue(std::string &&value) { m_value = std::move(value); }
+    wifi_stack::ip_address_t shownValue() const { return m_value; }
+    void setShownValue(wifi_stack::ip_address_t value) { m_value = value; }
 
 private:
-    std::string m_value;
+    wifi_stack::ip_address_t m_value;
     bool m_pressed{};
 
     Label m_valueLabel{26, 81}; // 188, 53

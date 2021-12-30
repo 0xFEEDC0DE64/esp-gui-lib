@@ -1,9 +1,9 @@
-#include "changevaluedisplay_string.h"
+#include "changevaluedisplay_ip_address_t.h"
 
 // local includes
 #include "tftinstance.h"
 
-void espgui::ChangeValueDisplay<std::string>::start()
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::start()
 {
     Base::start();
 
@@ -12,7 +12,7 @@ void espgui::ChangeValueDisplay<std::string>::start()
     m_pressed = false;
 }
 
-void espgui::ChangeValueDisplay<std::string>::initScreen()
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::initScreen()
 {
     Base::initScreen();
 
@@ -27,7 +27,7 @@ void espgui::ChangeValueDisplay<std::string>::initScreen()
     tft.drawString("back.", 10, 235);
 }
 
-void espgui::ChangeValueDisplay<std::string>::update()
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::update()
 {
     Base::update();
 
@@ -41,16 +41,16 @@ void espgui::ChangeValueDisplay<std::string>::update()
     }
 }
 
-void espgui::ChangeValueDisplay<std::string>::redraw()
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::redraw()
 {
     Base::redraw();
 
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setTextFont(4);
-    m_valueLabel.redraw(m_value);
+    m_valueLabel.redraw(wifi_stack::toString(m_value));
 }
 
-void espgui::ChangeValueDisplay<std::string>::buttonPressed(Button button)
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::buttonPressed(Button button)
 {
     //Base::buttonPressed(button);
 

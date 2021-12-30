@@ -6,6 +6,7 @@ set(headers
     src/changevaluedisplay.h
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_daylightsavingmode.h
+    src/changevaluedisplay_ip_address_t.h
     src/changevaluedisplay_sntp_sync_mode_t.h
     src/changevaluedisplay_string.h
     src/changevaluedisplay_wifi_auth_mode_t.h
@@ -50,6 +51,7 @@ set(sources
     src/changevaluedisplay.cpp
     src/changevaluedisplay_bool.cpp
     src/changevaluedisplay_daylightsavingmode.cpp
+    src/changevaluedisplay_ip_address_t.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
     src/changevaluedisplay_string.cpp
     src/changevaluedisplay_wifi_auth_mode_t.cpp

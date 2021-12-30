@@ -13,15 +13,17 @@
 namespace espgui {
 
 template<const char *Tprefix, typename Taccessor>
-struct TextWithValueHelper : public virtual TextInterface
+struct TextWithValueHelper : public Taccessor, public virtual TextInterface
 {
+    using Taccessor::Taccessor;
+
     std::string text() const override
     {
         using cpputils::toString;
         using espcpputils::toString;
         using wifi_stack::toString;
 
-        return fmt::format("{} {}", Tprefix, richTextEscape(toString(Taccessor{}.getValue())));
+        return fmt::format("{} {}", Tprefix, richTextEscape(toString(Taccessor::getValue())));
     }
 };
 

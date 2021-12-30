@@ -77,7 +77,7 @@ void ChangeValueDisplay<Tvalue>::start()
 {
     Base::start();
 
-    m_value = /*static_cast<AccessorInterface<Tvalue>*>*/(this)->getValue();
+    m_value = this->getValue();
 
     m_rotateOffset = 0;
     m_pressed = false;
@@ -93,7 +93,7 @@ void ChangeValueDisplay<Tvalue>::update()
         const auto rotateOffset = m_rotateOffset;
         m_rotateOffset = 0;
 
-        m_value -= rotateOffset * /*static_cast<ChangeValueDisplaySettingsInterface<Tvalue>*>*/(this)->step();
+        m_value -= rotateOffset * this->step();
     }
     else
     {

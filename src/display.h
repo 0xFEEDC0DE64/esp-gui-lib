@@ -14,6 +14,9 @@ class MenuDisplay;
 class ChangeValueDisplayInterface;
 template<typename Tvalue> class ChangeValueDisplay;
 } // namespace espgui
+namespace wifi_stack {
+class ip_address_t;
+} // namespace wifi_stack
 
 namespace espgui {
 
@@ -28,6 +31,18 @@ public:
     template<typename ...T>
     makeComponentArgs(T&& ...args) :
         T2{std::forward<T>(args)...}
+    {
+    }
+};
+
+template <typename T1, typename T2, typename T3, typename ...T4>
+class makeComponentArgs2 : public T1, public T2, public T3, public T4...
+{
+public:
+    template<typename Targ1, typename Targ2>
+    makeComponentArgs2(Targ1&& arg1, Targ2&& arg2) :
+        T2{std::forward<Targ1>(arg1)},
+        T3{std::forward<Targ2>(arg2)}
     {
     }
 };
@@ -63,6 +78,9 @@ public:
 
     virtual ChangeValueDisplay<std::string> *asChangeValueDisplayString() { return nullptr; }
     virtual const ChangeValueDisplay<std::string> *asChangeValueDisplayString() const { return nullptr; }
+
+    virtual ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() { return nullptr; }
+    virtual const ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() const { return nullptr; }
 };
 
 } // namespace espgui
