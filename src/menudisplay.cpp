@@ -184,4 +184,10 @@ void MenuDisplay::buttonPressed(Button button)
     case Button::Down: m_rotateOffset++; break;
     }
 }
+
+void MenuDisplay::buttonReleased(Button button)
+{
+    //Base::buttonPressed(button);
+    // TODO stop auto scroll
+}
 } // namespace espgui

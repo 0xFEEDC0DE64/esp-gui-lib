@@ -61,3 +61,10 @@ void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::buttonPressed(Button 
     default:;
     }
 }
+
+void espgui::ChangeValueDisplay<wifi_stack::ip_address_t>::buttonReleased(Button button)
+{
+    //Base::buttonReleased(button);
+
+    // TODO stop auto scroll
+}

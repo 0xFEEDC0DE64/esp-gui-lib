@@ -33,6 +33,7 @@ public:
     void redraw() override;
 
     void buttonPressed(Button button) override;
+    void buttonReleased(Button button) override;
 
     wifi_stack::ip_address_t shownValue() const { return m_value; }
     void setShownValue(wifi_stack::ip_address_t value) { m_value = value; }

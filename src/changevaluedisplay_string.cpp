@@ -61,3 +61,10 @@ void espgui::ChangeValueDisplay<std::string>::buttonPressed(Button button)
     default:;
     }
 }
+
+void espgui::ChangeValueDisplay<std::string>::buttonReleased(Button button)
+{
+    //Base::buttonReleased(button);
+
+    // TODO stop auto scroll
+}

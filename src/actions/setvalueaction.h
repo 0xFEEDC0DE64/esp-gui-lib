@@ -11,7 +11,7 @@ template<typename T>
 class SetValueAction : public virtual ActionInterface
 {
 public:
-    SetValueAction(T value,AccessorInterface<T> &accessorInterface,
+    SetValueAction(T value, AccessorInterface<T> &accessorInterface,
                    ConfirmInterface &confirmInterface, ErrorHandlerInterface &errorHandlerInterface) :
         m_value{value},
         m_accessorInterface{accessorInterface},

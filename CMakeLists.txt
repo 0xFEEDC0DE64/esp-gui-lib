@@ -5,6 +5,7 @@ set(headers
     src/buttonsinterface.h
     src/changevaluedisplay.h
     src/changevaluedisplay_bool.h
+    src/changevaluedisplay_chrono.h
     src/changevaluedisplay_daylightsavingmode.h
     src/changevaluedisplay_ip_address_t.h
     src/changevaluedisplay_sntp_sync_mode_t.h

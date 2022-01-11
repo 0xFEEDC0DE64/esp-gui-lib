@@ -31,6 +31,7 @@ public:
     void stop() override;
 
     void buttonPressed(Button button) override;
+    void buttonReleased(Button button) override;
 
     MenuDisplay *asMenuDisplay() override { return this; }
     const MenuDisplay *asMenuDisplay() const override { return this; }

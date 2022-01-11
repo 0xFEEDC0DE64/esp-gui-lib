@@ -5,6 +5,7 @@
 #include <strutils.h>
 #include <espstrutils.h>
 #include <espwifiutils.h>
+#include <espchrono.h>
 
 // local includes
 #include "textinterface.h"
@@ -22,6 +23,7 @@ struct TextWithValueHelper : public Taccessor, public virtual TextInterface
         using cpputils::toString;
         using espcpputils::toString;
         using wifi_stack::toString;
+        using espchrono::toString;
 
         return fmt::format("{} {}", Tprefix, richTextEscape(toString(Taccessor::getValue())));
     }

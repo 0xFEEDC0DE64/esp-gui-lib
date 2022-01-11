@@ -33,6 +33,7 @@ public:
     void redraw() override;
 
     void buttonPressed(Button button) override;
+    void buttonReleased(Button button) override;
 
     const std::string &shownValue() const { return m_value; }
     void setShownValue(std::string &&value) { m_value = std::move(value); }

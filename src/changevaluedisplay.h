@@ -1,5 +1,8 @@
 #pragma once
 
+// system includes
+#include <type_traits>
+
 // local includes
 #include "displaywithtitle.h"
 #include "textinterface.h"
@@ -55,12 +58,15 @@ class ChangeValueDisplay :
 {
     using Base = ChangeValueDisplayInterface;
 
+    static_assert((std::is_integral_v<Tvalue> || std::is_floating_point_v<Tvalue>) && !std::is_same_v<Tvalue, bool>);
+
 public:
     void start() override;
     void update() override;
     void redraw() override;
 
     void buttonPressed(Button button) override;
+    void buttonReleased(Button button) override;
 
     int shownValue() const { return m_value; }
     void setShownValue(int value) { m_value = value; }
@@ -130,6 +136,14 @@ void ChangeValueDisplay<Tvalue>::buttonPressed(Button button)
     case Button::Up: m_rotateOffset--; break;
     case Button::Down: m_rotateOffset++; break;
     }
+}
+
+template<typename Tvalue>
+void ChangeValueDisplay<Tvalue>::buttonReleased(Button button)
+{
+    //Base::buttonPressed(button);
+
+    // TODO stop auto scroll
 }
 
 } // namespace espgui
