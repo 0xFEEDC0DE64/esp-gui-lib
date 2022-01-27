@@ -74,6 +74,8 @@ again:
             case '5':
             case '6':
             case '7':
+            case '8':
+            case '9':
             {
                 const auto color = [&controlChar,&oldColor](){
                     switch (controlChar)
@@ -86,6 +88,8 @@ again:
                     case '5': return TFT_BLACK;
                     case '6': return TFT_WHITE;
                     case '7': return TFT_GREY;
+                    case '8': return TFT_PURPLE;
+                    case '9': return TFT_BROWN;
                     }
                     __builtin_unreachable();
                 }();
