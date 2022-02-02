@@ -47,6 +47,18 @@ public:
     }
 };
 
+template <typename T1, typename T2, typename T3, typename ...T4>
+class makeComponentArgs2x2 : public T1, public T2, public T3, public T4...
+{
+public:
+    template<typename Targ1, typename Targ2, typename Targ3, typename Targ4>
+    makeComponentArgs2x2(Targ1&& arg1, Targ2&& arg2, Targ3&& arg3, Targ4&& arg4) :
+        T2{std::forward<Targ1>(arg1), std::forward<Targ2>(arg2)},
+        T3{std::forward<Targ3>(arg3), std::forward<Targ4>(arg4)}
+    {
+    }
+};
+
 class Display : public virtual ButtonsInterface
 {
 public:

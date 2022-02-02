@@ -15,8 +15,12 @@ public:
     void triggered() override { switchScreen<Tscreen>(); }
 };
 
+
+template<typename Tscreen, typename ...Targs>
+class SwitchScreenActionArgs;
+
 template<typename Tscreen, typename T1>
-class SwitchScreenActionArgs : public virtual ActionInterface
+class SwitchScreenActionArgs<Tscreen, T1> : public virtual ActionInterface
 {
 public:
     SwitchScreenActionArgs(T1 &&arg1) :
@@ -30,5 +34,25 @@ public:
 
 private:
     T1 m_arg1;
+};
+
+template<typename Tscreen, typename T1, typename T2>
+class SwitchScreenActionArgs<Tscreen, T1, T2> : public virtual ActionInterface
+{
+public:
+    SwitchScreenActionArgs(T1 &&arg1, T2 &&arg2) :
+        m_arg1{std::move<T1>(arg1)},
+        m_arg2{std::move<T2>(arg2)}
+    {}
+    SwitchScreenActionArgs(const T1 &arg1, const T2 &arg2) :
+        m_arg1{arg1},
+        m_arg2{arg2}
+    {}
+
+    void triggered() override { switchScreen<Tscreen>(std::move(m_arg1), std::move(m_arg2)); }
+
+private:
+    T1 m_arg1;
+    T2 m_arg2;
 };
 } // namespace espgui
