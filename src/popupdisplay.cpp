@@ -38,10 +38,10 @@ void PopupDisplay::buttonPressed(espgui::Button button)
 
 void PopupDisplay::initOverlay()
 {
-    constexpr auto leftMargin = 20;
-    constexpr auto rightMargin = leftMargin;
-    constexpr auto topMargin = 50;
-    constexpr auto bottomMargin = topMargin;
+    const auto leftMargin = 20;
+    const auto rightMargin = leftMargin;
+    const auto topMargin = tft.height() > 300 ? 50 : 20;
+    const auto bottomMargin = topMargin;
 
     const auto width = espgui::tft.width() - leftMargin - rightMargin;
     const auto height = espgui::tft.height() - topMargin - bottomMargin;
