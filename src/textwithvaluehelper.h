@@ -29,4 +29,27 @@ struct TextWithValueHelper : public Taccessor, public virtual TextInterface
     }
 };
 
+template<typename Taccessor>
+struct ChangeableTextWithValueHelper : public Taccessor, public virtual TextInterface
+{
+    using Taccessor::Taccessor;
+
+    std::string text() const override
+    {
+        using cpputils::toString;
+        using espcpputils::toString;
+        using wifi_stack::toString;
+        using espchrono::toString;
+
+        return fmt::format("{} {}", m_prefix, richTextEscape(toString(Taccessor::getValue())));
+    }
+
+    const std::string &prefix() const { return m_prefix; }
+    void setPrefix(std::string_view prefix) { m_prefix = std::string{prefix}; }
+    void setPrefix(std::string &&prefix) { m_prefix = std::move(prefix); }
+
+private:
+    std::string m_prefix;
+};
+
 } // namespace espgui
