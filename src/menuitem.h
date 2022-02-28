@@ -23,6 +23,7 @@ class MenuItem :
     public virtual MenuItemIconInterface
 {
 public:
+    virtual ~MenuItem() = default;
     virtual void start() {}
     virtual void update() {}
     virtual void stop() {}
