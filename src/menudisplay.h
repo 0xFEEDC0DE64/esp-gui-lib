@@ -138,8 +138,8 @@ private:
 
     std::array<const Icon<24, 24> *, rowCount> m_icons;
 
-    int m_selectedIndex;
-    int m_scrollOffset;
+    int m_selectedIndex{};
+    int m_scrollOffset{};
     int m_highlightedIndex;
 
     int m_rotateOffset;

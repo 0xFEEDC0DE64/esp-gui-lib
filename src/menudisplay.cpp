@@ -8,8 +8,8 @@ void MenuDisplay::start()
 {
     Base::start();
 
-    m_selectedIndex = 0;
-    m_scrollOffset = 0;
+//    m_selectedIndex = 0;
+//    m_scrollOffset = 0;
 
     m_rotateOffset = 0;
     m_pressed = false;

@@ -8,13 +8,13 @@
 #include "screenmanager.h"
 
 namespace espgui {
+
 template<typename Tscreen>
 class SwitchScreenAction : public virtual ActionInterface
 {
 public:
     void triggered() override { switchScreen<Tscreen>(); }
 };
-
 
 template<typename Tscreen, typename ...Targs>
 class SwitchScreenActionArgs;
@@ -55,4 +55,5 @@ private:
     T1 m_arg1;
     T2 m_arg2;
 };
+
 } // namespace espgui

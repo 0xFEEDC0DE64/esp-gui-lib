@@ -34,6 +34,8 @@ set(headers
     src/actions/backproxyaction.h
     src/actions/dummyaction.h
     src/actions/multiaction.h
+    src/actions/pushscreenaction.h
+    src/actions/popscreenaction.h
     src/actions/setvalueaction.h
     src/actions/switchscreenaction.h
     src/actions/toggleboolaction.h
