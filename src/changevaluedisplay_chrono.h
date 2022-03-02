@@ -103,6 +103,8 @@ void ChangeValueDisplayChrono<T>::buttonPressed(Button button)
     {
     case Button::Left: this->back(); break;
     case Button::Right: m_pressed = true; break;
+    case Button::Up: m_value += T{1}; break;
+    case Button::Down: m_value -= T{1}; break;
     default:;
     }
 }

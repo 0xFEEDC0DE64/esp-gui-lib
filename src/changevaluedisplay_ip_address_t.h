@@ -23,6 +23,12 @@ class ChangeValueDisplay<wifi_stack::ip_address_t> :
 {
     using Base = DisplayWithTitle;
 
+    static constexpr auto boxWidth = 50;
+    static constexpr auto boxHeight = 25;
+    static constexpr auto spacing = 20;
+
+    static constexpr auto y = 90;
+
 public:
     ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() override { return this; }
     const ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() const override { return this; }
@@ -39,10 +45,19 @@ public:
     void setShownValue(wifi_stack::ip_address_t value) { m_value = value; }
 
 private:
-    wifi_stack::ip_address_t m_value;
-    bool m_pressed{};
+    void drawRect(int index, int offset, uint32_t color) const;
 
-    Label m_valueLabel{26, 81}; // 188, 53
+    wifi_stack::ip_address_t m_value;
+
+    std::array<espgui::Label, 4> m_labels {{
+        espgui::Label{spacing, y},              // boxWidth, boxHeight
+        espgui::Label{spacing*2+boxWidth, y},   // boxWidth, boxHeight
+        espgui::Label{spacing*3+boxWidth*2, y}, // boxWidth, boxHeight
+        espgui::Label{spacing*4+boxWidth*3, y}  // boxWidth, boxHeight
+    }};
+
+    uint8_t m_currentIndex{};
+    uint8_t m_lastIndex{};
 };
 
 } // namespace espgui
