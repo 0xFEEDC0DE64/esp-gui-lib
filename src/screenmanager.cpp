@@ -1,5 +1,7 @@
 #include "screenmanager.h"
 
+#include <cassert>
+
 namespace espgui {
 
 std::unique_ptr<Display> currentDisplay;
