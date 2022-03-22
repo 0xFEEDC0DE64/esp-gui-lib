@@ -6,6 +6,8 @@
 #include "colorinterface.h"
 #include "iconinterface.h"
 #include "actioninterface.h"
+#include "visibleinterface.h"
+#include "scrollinterface.h"
 
 namespace espgui {
 using MenuItemIconInterface = IconInterface<24, 24>;
@@ -20,7 +22,9 @@ class MenuItem :
     public virtual TextInterface,
     public virtual FontInterface,
     public virtual ColorInterface,
-    public virtual MenuItemIconInterface
+    public virtual MenuItemIconInterface,
+    public virtual VisibleInterface,
+    public virtual ScrollInterface
 {
 public:
     virtual ~MenuItem() = default;
@@ -37,5 +41,14 @@ public:
 
 protected:
     T &m_menu;
+};
+
+class EmptyMenuItem :
+        public MenuItem,
+        public EmptyText,
+        public virtual ActionInterface
+{
+public:
+    void triggered() override {}
 };
 } // namespace espgui
