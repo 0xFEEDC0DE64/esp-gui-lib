@@ -2,6 +2,7 @@
 
 // system includes
 #include <utility>
+#include <type_traits>
 
 // local includes
 #include "actioninterface.h"
@@ -23,7 +24,8 @@ template<typename Tscreen, typename T1>
 class PushScreenActionArgs<Tscreen, T1> : public virtual ActionInterface
 {
 public:
-    PushScreenActionArgs(T1 &&arg1) :
+    template<typename U = T1> // to get SFINAE
+    PushScreenActionArgs(typename std::enable_if_t<!std::is_integral_v<U>, U> &&arg1) :
         m_arg1{std::move<T1>(arg1)}
     {}
     PushScreenActionArgs(const T1 &arg1) :
