@@ -24,6 +24,7 @@ set(headers
     src/iconinterface.h
     src/menudisplay.h
     src/menuitem.h
+    src/messagepopupdisplay.h
     src/popupdisplay.h
     src/richtextrenderer.h
     src/screenmanager.h
@@ -63,6 +64,7 @@ set(sources
     src/displaywithtitle.cpp
     src/graphdisplay.cpp
     src/menudisplay.cpp
+    src/messagepopupdisplay.cpp
     src/screenmanager.cpp
     src/splitgraphdisplay.cpp
     src/popupdisplay.cpp
