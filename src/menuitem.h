@@ -45,8 +45,7 @@ protected:
 
 class EmptyMenuItem :
         public MenuItem,
-        public EmptyText,
-        public virtual ActionInterface
+        public EmptyText
 {
 public:
     void triggered() override {}

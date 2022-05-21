@@ -10,7 +10,6 @@ namespace espgui {
 class MarginMenuItem :
         public virtual MenuItem,
         public EmptyText,
-        public virtual ActionInterface,
         public virtual ScrollInterface
 {
 public:
