@@ -68,6 +68,18 @@ void MenuDisplay::update()
         runForEveryMenuItem([&](MenuItem &item){
             item.update();
         });
+
+        if (getMenuItem(m_selectedIndex).skipScroll())
+        {
+            if (offset > 0)
+            {
+                m_rotateOffset++;
+            }
+            else if (offset < 0)
+            {
+                m_rotateOffset--;
+            }
+        }
     }
     else
     {
@@ -102,6 +114,11 @@ void MenuDisplay::redraw()
 
     runForEveryMenuItem([&](MenuItem &item){
         const auto index = i++;
+
+        if (!item.visible())
+        {
+            return;
+        }
 
         if (index < m_scrollOffset)
             return;

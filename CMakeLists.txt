@@ -1,6 +1,14 @@
 set(headers
     src/accessorinterface.h
     src/actioninterface.h
+    src/actions/backproxyaction.h
+    src/actions/dummyaction.h
+    src/actions/multiaction.h
+    src/actions/popscreenaction.h
+    src/actions/pushscreenaction.h
+    src/actions/setvalueaction.h
+    src/actions/switchscreenaction.h
+    src/actions/toggleboolaction.h
     src/backinterface.h
     src/buttonsinterface.h
     src/changevaluedisplay.h
@@ -22,27 +30,22 @@ set(headers
     src/graphdisplay.h
     src/icon.h
     src/iconinterface.h
+    src/icons/back.h
+    src/icons/checked.h
+    src/icons/unchecked.h
+    src/marginmenuitem.h
     src/menudisplay.h
     src/menuitem.h
     src/messagepopupdisplay.h
     src/popupdisplay.h
     src/richtextrenderer.h
     src/screenmanager.h
+    src/scrollinterface.h
     src/splitgraphdisplay.h
-    src/tftinstance.h
     src/textinterface.h
     src/textwithvaluehelper.h
-    src/actions/backproxyaction.h
-    src/actions/dummyaction.h
-    src/actions/multiaction.h
-    src/actions/pushscreenaction.h
-    src/actions/popscreenaction.h
-    src/actions/setvalueaction.h
-    src/actions/switchscreenaction.h
-    src/actions/toggleboolaction.h
-    src/icons/back.h
-    src/icons/checked.h
-    src/icons/unchecked.h
+    src/tftinstance.h
+    src/visibleinterface.h
     src/widgets/graph.h
     src/widgets/label.h
     src/widgets/progressbar.h
