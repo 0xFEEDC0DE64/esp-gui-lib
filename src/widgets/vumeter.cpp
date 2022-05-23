@@ -1,5 +1,12 @@
 #include "vumeter.h"
 
+// system includes
+#include <cmath>
+
+// 3rdparty lib includes
+#include <cpputils.h>
+#include <stdlib_noniso.h>
+
 // local includes
 #include "tftinstance.h"
 
@@ -104,7 +111,7 @@ void VuMeter::redraw(float value)
     if (value < -3) value = -3; // Limit value to emulate needle end stops
     if (value > 33) value = 33;
 
-    float sdeg = map(value, -3, 33, -150, -30); // Map value to angle
+    float sdeg = cpputils::mapValue<float>(value, -3, 33, -150, -30); // Map value to angle
     // Calcualte tip of needle coords
     float sx = cos(sdeg * 0.0174532925);
     float sy = sin(sdeg * 0.0174532925);
