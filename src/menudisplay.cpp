@@ -69,7 +69,7 @@ void MenuDisplay::update()
             item.update();
         });
 
-        if (getMenuItem(m_selectedIndex).skipScroll())
+        if (m_selectedIndex >= 0 && getMenuItem(m_selectedIndex).skipScroll())
         {
             if (offset > 0)
             {
