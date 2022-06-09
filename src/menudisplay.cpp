@@ -3,6 +3,8 @@
 // local includes
 #include "tftinstance.h"
 
+using namespace std::chrono_literals;
+
 namespace espgui {
 void MenuDisplay::start()
 {
@@ -92,6 +94,18 @@ void MenuDisplay::update()
 void MenuDisplay::redraw()
 {
     Base::redraw();
+
+    if (m_upHoldingSince && espchrono::ago(*m_upHoldingSince) > 500ms)
+    {
+        m_upHoldingSince = espchrono::millis_clock::now();
+        m_rotateOffset--;
+    }
+
+    if (m_downHoldingSince && espchrono::ago(*m_downHoldingSince) > 500ms)
+    {
+        m_downHoldingSince = espchrono::millis_clock::now();
+        m_rotateOffset++;
+    }
 
     tft.setTextFont(4);
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);
@@ -197,14 +211,20 @@ void MenuDisplay::buttonPressed(Button button)
     {
     case Button::Left: this->back(); break;
     case Button::Right: m_pressed = true; break;
-    case Button::Up: m_rotateOffset--; break;
-    case Button::Down: m_rotateOffset++; break;
+    case Button::Up: m_rotateOffset--; m_upHoldingSince = espchrono::millis_clock::now(); break;
+    case Button::Down: m_rotateOffset++; m_downHoldingSince = espchrono::millis_clock::now(); break;
     }
 }
 
 void MenuDisplay::buttonReleased(Button button)
 {
     //Base::buttonPressed(button);
-    // TODO stop auto scroll
+
+    switch (button)
+    {
+    case Button::Up: m_upHoldingSince = std::nullopt; break;
+    case Button::Down: m_downHoldingSince = std::nullopt; break;
+    default:;
+    }
 }
 } // namespace espgui

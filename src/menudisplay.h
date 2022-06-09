@@ -8,6 +8,8 @@
 #include <functional>
 #include <cassert>
 #include <memory>
+#include <optional>
+#include <espchrono.h>
 
 // local includes
 #include "displaywithtitle.h"
@@ -146,5 +148,8 @@ private:
     bool m_pressed;
 
     std::vector<std::unique_ptr<MenuItem>> m_menuItems;
+
+    std::optional<espchrono::millis_clock::time_point> m_upHoldingSince;
+    std::optional<espchrono::millis_clock::time_point> m_downHoldingSince;
 };
 } // namespace espgui
