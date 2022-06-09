@@ -38,6 +38,7 @@ set(headers
     src/menuitem.h
     src/messagepopupdisplay.h
     src/popupdisplay.h
+    src/richtexthelper.h
     src/richtextrenderer.h
     src/screenmanager.h
     src/scrollinterface.h
