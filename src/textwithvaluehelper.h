@@ -4,8 +4,6 @@
 #include <fmt/core.h>
 #include <strutils.h>
 #include <espstrutils.h>
-#include <espwifiutils.h>
-#include <espchrono.h>
 
 // local includes
 #include "textinterface.h"
@@ -23,8 +21,6 @@ struct TextWithValueHelper : public Taccessor, public virtual TextInterface
     {
         using cpputils::toString;
         using espcpputils::toString;
-        using wifi_stack::toString;
-        using espchrono::toString;
 
         return fmt::format("{} {}", Tprefix, richTextEscape(toString(Taccessor::getValue())));
     }
@@ -39,8 +35,6 @@ struct ChangeableTextWithValueHelper : public Taccessor, public virtual TextInte
     {
         using cpputils::toString;
         using espcpputils::toString;
-        using wifi_stack::toString;
-        using espchrono::toString;
 
         return fmt::format("{} {}", m_prefix, richTextEscape(toString(Taccessor::getValue())));
     }
@@ -62,8 +56,6 @@ struct TextWithHighlightedValueHelper : public Taccessor, public virtual TextInt
     {
         using cpputils::toString;
         using espcpputils::toString;
-        using wifi_stack::toString;
-        using espchrono::toString;
 
         return fmt::format("{} {}{}", Tprefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
     }
@@ -78,8 +70,6 @@ struct ChangeableTextWithHighlightedValueHelper : public Taccessor, public virtu
     {
         using cpputils::toString;
         using espcpputils::toString;
-        using wifi_stack::toString;
-        using espchrono::toString;
 
         return fmt::format("{} {}{}", m_prefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
     }
