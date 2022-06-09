@@ -95,16 +95,25 @@ void MenuDisplay::redraw()
 {
     Base::redraw();
 
-    if (m_upHoldingSince && espchrono::ago(*m_upHoldingSince) > 500ms)
+    // wait for holding since to be above initial scroll speed, then start scrolling in interval set by getScrollSpeed()
+    if (m_upHoldingSince && (espchrono::ago(*m_upHoldingSince) > getInitialScrollSpeed() || m_upScrolling))
     {
-        m_upHoldingSince = espchrono::millis_clock::now();
-        m_rotateOffset--;
+        if (espchrono::ago(*m_upHoldingSince) > getScrollSpeed())
+        {
+            m_upScrolling = true;
+            m_rotateOffset--;
+            m_upHoldingSince = espchrono::millis_clock::now();
+        }
     }
 
-    if (m_downHoldingSince && espchrono::ago(*m_downHoldingSince) > 500ms)
+    if (m_downHoldingSince && (espchrono::ago(*m_downHoldingSince) > getInitialScrollSpeed() || m_downScrolling))
     {
-        m_downHoldingSince = espchrono::millis_clock::now();
-        m_rotateOffset++;
+        if (espchrono::ago(*m_downHoldingSince) > getScrollSpeed())
+        {
+            m_downScrolling = true;
+            m_rotateOffset++;
+            m_downHoldingSince = espchrono::millis_clock::now();
+        }
     }
 
     tft.setTextFont(4);
@@ -209,10 +218,10 @@ void MenuDisplay::buttonPressed(Button button)
 
     switch (button)
     {
-    case Button::Left: this->back(); break;
-    case Button::Right: m_pressed = true; break;
-    case Button::Up: m_rotateOffset--; m_upHoldingSince = espchrono::millis_clock::now(); break;
-    case Button::Down: m_rotateOffset++; m_downHoldingSince = espchrono::millis_clock::now(); break;
+    case Button::Left: this->back(); m_leftHoldingSince = espchrono::millis_clock::now(); m_leftScrolling = false; break;
+    case Button::Right: m_pressed = true; m_rightHoldingSince = espchrono::millis_clock::now(); m_rightScrolling = false; break;
+    case Button::Up: m_rotateOffset--; m_upHoldingSince = espchrono::millis_clock::now(); m_upScrolling = false; break;
+    case Button::Down: m_rotateOffset++; m_downHoldingSince = espchrono::millis_clock::now(); m_downScrolling = false; break;
     }
 }
 
@@ -224,6 +233,8 @@ void MenuDisplay::buttonReleased(Button button)
     {
     case Button::Up: m_upHoldingSince = std::nullopt; break;
     case Button::Down: m_downHoldingSince = std::nullopt; break;
+    case Button::Left: m_leftHoldingSince = std::nullopt; break;
+    case Button::Right: m_rightHoldingSince = std::nullopt; break;
     default:;
     }
 }
