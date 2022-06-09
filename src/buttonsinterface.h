@@ -22,6 +22,7 @@ public:
 
     virtual void buttonPressed(Button button) = 0;
     virtual void buttonReleased(Button button) = 0;
+    virtual void buttonHeld(Button button) {};
 };
 
 } // namespace espgui

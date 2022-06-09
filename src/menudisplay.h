@@ -39,6 +39,7 @@ public:
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
+    void buttonHeld(Button button) override;
 
     MenuDisplay *asMenuDisplay() override { return this; }
     const MenuDisplay *asMenuDisplay() const override { return this; }
@@ -157,13 +158,13 @@ private:
     bool m_upScrolling;
     std::optional<espchrono::millis_clock::time_point> m_upHoldingSince;
 
-    bool m_downScrolling{};
+    bool m_downScrolling;
     std::optional<espchrono::millis_clock::time_point> m_downHoldingSince;
 
-    bool m_leftScrolling{};
+    bool m_leftScrolling;
     std::optional<espchrono::millis_clock::time_point> m_leftHoldingSince;
 
-    bool m_rightScrolling{};
+    bool m_rightScrolling;
     std::optional<espchrono::millis_clock::time_point> m_rightHoldingSince;
 };
 } // namespace espgui

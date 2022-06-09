@@ -3,6 +3,8 @@
 // local includes
 #include "tftinstance.h"
 
+#include "esp_log.h"
+
 using namespace std::chrono_literals;
 
 namespace espgui {
@@ -15,6 +17,18 @@ void MenuDisplay::start()
 
     m_rotateOffset = 0;
     m_pressed = false;
+
+    m_upScrolling = false;
+    m_upHoldingSince = std::nullopt;
+
+    m_downScrolling = false;
+    m_downHoldingSince = std::nullopt;
+
+    m_leftScrolling = false;
+    m_leftHoldingSince = std::nullopt;
+
+    m_rightScrolling = false;
+    m_rightHoldingSince = std::nullopt;
 }
 
 void MenuDisplay::initScreen()
@@ -36,6 +50,84 @@ void MenuDisplay::initScreen()
 void MenuDisplay::update()
 {
     Base::update();
+
+    {
+        const auto ago = espchrono::ago(*m_upHoldingSince);
+        if (m_upHoldingSince && (m_upScrolling || ago > getInitialScrollSpeed()))
+        {
+            if (ago > getScrollSpeed())
+            {
+                if (!m_upScrolling)
+                {
+                    // gets executed one time
+                    buttonHeld(espgui::Up);
+                }
+                m_upScrolling = true;
+                m_upHoldingSince = espchrono::millis_clock::now();
+
+                // do sth
+                m_rotateOffset--;
+            }
+        }
+    }
+
+    {
+        const auto ago = espchrono::ago(*m_downHoldingSince);
+        if (m_downHoldingSince && (m_downScrolling || ago > getInitialScrollSpeed()))
+        {
+            if (ago > getScrollSpeed())
+            {
+                if (!m_downScrolling)
+                {
+                    // gets executed one time
+                    buttonHeld(espgui::Down);
+                }
+                m_downScrolling = true;
+                m_downHoldingSince = espchrono::millis_clock::now();
+
+                // do sth
+                m_rotateOffset++;
+            }
+        }
+    }
+
+    {
+        const auto ago = espchrono::ago(*m_leftHoldingSince);
+        if (m_leftHoldingSince && (m_leftScrolling || ago > getInitialScrollSpeed()))
+        {
+            if (ago > getScrollSpeed())
+            {
+                if (!m_leftScrolling)
+                {
+                    // gets executed one time
+                    buttonHeld(espgui::Left);
+                }
+                m_leftScrolling = true;
+                m_leftHoldingSince = espchrono::millis_clock::now();
+
+                // do sth
+            }
+        }
+    }
+
+    {
+        const auto ago = espchrono::ago(*m_rightHoldingSince);
+        if (m_rightHoldingSince && (m_rightScrolling || ago > getInitialScrollSpeed()))
+        {
+            if (ago > getScrollSpeed())
+            {
+                if (!m_rightScrolling)
+                {
+                    // gets executed one time
+                    buttonHeld(espgui::Right);
+                }
+                m_rightScrolling = true;
+                m_rightHoldingSince = espchrono::millis_clock::now();
+
+                // do sth
+            }
+        }
+    }
 
     if (!m_pressed)
     {
@@ -94,27 +186,6 @@ void MenuDisplay::update()
 void MenuDisplay::redraw()
 {
     Base::redraw();
-
-    // wait for holding since to be above initial scroll speed, then start scrolling in interval set by getScrollSpeed()
-    if (m_upHoldingSince && (espchrono::ago(*m_upHoldingSince) > getInitialScrollSpeed() || m_upScrolling))
-    {
-        if (espchrono::ago(*m_upHoldingSince) > getScrollSpeed())
-        {
-            m_upScrolling = true;
-            m_rotateOffset--;
-            m_upHoldingSince = espchrono::millis_clock::now();
-        }
-    }
-
-    if (m_downHoldingSince && (espchrono::ago(*m_downHoldingSince) > getInitialScrollSpeed() || m_downScrolling))
-    {
-        if (espchrono::ago(*m_downHoldingSince) > getScrollSpeed())
-        {
-            m_downScrolling = true;
-            m_rotateOffset++;
-            m_downHoldingSince = espchrono::millis_clock::now();
-        }
-    }
 
     tft.setTextFont(4);
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);
@@ -237,5 +308,10 @@ void MenuDisplay::buttonReleased(Button button)
     case Button::Right: m_rightHoldingSince = std::nullopt; break;
     default:;
     }
+}
+
+void MenuDisplay::buttonHeld(Button button)
+{
+    ESP_LOGI("Menudisplay", "buttonHeld %d", button);
 }
 } // namespace espgui
