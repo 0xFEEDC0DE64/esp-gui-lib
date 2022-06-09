@@ -9,6 +9,7 @@
 
 // local includes
 #include "textinterface.h"
+#include "richtexthelper.h"
 #include "richtextrenderer.h"
 
 namespace espgui {
@@ -42,6 +43,45 @@ struct ChangeableTextWithValueHelper : public Taccessor, public virtual TextInte
         using espchrono::toString;
 
         return fmt::format("{} {}", m_prefix, richTextEscape(toString(Taccessor::getValue())));
+    }
+
+    const std::string &prefix() const { return m_prefix; }
+    void setPrefix(std::string_view prefix) { m_prefix = std::string{prefix}; }
+    void setPrefix(std::string &&prefix) { m_prefix = std::move(prefix); }
+
+private:
+    std::string m_prefix;
+};
+
+template<const char *Tprefix, typename Taccessor, const char *Tguilib_color = espgui::colors::GREY>
+struct TextWithHighlightedValueHelper : public Taccessor, public virtual TextInterface
+{
+    using Taccessor::Taccessor;
+
+    std::string text() const override
+    {
+        using cpputils::toString;
+        using espcpputils::toString;
+        using wifi_stack::toString;
+        using espchrono::toString;
+
+        return fmt::format("{} {}{}", Tprefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
+    }
+};
+
+template<typename Taccessor, const char *Tguilib_color = espgui::colors::GREY>
+struct ChangeableTextWithHighlightedValueHelper : public Taccessor, public virtual TextInterface
+{
+    using Taccessor::Taccessor;
+
+    std::string text() const override
+    {
+        using cpputils::toString;
+        using espcpputils::toString;
+        using wifi_stack::toString;
+        using espchrono::toString;
+
+        return fmt::format("{} {}{}", m_prefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
     }
 
     const std::string &prefix() const { return m_prefix; }
