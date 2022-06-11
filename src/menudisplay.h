@@ -8,18 +8,25 @@
 #include <functional>
 #include <cassert>
 #include <memory>
+#include <optional>
+
+// 3rdparty lib includes
+#include <espchrono.h>
 
 // local includes
 #include "displaywithtitle.h"
+#include "selectorscrollinterface.h"
 #include "textinterface.h"
 #include "widgets/label.h"
 #include "menuitem.h"
 #include "backinterface.h"
 
 namespace espgui {
+    using namespace std::chrono_literals;
 class MenuDisplay :
     public DisplayWithTitle,
-    public virtual BackInterface
+    public virtual BackInterface,
+    public virtual SelectorScrollInterface<>
 {
     using Base = DisplayWithTitle;
 
@@ -32,6 +39,7 @@ public:
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
+    void buttonHeld(Button button) override;
 
     MenuDisplay *asMenuDisplay() override { return this; }
     const MenuDisplay *asMenuDisplay() const override { return this; }
@@ -146,5 +154,17 @@ private:
     bool m_pressed;
 
     std::vector<std::unique_ptr<MenuItem>> m_menuItems;
+
+    bool m_upScrolling;
+    std::optional<espchrono::millis_clock::time_point> m_upHoldingSince;
+
+    bool m_downScrolling;
+    std::optional<espchrono::millis_clock::time_point> m_downHoldingSince;
+
+    bool m_leftScrolling;
+    std::optional<espchrono::millis_clock::time_point> m_leftHoldingSince;
+
+    bool m_rightScrolling;
+    std::optional<espchrono::millis_clock::time_point> m_rightHoldingSince;
 };
 } // namespace espgui

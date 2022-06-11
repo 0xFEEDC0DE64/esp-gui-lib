@@ -42,6 +42,7 @@ set(headers
     src/richtextrenderer.h
     src/screenmanager.h
     src/scrollinterface.h
+    src/selectorscrollinterface.h
     src/splitgraphdisplay.h
     src/textinterface.h
     src/textwithvaluehelper.h
