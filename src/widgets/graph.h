@@ -2,6 +2,7 @@
 
 // system includes
 #include <functional>
+#include <limits>
 
 // 3rdparty lib includes
 #include <ring-buffer.h>
