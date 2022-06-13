@@ -4,11 +4,12 @@
 #include <string>
 
 // local includes
-#include "changevaluedisplay.h"
-#include "displaywithtitle.h"
-#include "confirminterface.h"
 #include "backinterface.h"
+#include "changevaluedisplay.h"
+#include "confirminterface.h"
+#include "displaywithtitle.h"
 #include "errorhandlerinterface.h"
+#include "keyboardhelper.h"
 #include "widgets/label.h"
 
 namespace espgui {
@@ -29,20 +30,24 @@ public:
 
     void start() override;
     void initScreen() override;
-    void update() override;
     void redraw() override;
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
 
+    void confirmValue();
+
     const std::string &shownValue() const { return m_value; }
-    void setShownValue(std::string &&value) { m_value = std::move(value); }
+    void setShownValue(std::string &&value);
+    void appendToShownValue(char c) { m_value.push_back(c); }
+    void appendToShownValue(const std::string &s) { m_value.append(s); }
+    void removeLastCharFromShownValue();
 
 private:
     std::string m_value;
-    bool m_pressed{};
 
-    Label m_valueLabel{26, 81}; // 188, 53
+    Label m_valueLabel{12, 55}; // 188, 53
+    Keyboard<ChangeValueDisplay<std::string>> m_keyboard{*this};
 };
 
 } // namespace espgui
