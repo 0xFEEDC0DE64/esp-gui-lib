@@ -105,10 +105,11 @@ void MenuDisplay::redraw()
     int newHighlightedIndex{-1};
 
     const auto drawItemRect = [](const auto &label, const auto color){
-        tft.drawRect(5,
+        tft.drawRoundRect(5,
                      label.y()-1,
                      tft.width() - 10,
                      lineHeight+1,
+                     5,
                      color);
     };
 
