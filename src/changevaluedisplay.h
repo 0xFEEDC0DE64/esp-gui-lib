@@ -33,7 +33,7 @@ public:
     virtual void setShownValue(int value) = 0;
 
 protected:
-    Label m_valueLabel{26, 81}; // 188, 53
+    Label m_valueLabel{36, 71}; // 188, 53
 };
 
 template<typename Tvalue>
