@@ -26,7 +26,6 @@ namespace {
     constexpr const char * const SPACE = "Space";
     constexpr const char * const BACKSPACE = "Back";
     constexpr const char * const ENTER = "Enter";
-// constexpr const char * const KEYBOARD_SCREEN_3 = "1234567890!\"§$%&/()= ?@€{[]}\\~#+-*_,;.:";
 } // namespace
 
 template<typename TDisplay = espgui::Display>
@@ -40,8 +39,8 @@ public:
         const auto isLandscape = espgui::isLandscape();
         m_keyboard_start_y = isLandscape ? 98 : 120;
 
-        tft.fillRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 50), TFT_BLACK);
-        tft.drawSunkenRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 50), TFT_WHITE, TFT_GREY, TFT_BLACK);
+        tft.fillRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_BLACK);
+        tft.drawSunkenRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_WHITE, TFT_GREY, TFT_BLACK);
 
         updateCharLength();
         drawKeyboard();
@@ -217,41 +216,89 @@ private:
         // draw 3 extra buttons, back, space and enter (x=10, x=tft.width()/2, x=tft.width()-10)
         const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight());
 
-        // align left (SHIFT, SPACE)
-        tft.drawRoundRect(15-2, y-1, tft.textWidth(SHIFT)+4, tft.fontHeight()+2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(30+tft.textWidth(SHIFT)-2, y-1, tft.textWidth(SPACE)+4, tft.fontHeight()+2, 3, TFT_DARKGREY);
-
-        // align right (BACKSPACE, ENTER); align from tft.width()
-        tft.drawRoundRect(tft.width()-30-tft.textWidth(ENTER)-tft.textWidth(BACKSPACE)-2, y-1, tft.textWidth(BACKSPACE)+4, tft.fontHeight()+2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(tft.width()-15-tft.textWidth(ENTER)-2, y-1, tft.textWidth(ENTER)+4, tft.fontHeight()+2, 3, TFT_DARKGREY);
-
-        // if (!dont_draw_string)
+        if (isLandscape())
         {
             // align left (SHIFT, SPACE)
-            if (m_char_index == m_char_length)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SHIFT, 15, y);
-
-            if (m_char_index == m_char_length + 1)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SPACE, 30+tft.textWidth(SHIFT), y);
+            tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
+            tft.drawRoundRect(30 + tft.textWidth(SHIFT) - 2, y - 1, tft.textWidth(SPACE) + 4, tft.fontHeight() + 2, 3,
+                              TFT_DARKGREY);
 
             // align right (BACKSPACE, ENTER); align from tft.width()
-            if (m_char_index == m_char_length + 2)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(BACKSPACE, tft.width()-30-tft.textWidth(ENTER)-tft.textWidth(BACKSPACE), y);
+            tft.drawRoundRect(tft.width() - 30 - tft.textWidth(ENTER) - tft.textWidth(BACKSPACE) - 2, y - 1,
+                              tft.textWidth(BACKSPACE) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
+            tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER) - 2, y - 1, tft.textWidth(ENTER) + 4,
+                              tft.fontHeight() + 2, 3, TFT_DARKGREY);
 
-            if (m_char_index == m_char_length + 3)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(ENTER, tft.width()-15-tft.textWidth(ENTER), y);
+            // if (!dont_draw_string)
+            {
+                // align left (SHIFT, SPACE)
+                if (m_char_index == m_char_length)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(SHIFT, 15, y);
+
+                if (m_char_index == m_char_length + 1)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(SPACE, 30 + tft.textWidth(SHIFT), y);
+
+                // align right (BACKSPACE, ENTER); align from tft.width()
+                if (m_char_index == m_char_length + 2)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(BACKSPACE, tft.width() - 30 - tft.textWidth(ENTER) - tft.textWidth(BACKSPACE), y);
+
+                if (m_char_index == m_char_length + 3)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER), y);
+            }
+        }
+        else
+        {
+            const int32_t y_2 = y + tft.fontHeight() + 4;
+            // align left (SHIFT, SPACE)
+            tft.drawRoundRect(15 - 2,   y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
+            tft.drawRoundRect(15 - 2, y_2 - 1, tft.textWidth(SPACE) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
+
+            // align right (BACKSPACE, ENTER); align from tft.width()
+            tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER) - 2, y - 1, tft.textWidth(ENTER) + 4,
+                              tft.fontHeight() + 2, 3, TFT_DARKGREY);
+            tft.drawRoundRect(tft.width() - 15 - tft.textWidth(BACKSPACE) - 2, y_2 - 1, tft.textWidth(BACKSPACE) + 4,
+                              tft.fontHeight() + 2, 3, TFT_DARKGREY);
+
+            // if (!dont_draw_string)
+            {
+                // align left (SHIFT, SPACE)
+                if (m_char_index == m_char_length)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(SHIFT, 15, y);
+
+                if (m_char_index == m_char_length + 1)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(SPACE, 15, y_2);
+
+                // align right (BACKSPACE, ENTER); align from tft.width()
+                if (m_char_index == m_char_length + 2)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(BACKSPACE, tft.width() - 15 - tft.textWidth(BACKSPACE), y_2);
+
+                if (m_char_index == m_char_length + 3)
+                    tft.setTextColor(TFT_BLACK, TFT_WHITE);
+                else
+                    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+                tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER), y);
+            }
         }
     }
 
