@@ -51,6 +51,7 @@ set(headers
     src/widgets/label.h
     src/widgets/progressbar.h
     src/widgets/reverseprogressbar.h
+    src/widgets/scrollinglabel.h
     src/widgets/slider.h
     src/widgets/verticalmeter.h
     src/widgets/vumeter.h
@@ -81,6 +82,7 @@ set(sources
     src/widgets/label.cpp
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp
+    src/widgets/scrollinglabel.cpp
     src/widgets/slider.cpp
     src/widgets/verticalmeter.cpp
     src/widgets/vumeter.cpp
