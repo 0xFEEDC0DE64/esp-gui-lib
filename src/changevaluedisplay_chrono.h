@@ -40,7 +40,7 @@ private:
     T m_value;
     bool m_pressed{};
 
-    Label m_valueLabel{26, 81}; // 188, 53
+    Label m_valueLabel{36, 71}; // 188, 53
 };
 
 template<typename T>
@@ -58,15 +58,24 @@ void ChangeValueDisplayChrono<T>::initScreen()
 {
     Base::initScreen();
 
-    tft.drawRect(25, 75, 190, 65, TFT_WHITE);
+    tft.drawRoundRect(32, 65, 190, 34, 8, TFT_WHITE);
     m_valueLabel.start();
 
     tft.setTextFont(4);
     tft.setTextColor(TFT_WHITE);
-    tft.drawString("Change value and", 10, 160);
-    tft.drawString("press button to", 10, 185);
-    tft.drawString("confirm and go", 10, 210);
-    tft.drawString("back.", 10, 235);
+    if (espgui::isLandscape())
+    {
+        tft.drawString("Change value and press", 10, 152);
+        tft.drawString("button to confirm and", 10, 177);
+        tft.drawString("go back", 10, 202);
+    }
+    else
+    {
+        tft.drawString("Change value and", 10, 160);
+        tft.drawString("press button to", 10, 185);
+        tft.drawString("confirm and go", 10, 210);
+        tft.drawString("back.", 10, 235);
+    }
 }
 
 template<typename T>

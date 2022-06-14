@@ -19,7 +19,7 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::initScreen()
     Base::initScreen();
 
     tft.setTextColor(TFT_WHITE);
-    tft.drawString("Change IP", 0, 50);
+    tft.drawString("Change IP Address", 0, 50);
 
     for(int i = 0; i <= 3; i++)
     {
@@ -29,6 +29,10 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::initScreen()
 
     for (auto &label : m_labels)
         label.start();
+
+    tft.drawString(".", spacing+boxWidth+spacing/4, y);
+    tft.drawString(".", spacing*2+boxWidth*2+spacing/4, y);
+    tft.drawString(".", spacing*3+boxWidth*3+spacing/4, y);
 
     drawRect(m_currentIndex, 1, TFT_YELLOW);
     drawRect(m_currentIndex, 2, TFT_YELLOW);
@@ -108,7 +112,7 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::buttonReleased(Button button)
 
 void ChangeValueDisplay<wifi_stack::ip_address_t>::drawRect(int index, int offset, uint32_t color) const
 {
-    tft.drawRect(m_labels[index].x()-offset, m_labels[index].y()-offset, boxWidth+(offset*2), boxHeight+(offset*2), color);
+    tft.drawRoundRect(m_labels[index].x()-offset, m_labels[index].y()-offset, boxWidth+(offset*2), boxHeight+(offset*2), 3, color);
 }
 
 } // namespace espgui

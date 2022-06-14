@@ -2,4 +2,4 @@
 
 namespace espgui {
 TFT_eSPI tft;
-}
+} // namespace espgui

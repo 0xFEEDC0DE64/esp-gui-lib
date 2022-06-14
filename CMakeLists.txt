@@ -30,6 +30,7 @@ set(headers
     src/graphdisplay.h
     src/icon.h
     src/iconinterface.h
+    src/keyboardhelper.h
     src/icons/back.h
     src/icons/checked.h
     src/icons/unchecked.h
