@@ -1,8 +1,5 @@
 #pragma once
 
-// system includes
-#include <futurecpp.h>
-
 // esp-idf includes
 #include <esp_log.h>
 
