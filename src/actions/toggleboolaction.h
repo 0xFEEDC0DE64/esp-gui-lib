@@ -15,7 +15,7 @@ public:
     void triggered() override
     {
         if (auto result = setValue(!getValue()); !result)
-            errorOccured(std::move(result).error());
+            errorOccurred(std::move(result).error());
     }
 };
 } // namespace espgui

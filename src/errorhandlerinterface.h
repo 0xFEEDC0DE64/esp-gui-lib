@@ -8,13 +8,13 @@ namespace espgui {
 class ErrorHandlerInterface
 {
 public:
-    virtual void errorOccured(std::string &&error) = 0;
+    virtual void errorOccurred(std::string &&error) = 0;
 };
 
 class DummyErrorHandler : public virtual ErrorHandlerInterface
 {
 public:
-    void errorOccured(std::string &&error) override {}
+    void errorOccurred(std::string &&error) override {}
 };
 
 } // namespace espgui

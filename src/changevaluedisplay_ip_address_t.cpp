@@ -90,7 +90,7 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::buttonPressed(Button button)
             if (auto result = this->setValue(m_value); result)
                 confirm();
             else
-                errorOccured(std::move(result).error());
+                errorOccurred(std::move(result).error());
         }
         break;
     case Button::Up:
