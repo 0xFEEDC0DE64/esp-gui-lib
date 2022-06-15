@@ -25,7 +25,7 @@ public:
         if (auto result = m_accessorInterface.setValue(m_value); result)
             m_confirmInterface.confirm();
         else
-            m_errorHandlerInterface.errorOccured(std::move(result).error());
+            m_errorHandlerInterface.errorOccurred(std::move(result).error());
     }
 
     T value() const { return m_value; }

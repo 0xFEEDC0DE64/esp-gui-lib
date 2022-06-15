@@ -59,7 +59,7 @@ void espgui::ChangeValueDisplay<std::string>::confirmValue()
     if (auto result = this->setValue(m_value); result)
         confirm();
     else
-        errorOccured(std::move(result).error());
+        errorOccurred(std::move(result).error());
 }
 
 void espgui::ChangeValueDisplay<std::string>::removeLastCharFromShownValue()

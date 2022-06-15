@@ -107,7 +107,7 @@ void ChangeValueDisplay<Tvalue>::update()
         if (auto result = static_cast<AccessorInterface<Tvalue>*>(this)->setValue(m_value); result)
             confirm();
         else
-            errorOccured(std::move(result).error());
+            errorOccurred(std::move(result).error());
     }
 }
 

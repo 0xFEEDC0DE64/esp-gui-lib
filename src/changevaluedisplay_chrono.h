@@ -89,7 +89,7 @@ void ChangeValueDisplayChrono<T>::update()
         if (auto result = this->setValue(m_value); result)
             confirm();
         else
-            errorOccured(std::move(result).error());
+            errorOccurred(std::move(result).error());
     }
 }
 
