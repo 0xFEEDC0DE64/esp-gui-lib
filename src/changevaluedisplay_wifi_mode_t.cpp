@@ -3,9 +3,6 @@
 // esp-idf includes
 #include <esp_log.h>
 
-// 3rdparty lib includes
-#include <futurecpp.h>
-
 // local includes
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
