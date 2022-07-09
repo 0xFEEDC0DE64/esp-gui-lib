@@ -108,7 +108,7 @@ void Keyboard<TDisplay>::drawKeyboard(bool dont_draw_string)
     for (size_t i = 0; i < keyboard_screen.size(); i += 10)
     {
         std::string line = keyboard_screen.substr(i, 10);
-        if (cpputils::stringEndsWith(line, " "))
+        if (line.ends_with(" "))
             line.pop_back();
 
         keyboard_lines.push_back(line);
