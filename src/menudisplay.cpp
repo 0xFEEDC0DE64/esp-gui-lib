@@ -38,14 +38,16 @@ void MenuDisplay::update()
     Base::update();
 
     const auto now = espchrono::millis_clock::now();
-    if (m_upHeld && now >= *m_upHeld)
+    if (m_upHeld && now >= m_upHeld->nextTimestamp)
     {
-        *m_upHeld += 200ms;
+        m_upHeld->nextTimestamp += m_upHeld->counter > 3 ? 100ms : 200ms;
+        m_upHeld->counter++;
         m_rotateOffset--;
     }
-    if (m_downHeld && now >= *m_downHeld)
+    if (m_downHeld && now >= m_downHeld->nextTimestamp)
     {
-        *m_downHeld += 200ms;
+        m_downHeld->nextTimestamp += m_downHeld->counter > 3 ? 100ms : 200ms;
+        m_downHeld->counter++;
         m_rotateOffset++;
     }
 
@@ -214,11 +216,11 @@ void MenuDisplay::buttonPressed(Button button)
     case Button::Right: m_pressed = true; break;
     case Button::Up:
         m_rotateOffset--;
-        m_upHeld = espchrono::millis_clock::now() + 200ms;
+        m_upHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
         break;
     case Button::Down:
         m_rotateOffset++;
-        m_downHeld = espchrono::millis_clock::now() + 200ms;
+        m_downHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
         break;
     }
 }

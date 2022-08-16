@@ -150,7 +150,13 @@ private:
 
     std::vector<std::unique_ptr<MenuItem>> m_menuItems;
 
-    std::optional<espchrono::millis_clock::time_point> m_upHeld;
-    std::optional<espchrono::millis_clock::time_point> m_downHeld;
+    struct ButtonHeldInfo
+    {
+        espchrono::millis_clock::time_point nextTimestamp;
+        int counter{};
+    };
+
+    std::optional<ButtonHeldInfo> m_upHeld;
+    std::optional<ButtonHeldInfo> m_downHeld;
 };
 } // namespace espgui
