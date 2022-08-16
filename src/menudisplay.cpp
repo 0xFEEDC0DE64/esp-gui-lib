@@ -3,6 +3,8 @@
 // local includes
 #include "tftinstance.h"
 
+using namespace std::chrono_literals;
+
 namespace espgui {
 void MenuDisplay::start()
 {
@@ -35,7 +37,18 @@ void MenuDisplay::update()
 {
     Base::update();
 
-    if (!m_pressed)
+    const auto now = espchrono::millis_clock::now();
+    if (m_upHeld && now >= *m_upHeld)
+    {
+        *m_upHeld += 200ms;
+        m_rotateOffset--;
+    }
+    if (m_downHeld && now >= *m_downHeld)
+    {
+        *m_downHeld += 200ms;
+        m_rotateOffset++;
+    }
+
     {
         const auto offset = m_rotateOffset;
         m_rotateOffset = 0;
@@ -81,7 +94,8 @@ void MenuDisplay::update()
             }
         }
     }
-    else
+
+    if (m_pressed)
     {
         m_pressed = false;
         if (m_selectedIndex >= 0)
@@ -198,14 +212,30 @@ void MenuDisplay::buttonPressed(Button button)
     {
     case Button::Left: this->back(); break;
     case Button::Right: m_pressed = true; break;
-    case Button::Up: m_rotateOffset--; break;
-    case Button::Down: m_rotateOffset++; break;
+    case Button::Up:
+        m_rotateOffset--;
+        m_upHeld = espchrono::millis_clock::now() + 200ms;
+        break;
+    case Button::Down:
+        m_rotateOffset++;
+        m_downHeld = espchrono::millis_clock::now() + 200ms;
+        break;
     }
 }
 
 void MenuDisplay::buttonReleased(Button button)
 {
     //Base::buttonPressed(button);
-    // TODO stop auto scroll
+
+    switch (button)
+    {
+    case Button::Up:
+        m_upHeld = std::nullopt;
+        break;
+    case Button::Down:
+        m_downHeld = std::nullopt;
+        break;
+    default:;
+    }
 }
 } // namespace espgui
