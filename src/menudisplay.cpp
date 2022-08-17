@@ -15,6 +15,9 @@ void MenuDisplay::start()
 
     m_rotateOffset = 0;
     m_pressed = false;
+
+    m_upHeld = std::nullopt;
+    m_downHeld = std::nullopt;
 }
 
 void MenuDisplay::initScreen()
