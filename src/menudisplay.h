@@ -8,6 +8,7 @@
 #include <functional>
 #include <cassert>
 #include <memory>
+#include <optional>
 
 // 3rdparty lib includes
 #include <espchrono.h>

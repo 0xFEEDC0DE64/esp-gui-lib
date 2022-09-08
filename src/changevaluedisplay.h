@@ -2,6 +2,7 @@
 
 // system includes
 #include <type_traits>
+#include <optional>
 
 // 3rdparty lib includes
 #include <espchrono.h>
