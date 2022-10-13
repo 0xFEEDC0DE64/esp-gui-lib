@@ -5,6 +5,6 @@
 
 namespace espgui {
 namespace icons {
-extern const Icon<24, 24> unchecked;
+extern const espgui::Icon<24, 24> unchecked;
 } // namespace icons
 } // namespace espgui
