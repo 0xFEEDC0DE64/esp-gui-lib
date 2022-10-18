@@ -124,21 +124,24 @@ void MenuDisplay::redraw()
     int newHighlightedIndex{-1};
 
     const auto drawItemRect = [](const auto &label, const auto color){
-        tft.drawRoundRect(5,
+        tft.fillRect(5,
                      label.y()-1,
                      tft.width() - 10,
                      lineHeight+1,
-                     5,
                      color);
+        //tft.drawRoundRect(5,
+        //                  label.y()-1,
+        //                  tft.width() - 10,
+        //                  lineHeight+1,
+        //                  5,
+        //                  color);
     };
 
     runForEveryMenuItem([&](MenuItem &item){
         const auto index = i++;
 
         if (!item.visible())
-        {
             return;
-        }
 
         if (index < m_scrollOffset)
             return;
@@ -150,17 +153,31 @@ void MenuDisplay::redraw()
         const auto selected = index == m_selectedIndex;
 
         if (selected)
+        {
             newHighlightedIndex = relativeIndex;
+
+            if (relativeIndex != m_highlightedIndex)
+            {
+                drawItemRect(*labelsIter, TFT_GREY);
+                *iconsIter = nullptr;
+                labelsIter->clear();
+            }
+        }
         else if (relativeIndex == m_highlightedIndex)
+        {
             drawItemRect(*labelsIter, TFT_BLACK);
+            *iconsIter = nullptr;
+            labelsIter->clear();
+        }
 
         tft.setTextFont(item.font());
-        tft.setTextColor(item.color(), TFT_BLACK);
+        tft.setTextColor(item.color(), selected ? TFT_GREY : TFT_BLACK);
         labelsIter->redraw(item.text());
 
         if (item.icon() != *iconsIter)
         {
-            tft.fillRect(6, labelsIter->y()+1, 24, 24, TFT_BLACK);
+            if (*iconsIter)
+                tft.fillRect(6, labelsIter->y()+1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
 
             auto icon = item.icon();
             if (icon)
@@ -172,10 +189,10 @@ void MenuDisplay::redraw()
             *iconsIter = icon;
         }
 
-        if (selected && (relativeIndex != m_highlightedIndex))
-        {
-            drawItemRect(*labelsIter, TFT_WHITE);
-        }
+//        if (selected && (relativeIndex != m_highlightedIndex))
+//        {
+//            drawItemRect(*labelsIter, TFT_GREY);
+//        }
 
         labelsIter++;
         iconsIter++;
