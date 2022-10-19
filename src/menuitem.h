@@ -10,12 +10,18 @@
 #include "scrollinterface.h"
 
 namespace espgui {
-using MenuItemIconInterface = IconInterface<24, 24>;
 
 using MenuItemIcon = Icon<24, 24>;
 
+using MenuItemIconInterface = IconInterface<24, 24>;
+
+using MenuItemSelectedIconInterface = SelectedIconInterface<24, 24>;
+
 template<const MenuItemIcon *T>
 using StaticMenuItemIcon = StaticIcon<24, 24, T>;
+
+template<const MenuItemIcon *T>
+using StaticMenuItemSelectedIcon = StaticSelectedIcon<24, 24, T>;
 
 class MenuItem :
     public virtual ActionInterface,
@@ -23,6 +29,7 @@ class MenuItem :
     public virtual FontInterface,
     public virtual ColorInterface,
     public virtual MenuItemIconInterface,
+    public virtual MenuItemSelectedIconInterface,
     public virtual VisibleInterface,
     public virtual ScrollInterface
 {
@@ -44,8 +51,8 @@ protected:
 };
 
 class EmptyMenuItem :
-        public MenuItem,
-        public EmptyText
+    public MenuItem,
+    public EmptyText
 {
 public:
     void triggered() override {}

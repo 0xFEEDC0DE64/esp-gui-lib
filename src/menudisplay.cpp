@@ -161,6 +161,13 @@ void MenuDisplay::redraw()
                 drawItemRect(*labelsIter, TFT_GREY);
                 *iconsIter = nullptr;
                 labelsIter->start();
+
+                if (auto icon = item.selectedIcon())
+                {
+                    tft.setSwapBytes(true);
+                    tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
+                    tft.setSwapBytes(false);
+                }
             }
         }
         else if (relativeIndex == m_highlightedIndex)
@@ -176,16 +183,15 @@ void MenuDisplay::redraw()
 
         if (item.icon() != *iconsIter)
         {
-            if (*iconsIter)
-                tft.fillRect(6, labelsIter->y()+1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
-
             auto icon = item.icon();
             if (icon)
             {
                 tft.setSwapBytes(true);
-                tft.pushImage(6, labelsIter->y()+1, icon->WIDTH, icon->HEIGHT, icon->buffer);
+                tft.pushImage(6, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
                 tft.setSwapBytes(false);
             }
+            else if (*iconsIter)
+                tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
             *iconsIter = icon;
         }
 
