@@ -160,14 +160,14 @@ void MenuDisplay::redraw()
             {
                 drawItemRect(*labelsIter, TFT_GREY);
                 *iconsIter = nullptr;
-                labelsIter->clear();
+                labelsIter->start();
             }
         }
         else if (relativeIndex == m_highlightedIndex)
         {
             drawItemRect(*labelsIter, TFT_BLACK);
             *iconsIter = nullptr;
-            labelsIter->clear();
+            labelsIter->start();
         }
 
         tft.setTextFont(item.font());
