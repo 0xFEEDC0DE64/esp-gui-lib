@@ -1,5 +1,8 @@
 #include "messagepopupdisplay.h"
 
+// system includes
+#include <string_view>
+
 // 3rdparty lib includes
 #include <tftinstance.h>
 #include <screenmanager.h>
@@ -42,6 +45,8 @@ void MessagePopupDisplay::initOverlay()
 
     CPP_UNUSED(right)
 
+    tft.setTextFont(4);
+
     tft.drawSunkenRect(leftMargin, topMargin, width, height,
                                color565(240, 240, 240),
                                color565(100, 100, 100),
@@ -51,6 +56,7 @@ void MessagePopupDisplay::initOverlay()
 
     int x = leftMargin + 5;
     int y = topMargin + 5;
+
     for (char c : m_message)
     {
         if (c == '\n' || x > tft.width() - rightMargin - 10)
@@ -61,7 +67,7 @@ void MessagePopupDisplay::initOverlay()
 
         if (c != '\n')
         {
-            const auto addedWidth = tft.drawChar(tft.decodeUTF8(c), x, y, 4);
+            const auto addedWidth = tft.drawString(std::string_view{&c, 1}, x, y);
             x += addedWidth;
         }
 
