@@ -8,9 +8,10 @@
 #include <strutils.h>
 
 // local includes
+#include "tftinterface.h"
+#include "tftcolors.h"
 #include "display.h"
 #include "screenmanager.h"
-#include "tftinstance.h"
 
 namespace espgui {
 namespace {
@@ -31,7 +32,9 @@ class Keyboard
 public:
     explicit Keyboard(TDisplay &display) : m_display(display) {}
 
-    void start();
+    void start(TftInterface &tft);
+
+    void redraw(TftInterface &tft);
 
     void buttonPressed(Button button);
     void buttonReleased(Button button);
@@ -44,7 +47,7 @@ public:
 private:
     void updateCharLength();
 
-    void drawKeyboard(bool dont_draw_string = false);
+    void drawKeyboard(TftInterface &tft, bool dont_draw_string = false);
 
     void nextScreen();
 
@@ -65,6 +68,9 @@ private:
         SCREEN_MAX
     };
     Screen m_current_screen{Screen::SCREEN_2};
+
+    bool m_needsStart{};
+    bool m_needsRedraw{};
 };
 
 template<typename TDisplay>
@@ -94,11 +100,11 @@ void Keyboard<TDisplay>::nextScreen()
     if (m_current_screen >= Screen::SCREEN_MAX)
         m_current_screen = Screen::SCREEN_1;
     updateCharLength();
-    start();
+    m_needsStart = true;
 }
 
 template<typename TDisplay>
-void Keyboard<TDisplay>::drawKeyboard(bool dont_draw_string)
+void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
 {
     size_t char_index{0};
     std::string keyboard_screen{m_keyboard};
@@ -114,12 +120,13 @@ void Keyboard<TDisplay>::drawKeyboard(bool dont_draw_string)
         keyboard_lines.push_back(line);
     }
 
+#if 0
+
     const auto datum = tft.getTextDatum();
     tft.setTextDatum(MC_DATUM);
 
     for (size_t i = 0; i < keyboard_lines.size(); i++)
-    {                tft.setTextColor(TFT_WHITE);
-
+    {
         tft.setTextColor(TFT_GREY);
 
         const int32_t y = m_keyboard_start_y + (i * tft.fontHeight() + 9);
@@ -160,7 +167,7 @@ void Keyboard<TDisplay>::drawKeyboard(bool dont_draw_string)
     // draw 3 extra buttons, back, space and enter (x=10, x=tft.width()/2, x=tft.width()-10)
     const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight());
 
-    if (isLandscape())
+    if (isLandscape(tft))
     {
         // align left (SHIFT, SPACE)
         tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
@@ -244,6 +251,7 @@ void Keyboard<TDisplay>::drawKeyboard(bool dont_draw_string)
             tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER), y);
         }
     }
+#endif
 }
 
 template<typename TDisplay>
@@ -296,16 +304,32 @@ void Keyboard<TDisplay>::moveSelectorLeft()
 }
 
 template<typename TDisplay>
-void Keyboard<TDisplay>::start()
+void Keyboard<TDisplay>::start(TftInterface &tft)
 {
-    const auto isLandscape = espgui::isLandscape();
+    const auto isLandscape = espgui::isLandscape(tft);
     m_keyboard_start_y = isLandscape ? 98 : 120;
 
     tft.fillRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_BLACK);
     tft.drawSunkenRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_WHITE, TFT_GREY, TFT_BLACK);
 
     updateCharLength();
-    drawKeyboard();
+    drawKeyboard(tft);
+}
+
+template<typename TDisplay>
+void Keyboard<TDisplay>::redraw(TftInterface &tft)
+{
+    if (m_needsStart)
+    {
+        m_needsStart = false;
+        drawKeyboard(tft, true);
+    }
+
+    if (m_needsRedraw)
+    {
+        m_needsRedraw = false;
+        drawKeyboard(tft, true);
+    }
 }
 
 template<typename TDisplay>
@@ -340,11 +364,11 @@ void Keyboard<TDisplay>::buttonPressed(Button button)
         return;
     case Up:
         moveSelectorLeft();
-        drawKeyboard(true);
+        m_needsRedraw = true;
         break;
     case Down:
         moveSelectorRight();
-        drawKeyboard(true);
+        m_needsRedraw = true;
         break;
     default:;
     }

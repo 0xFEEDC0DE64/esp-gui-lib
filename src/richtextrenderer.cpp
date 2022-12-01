@@ -6,6 +6,10 @@
 // 3rdparty lib includes
 #include <strutils.h>
 
+// local includes
+#include "tftinterface.h"
+#include "tftcolors.h"
+
 namespace espgui {
 
 void richTextEscape(std::string &subject)
@@ -18,25 +22,20 @@ std::string richTextEscape(std::string_view subject)
     return cpputils::stringReplaceAll('&', "&&", subject);
 }
 
-int16_t renderRichText(std::string_view str, int32_t poX, int32_t poY)
-{
-    return renderRichText(str, poX, poY, tft.textfont);
-}
-
-int16_t renderRichText(std::string_view str, int32_t poX, int32_t poY, uint8_t font)
+int16_t renderRichText(TftInterface &tft, std::string_view str, int32_t poX, int32_t poY, uint16_t color, uint16_t bgcolor, uint8_t font)
 {
     if (str.empty())
         return 0;
 
     const int16_t fontHeight = tft.fontHeight(font);
 
+    const uint16_t oldColor = color;
     const uint8_t oldFont = font;
-    const uint16_t oldColor = tft.textcolor;
 
     int16_t width{};
 
-    const auto drawString = [&poX, &poY, &font, &width, &fontHeight, &oldFont](std::string_view str) {
-        const auto addedWith = tft.drawString(str, poX, poY, font);
+    const auto drawString = [&tft, &poX, &poY, &color, &bgcolor, &font, &width, &fontHeight, &oldFont](std::string_view str) {
+        const auto addedWith = tft.drawString(str, poX, poY, color, bgcolor, font);
 
         if (font != oldFont)
         {
@@ -44,7 +43,7 @@ int16_t renderRichText(std::string_view str, int32_t poX, int32_t poY, uint8_t f
             {
                 tft.fillRect(poX, poY + newFontHeight,
                              addedWith, fontHeight - newFontHeight,
-                             tft.textbgcolor);
+                             bgcolor);
             }
         }
 
@@ -77,7 +76,7 @@ again:
             case '8':
             case '9':
             {
-                const auto color = [&controlChar,&oldColor](){
+                color = [&controlChar,&oldColor](){
                     switch (controlChar)
                     {
                     case 'c': return oldColor;
@@ -93,8 +92,6 @@ again:
                     }
                     __builtin_unreachable();
                 }();
-
-                tft.setTextColor(color, tft.textbgcolor);
 
                 auto newNewIter = newIter + 1;
                 if (newNewIter != std::end(str))
@@ -151,8 +148,6 @@ again:
     {
         drawString(str);
     }
-
-    tft.setTextColor(oldColor, tft.textbgcolor);
 
     return width;
 }

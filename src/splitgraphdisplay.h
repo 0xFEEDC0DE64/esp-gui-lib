@@ -2,6 +2,8 @@
 
 // local includes
 #include "display.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 #include "textinterface.h"
 #include "widgets/label.h"
 #include "widgets/graph.h"
@@ -53,9 +55,11 @@ class SplitGraphDisplay :
     public virtual ConfirmInterface,
     public virtual BackInterface
 {
+    using Base = Display;
+
 public:
-    void initScreen() override;
-    void redraw() override;
+    void initScreen(TftInterface &tft) override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
 
@@ -67,9 +71,9 @@ private:
 };
 
 template<std::size_t COUNT0, std::size_t COUNT1>
-void SplitGraphDisplay<COUNT0, COUNT1>::initScreen()
+void SplitGraphDisplay<COUNT0, COUNT1>::initScreen(TftInterface &tft)
 {
-    tft.fillScreen(TFT_BLACK);
+    Base::initScreen(tft);
 
     m_titleLabel.start();
     tft.fillRect(0, 34, tft.width(), 3, TFT_WHITE);
@@ -79,7 +83,7 @@ void SplitGraphDisplay<COUNT0, COUNT1>::initScreen()
 }
 
 template<std::size_t COUNT0, std::size_t COUNT1>
-void SplitGraphDisplay<COUNT0, COUNT1>::redraw()
+void SplitGraphDisplay<COUNT0, COUNT1>::redraw(TftInterface &tft)
 {
     tft.setTextFont(4);
     tft.setTextColor(TFT_YELLOW, TFT_BLACK);

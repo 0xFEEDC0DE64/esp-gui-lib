@@ -8,6 +8,8 @@
 #include <espchrono.h>
 
 // local includes
+#include "tftinterface.h"
+#include "tftcolors.h"
 #include "displaywithtitle.h"
 #include "textinterface.h"
 #include "confirminterface.h"
@@ -15,7 +17,6 @@
 #include "errorhandlerinterface.h"
 #include "accessorinterface.h"
 #include "widgets/label.h"
-#include "tftinstance.h"
 
 namespace espgui {
 
@@ -28,7 +29,7 @@ class ChangeValueDisplayInterface :
     using Base = DisplayWithTitle;
 
 public:
-    void initScreen() override;
+    void initScreen(TftInterface &tft) override;
 
     ChangeValueDisplayInterface *asChangeValueDisplayInterface() override { return this; }
     const ChangeValueDisplayInterface *asChangeValueDisplayInterface() const override { return this; }
@@ -67,7 +68,7 @@ class ChangeValueDisplay :
 public:
     void start() override;
     void update() override;
-    void redraw() override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
@@ -144,17 +145,15 @@ void ChangeValueDisplay<Tvalue>::update()
 }
 
 template<typename Tvalue>
-void ChangeValueDisplay<Tvalue>::redraw()
+void ChangeValueDisplay<Tvalue>::redraw(TftInterface &tft)
 {
-    Base::redraw();
+    Base::redraw(tft);
 
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setTextFont(7);
-    m_valueLabel.redraw(std::to_string(m_value));
+    m_valueLabel.redraw(tft, std::to_string(m_value), TFT_WHITE, TFT_BLACK, 7);
 }
 
 template<>
-void ChangeValueDisplay<float>::redraw();
+void ChangeValueDisplay<float>::redraw(TftInterface &tft);
 
 template<typename Tvalue>
 void ChangeValueDisplay<Tvalue>::buttonPressed(Button button)

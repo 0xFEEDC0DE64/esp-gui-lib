@@ -6,14 +6,20 @@
 // 3rdparty lib includes
 #include <TFT_eSPI.h>
 
+// local includes
+#include "tftcolors.h"
+
+// forward declares
+namespace espgui { class TftInterface; }
+
 namespace espgui {
 class ReverseProgressBar
 {
 public:
     ReverseProgressBar(int x, int y, int width, int height, int min, int max, uint32_t color=TFT_YELLOW);
 
-    void start();
-    void redraw(int value);
+    void start(TftInterface &tft);
+    void redraw(TftInterface &tft, int value);
 
 private:
     const int m_x;

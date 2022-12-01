@@ -46,7 +46,9 @@ set(headers
     src/splitgraphdisplay.h
     src/textinterface.h
     src/textwithvaluehelper.h
-    src/tftinstance.h
+    src/tftcolors.h
+    src/tftespiimpl.h
+    src/tftinterface.h
     src/visibleinterface.h
     src/widgets/graph.h
     src/widgets/label.h
@@ -75,7 +77,6 @@ set(sources
     src/splitgraphdisplay.cpp
     src/popupdisplay.cpp
     src/richtextrenderer.cpp
-    src/tftinstance.cpp
     src/icons/back.cpp
     src/icons/checked.cpp
     src/icons/unchecked.cpp

@@ -4,7 +4,8 @@
 #include <cpputils.h>
 
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 ProgressBar::ProgressBar(int x, int y, int width, int height, int min, int max, uint32_t color) :
@@ -12,13 +13,13 @@ ProgressBar::ProgressBar(int x, int y, int width, int height, int min, int max, 
 {
 }
 
-void ProgressBar::start()
+void ProgressBar::start(TftInterface &tft)
 {
     m_lastValue = m_x+1;
     tft.drawRect(m_x, m_y, m_width, m_height, TFT_WHITE);
 }
 
-void ProgressBar::redraw(int value)
+void ProgressBar::redraw(TftInterface &tft, int value)
 {
     value = cpputils::mapValueClamped(value, m_min, m_max, m_x+1, m_x+m_width-1);
 

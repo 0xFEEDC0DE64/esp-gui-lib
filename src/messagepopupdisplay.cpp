@@ -4,9 +4,12 @@
 #include <string_view>
 
 // 3rdparty lib includes
-#include <tftinstance.h>
 #include <screenmanager.h>
 #include <cppmacros.h>
+
+// local includes
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 
@@ -31,7 +34,7 @@ void MessagePopupDisplay::buttonPressed(Button button)
     }
 }
 
-void MessagePopupDisplay::initOverlay()
+void MessagePopupDisplay::initOverlay(TftInterface &tft)
 {
     const auto leftMargin = 20;
     const auto rightMargin = leftMargin;
@@ -45,14 +48,10 @@ void MessagePopupDisplay::initOverlay()
 
     CPP_UNUSED(right)
 
-    tft.setTextFont(4);
-
     tft.drawSunkenRect(leftMargin, topMargin, width, height,
                                color565(240, 240, 240),
                                color565(100, 100, 100),
                                color565(30, 30, 30));
-
-    tft.setTextColor(TFT_WHITE, color565(30, 30, 30));
 
     int x = leftMargin + 5;
     int y = topMargin + 5;
@@ -67,15 +66,13 @@ void MessagePopupDisplay::initOverlay()
 
         if (c != '\n')
         {
-            const auto addedWidth = tft.drawString(std::string_view{&c, 1}, x, y);
+            const auto addedWidth = tft.drawString(std::string_view{&c, 1}, x, y, TFT_WHITE, color565(30, 30, 30), 4);
             x += addedWidth;
         }
 
         if (y >= tft.height() - bottomMargin)
             break;
     }
-
-    tft.setTextColor(TFT_BLACK, color565(170, 170, 170));
 
     if constexpr (false)
     {
@@ -86,7 +83,7 @@ void MessagePopupDisplay::initOverlay()
                                    color565(100, 100, 100),
                                    color565(170, 170, 170));
 
-        tft.drawString("Retry", leftMargin + 18, bottom - 37);
+        tft.drawString("Retry", leftMargin + 18, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
     }
 
     tft.drawSunkenRect(leftMargin + 15 + ((width - 15 - 30 - 15) / 2) + 15, bottom - 40,
@@ -96,7 +93,7 @@ void MessagePopupDisplay::initOverlay()
                                color565(100, 100, 100),
                                color565(170, 170, 170));
 
-    tft.drawString("Ok", leftMargin + 18 + ((width - 15 - 30 - 15) / 2) + 15 + 1, bottom - 37);
+    tft.drawString("Ok", leftMargin + 18 + ((width - 15 - 30 - 15) / 2) + 15 + 1, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
 }
 
 } // namespace espgui

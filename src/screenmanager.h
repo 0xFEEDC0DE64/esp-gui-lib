@@ -9,102 +9,78 @@
 // local includes
 #include "display.h"
 
+// forward declares
+namespace espgui { class TftInterface; }
+
 namespace espgui {
 
 extern std::unique_ptr<Display> currentDisplay;
 
 extern std::stack<std::unique_ptr<Display>> displayStack;
 
-extern std::function<void()> changeScreenCallback;
+extern std::function<void(TftInterface&)> changeScreenCallback;
 
 void deconstructScreen();
 
 void pushScreenInternal();
 
+void popScreenImpl(TftInterface &tft);
 void popScreen();
-
-template<typename T, typename... Args>
-void switchScreenImpl(Args... args)
-{
-    deconstructScreen();
-
-    currentDisplay = std::make_unique<T>(args...);
-    currentDisplay->start();
-    currentDisplay->initScreen();
-    currentDisplay->update();
-    currentDisplay->redraw();
-}
-
-template<typename T, typename... Args>
-void switchScreenRefImpl(Args&&... args)
-{
-    deconstructScreen();
-
-    currentDisplay = std::make_unique<T>(std::forward<Args>(args)...);
-    currentDisplay->start();
-    currentDisplay->initScreen();
-    currentDisplay->update();
-    currentDisplay->redraw();
-}
 
 template<typename T, typename... Args>
 void switchScreen(Args... args)
 {
-    if (currentDisplay)
-        changeScreenCallback = [args...](){ switchScreenImpl<T>(args...); };
-    else
-        switchScreenImpl<T>(args...);
+    changeScreenCallback = [args...](TftInterface &tft){
+        deconstructScreen();
+
+        currentDisplay = std::make_unique<T>(args...);
+        currentDisplay->start();
+        currentDisplay->initScreen(tft);
+        currentDisplay->update();
+        currentDisplay->redraw(tft);
+    };
 }
 
 template<typename T, typename... Args>
 void switchScreenRef(Args&&... args)
 {
-    if (currentDisplay)
-        changeScreenCallback = [args...](){ switchScreenRefImpl<T>(std::forward<Args>(args)...); };
-    else
-        switchScreenRefImpl<T>(std::forward<Args>(args)...);
-}
+    changeScreenCallback = [args...](TftInterface &tft){
+        deconstructScreen();
 
-template<typename T, typename... Args>
-void pushScreenImpl(Args... args)
-{
-    pushScreenInternal();
-
-    currentDisplay = std::make_unique<T>(args...);
-    currentDisplay->start();
-    currentDisplay->initScreen();
-    currentDisplay->update();
-    currentDisplay->redraw();
-}
-
-template<typename T, typename... Args>
-void pushScreenRefImpl(Args&&... args)
-{
-    pushScreenInternal();
-
-    currentDisplay = std::make_unique<T>(std::forward<Args>(args)...);
-    currentDisplay->start();
-    currentDisplay->initScreen();
-    currentDisplay->update();
-    currentDisplay->redraw();
+        currentDisplay = std::make_unique<T>(std::forward<Args>(args)...);
+        currentDisplay->start();
+        currentDisplay->initScreen(tft);
+        currentDisplay->update();
+        currentDisplay->redraw(tft);
+    };
 }
 
 template<typename T, typename... Args>
 void pushScreen(Args... args)
 {
-    if (currentDisplay)
-        changeScreenCallback = [args...](){ pushScreenImpl<T>(args...); };
-    else
-        pushScreenImpl<T>(args...);
+    changeScreenCallback = [args...](TftInterface &tft){
+        pushScreenInternal();
+
+        currentDisplay = std::make_unique<T>(args...);
+        currentDisplay->start();
+        currentDisplay->initScreen(tft);
+        currentDisplay->update();
+        currentDisplay->redraw(tft);
+    };
 }
 
 template<typename T, typename... Args>
 void pushScreenRef(Args&&... args)
 {
-    if (currentDisplay)
-        changeScreenCallback = [args...](){ pushScreenRefImpl<T>(std::forward<Args>(args)...); };
-    else
-        pushScreenRefImpl<T>(std::forward<Args>(args)...);
+    changeScreenCallback = [args...](TftInterface &tft){
+        pushScreenInternal();
+
+        currentDisplay = std::make_unique<T>(std::forward<Args>(args)...);
+        currentDisplay->start();
+        currentDisplay->initScreen(tft);
+        currentDisplay->update();
+        currentDisplay->redraw(tft);
+    };
 }
 
 } // namespace espgui

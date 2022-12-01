@@ -4,7 +4,8 @@
 #include <cpputils.h>
 
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 ReverseProgressBar::ReverseProgressBar(int x, int y, int width, int height, int min, int max, uint32_t color) :
@@ -12,13 +13,13 @@ ReverseProgressBar::ReverseProgressBar(int x, int y, int width, int height, int 
 {
 }
 
-void ReverseProgressBar::start()
+void ReverseProgressBar::start(TftInterface &tft)
 {
     m_lastValue = m_x+m_width-1;
     tft.drawRect(m_x, m_y, m_width, m_height, TFT_WHITE);
 }
 
-void ReverseProgressBar::redraw(int value)
+void ReverseProgressBar::redraw(TftInterface &tft, int value)
 {
     value = cpputils::mapValueClamped(value, m_min, m_max, m_x+m_width-1, m_x+1);
 

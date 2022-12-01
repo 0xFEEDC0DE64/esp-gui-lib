@@ -14,7 +14,7 @@ public:
 
     void buttonPressed(Button button) override;
 
-    void initOverlay() override;
+    void initOverlay(TftInterface &tft) override;
 
 private:
     std::string m_message;

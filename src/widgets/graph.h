@@ -10,7 +10,8 @@
 
 // local includes
 #include "label.h"
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 template<size_t LENGTH, size_t COUNT>

@@ -8,7 +8,6 @@
 #include "textinterface.h"
 #include "widgets/label.h"
 #include "widgets/graph.h"
-#include "tftinstance.h"
 #include "confirminterface.h"
 #include "backinterface.h"
 
@@ -51,8 +50,8 @@ class GraphDisplay :
     using Base = DisplayWithTitle;
 
 public:
-    void initScreen() override;
-    void redraw() override;
+    void initScreen(TftInterface &tft) override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
 
@@ -64,17 +63,17 @@ private:
 };
 
 template<size_t COUNT>
-void GraphDisplay<COUNT>::initScreen()
+void GraphDisplay<COUNT>::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
     m_graph.start(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
 }
 
 template<size_t COUNT>
-void GraphDisplay<COUNT>::redraw()
+void GraphDisplay<COUNT>::redraw(TftInterface &tft)
 {
-    Base::redraw();
+    Base::redraw(tft);
 
     m_graph.redraw(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
 }

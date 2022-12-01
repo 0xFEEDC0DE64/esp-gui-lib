@@ -3,6 +3,9 @@
 // 3rdparty lib includes
 #include <TFT_eSPI.h>
 
+// local includes
+#include "tftcolors.h"
+
 namespace espgui {
 class ColorInterface {
 public:

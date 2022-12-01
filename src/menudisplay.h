@@ -29,9 +29,9 @@ class MenuDisplay :
 
 public:
     void start() override;
-    void initScreen() override;
+    void initScreen(TftInterface &tft) override;
     void update() override;
-    void redraw() override;
+    void redraw(TftInterface &tft) override;
     void stop() override;
 
     void buttonPressed(Button button) override;

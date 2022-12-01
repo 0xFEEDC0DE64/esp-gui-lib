@@ -1,10 +1,10 @@
 #pragma once
 
-// local includes
+// local
 #include "icon.h"
 
 namespace espgui {
 namespace icons {
-extern const espgui::Icon<24, 24> checked;
+extern const Icon<24, 24> checked;
 } // namespace icons
 } // namespace espgui

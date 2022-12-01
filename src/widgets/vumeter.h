@@ -3,12 +3,15 @@
 // system includes
 #include <cstdint>
 
+// forward declares
+namespace espgui { class TftInterface; }
+
 namespace espgui {
 class VuMeter
 {
 public:
-    void start();
-    void redraw(float value);
+    void start(TftInterface &tft);
+    void redraw(TftInterface &tft, float value);
 
 private:
     float ltx;         // Saved x coord of bottom of needle

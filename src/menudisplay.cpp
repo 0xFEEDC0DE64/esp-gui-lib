@@ -1,7 +1,8 @@
 #include "menudisplay.h"
 
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 using namespace std::chrono_literals;
 
@@ -20,12 +21,12 @@ void MenuDisplay::start()
     m_downHeld = std::nullopt;
 }
 
-void MenuDisplay::initScreen()
+void MenuDisplay::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
     for (auto &label : m_labels)
-        label.start();
+        label.start(tft);
 
     runForEveryMenuItem([](MenuItem &item){
         item.start();
@@ -108,12 +109,9 @@ void MenuDisplay::update()
     }
 }
 
-void MenuDisplay::redraw()
+void MenuDisplay::redraw(TftInterface &tft)
 {
-    Base::redraw();
-
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+    Base::redraw(tft);
 
     int i{0};
 
@@ -123,7 +121,7 @@ void MenuDisplay::redraw()
 
     int newHighlightedIndex{-1};
 
-    const auto drawItemRect = [](const auto &label, const auto color){
+    const auto drawItemRect = [&tft](const auto &label, const auto color){
         tft.fillRect(5,
                      label.y()-1,
                      tft.width() - 10,
@@ -160,36 +158,26 @@ void MenuDisplay::redraw()
             {
                 drawItemRect(*labelsIter, TFT_GREY);
                 *iconsIter = nullptr;
-                labelsIter->start();
+                labelsIter->start(tft);
 
                 if (auto icon = item.selectedIcon())
-                {
-                    tft.setSwapBytes(true);
                     tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
-                    tft.setSwapBytes(false);
-                }
             }
         }
         else if (relativeIndex == m_highlightedIndex)
         {
             drawItemRect(*labelsIter, TFT_BLACK);
             *iconsIter = nullptr;
-            labelsIter->start();
-        }
+            labelsIter->start(tft);
+        }                
 
-        tft.setTextFont(item.font());
-        tft.setTextColor(item.color(), selected ? TFT_GREY : TFT_BLACK);
-        labelsIter->redraw(item.text());
+        labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
 
         if (item.icon() != *iconsIter)
         {
             auto icon = item.icon();
             if (icon)
-            {
-                tft.setSwapBytes(true);
                 tft.pushImage(6, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
-                tft.setSwapBytes(false);
-            }
             else if (*iconsIter)
                 tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
             *iconsIter = icon;
@@ -211,7 +199,7 @@ void MenuDisplay::redraw()
         if (relativeIndex == m_highlightedIndex)
             drawItemRect(*labelsIter, TFT_BLACK);
 
-        labelsIter->clear();
+        labelsIter->clear(tft, TFT_BLACK);
 
         if (*iconsIter)
         {

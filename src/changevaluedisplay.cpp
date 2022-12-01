@@ -3,38 +3,38 @@
 // 3rdparty lib includes
 #include <fmt/core.h>
 
+// local includes
+#include "tftinterface.h"
+#include "tftcolors.h"
+
 namespace espgui {
-void ChangeValueDisplayInterface::initScreen()
+void ChangeValueDisplayInterface::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
     tft.drawRoundRect(35, 65, 190, 65, 8, TFT_WHITE);
-    m_valueLabel.start();
+    m_valueLabel.start(tft);
 
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_WHITE);
-    if (espgui::isLandscape())
+    if (espgui::isLandscape(tft))
     {
-        tft.drawString("Change value and press", 10, 152);
-        tft.drawString("button to confirm and", 10, 177);
-        tft.drawString("go back", 10, 202);
+        tft.drawString("Change value and press", 10, 152, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("button to confirm and", 10, 177, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("go back", 10, 202, TFT_WHITE, TFT_BLACK, 4);
     }
     else
     {
-        tft.drawString("Change value and", 10, 160);
-        tft.drawString("press button to", 10, 185);
-        tft.drawString("confirm and go", 10, 210);
-        tft.drawString("back.", 10, 235);
+        tft.drawString("Change value and", 10, 160, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("press button to", 10, 185, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("confirm and go", 10, 210, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("back.", 10, 235, TFT_WHITE, TFT_BLACK, 4);
     }
 }
 
 template<>
-void ChangeValueDisplay<float>::redraw()
+void ChangeValueDisplay<float>::redraw(TftInterface &tft)
 {
-    Base::redraw();
+    Base::redraw(tft);
 
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setTextFont(7);
-    m_valueLabel.redraw(fmt::format("{:.02f}", m_value));
+    m_valueLabel.redraw(tft, fmt::format("{:.02f}", m_value), TFT_WHITE, TFT_BLACK, 7);
 }
 } // namespace espgui

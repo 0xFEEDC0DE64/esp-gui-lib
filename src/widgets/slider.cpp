@@ -4,7 +4,8 @@
 #include <cpputils.h>
 
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 Slider::Slider(int x, int y, int width, int height, int min, int max, uint32_t leftColor, uint32_t rightColor, uint32_t lineColor) :
@@ -19,14 +20,14 @@ Slider::Slider(int x, int y, int width, int height, int min, int max, uint32_t l
     m_lineColor{lineColor}
 {}
 
-void Slider::start()
+void Slider::start(TftInterface &tft)
 {
     m_lastValue = m_x+1;
     tft.drawRect(m_x, m_y, m_width, m_height, TFT_WHITE);
     tft.fillRect(m_x+1, m_y+1, m_width-2, m_height-2, m_rightColor);
 }
 
-void Slider::redraw(int value)
+void Slider::redraw(TftInterface &tft, int value)
 {
     // slider with 1 pixel white line at position of value (mapped). Left side of line is leftColor, right side is rightColor
     value = cpputils::mapValueClamped(value, m_min, m_max, m_x+1, m_x+m_width-1);

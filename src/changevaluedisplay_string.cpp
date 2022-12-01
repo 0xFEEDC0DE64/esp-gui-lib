@@ -4,7 +4,8 @@
 #include <espchrono.h>
 
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 void espgui::ChangeValueDisplay<std::string>::start()
 {
@@ -13,31 +14,40 @@ void espgui::ChangeValueDisplay<std::string>::start()
     m_value = this->getValue();
 }
 
-void espgui::ChangeValueDisplay<std::string>::initScreen()
+void espgui::ChangeValueDisplay<std::string>::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
     tft.drawRoundRect(10, 50, tft.width() - 20, 34, 5, TFT_WHITE);
-    m_valueLabel.start();
+    m_valueLabel.start(tft);
 
-    m_keyboard.start();
+    m_keyboard.start(tft);
+
+    m_needsClear = std::nullopt;
 }
 
-void espgui::ChangeValueDisplay<std::string>::redraw()
+void espgui::ChangeValueDisplay<std::string>::redraw(TftInterface &tft)
 {
     const auto now = espchrono::millis_clock::now().time_since_epoch().count() / 1000;
-    Base::redraw();
+    Base::redraw(tft);
 
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setTextFont(4);
-    m_valueLabel.redraw(m_value);
+    if (m_needsClear)
+    {
+        tft.drawRect(m_valueLabel.x() + tft.textWidth(*m_needsClear, 4) + 3, m_valueLabel.y(), 2, tft.fontHeight(4), TFT_BLACK);
 
-    tft.drawRect(m_valueLabel.x() + tft.textWidth(m_value) + 3, m_valueLabel.y(), 2, tft.fontHeight(), (now % 1000 < 500) ? TFT_WHITE : TFT_BLACK);
+        m_needsClear = std::nullopt;
+    }
+
+    m_valueLabel.redraw(tft, m_value, TFT_WHITE, TFT_BLACK, 4);
+
+    tft.drawRect(m_valueLabel.x() + tft.textWidth(m_value, 4) + 3, m_valueLabel.y(), 2, tft.fontHeight(4), (now % 1000 < 500) ? TFT_WHITE : TFT_BLACK);
+
+    m_keyboard.redraw(tft);
 }
 
 void espgui::ChangeValueDisplay<std::string>::setShownValue(std::string &&value)
 {
-    tft.drawRect(m_valueLabel.x() + tft.textWidth(m_value) + 3, m_valueLabel.y(), 2, tft.fontHeight(), TFT_BLACK);
+    m_needsClear = std::move(m_value);
     m_value = std::move(value);
 }
 

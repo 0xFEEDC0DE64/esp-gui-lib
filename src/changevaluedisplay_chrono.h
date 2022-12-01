@@ -8,6 +8,8 @@
 
 // local includes
 #include "changevaluedisplay.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 #include "displaywithtitle.h"
 #include "confirminterface.h"
 #include "backinterface.h"
@@ -29,9 +31,9 @@ class ChangeValueDisplayChrono :
 
 public:
     void start() override;
-    void initScreen() override;
+    void initScreen(TftInterface &tft) override;
     void update() override;
-    void redraw() override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
@@ -54,27 +56,25 @@ void ChangeValueDisplayChrono<T>::start()
 }
 
 template<typename T>
-void ChangeValueDisplayChrono<T>::initScreen()
+void ChangeValueDisplayChrono<T>::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
     tft.drawRoundRect(32, 65, 190, 34, 8, TFT_WHITE);
-    m_valueLabel.start();
+    m_valueLabel.start(tft);
 
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_WHITE);
-    if (espgui::isLandscape())
+    if (espgui::isLandscape(tft))
     {
-        tft.drawString("Change value and press", 10, 152);
-        tft.drawString("button to confirm and", 10, 177);
-        tft.drawString("go back", 10, 202);
+        tft.drawString("Change value and press", 10, 152, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("button to confirm and", 10, 177, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("go back", 10, 202, TFT_WHITE, TFT_BLACK, 4);
     }
     else
     {
-        tft.drawString("Change value and", 10, 160);
-        tft.drawString("press button to", 10, 185);
-        tft.drawString("confirm and go", 10, 210);
-        tft.drawString("back.", 10, 235);
+        tft.drawString("Change value and", 10, 160, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("press button to", 10, 185, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("confirm and go", 10, 210, TFT_WHITE, TFT_BLACK, 4);
+        tft.drawString("back.", 10, 235, TFT_WHITE, TFT_BLACK, 4);
     }
 }
 
@@ -94,13 +94,11 @@ void ChangeValueDisplayChrono<T>::update()
 }
 
 template<typename T>
-void ChangeValueDisplayChrono<T>::redraw()
+void ChangeValueDisplayChrono<T>::redraw(TftInterface &tft)
 {
-    Base::redraw();
+    Base::redraw(tft);
 
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setTextFont(4);
-    m_valueLabel.redraw(espchrono::toString(m_value));
+    m_valueLabel.redraw(tft, espchrono::toString(m_value), TFT_WHITE, TFT_BLACK, 4);
 }
 
 template<typename T>

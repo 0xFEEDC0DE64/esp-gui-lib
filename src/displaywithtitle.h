@@ -17,8 +17,8 @@ public:
     TextInterface *asTextInterface() override { return this; }
     const TextInterface *asTextInterface() const override { return this; }
 
-    void initScreen() override;
-    void redraw() override;
+    void initScreen(TftInterface &tft) override;
+    void redraw(TftInterface &tft) override;
 
 private:
     Label m_titleLabel{5, 5}; // 230, 25

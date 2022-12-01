@@ -34,9 +34,9 @@ public:
     const ChangeValueDisplay<wifi_stack::ip_address_t> *asChangeValueDisplayIpAddress() const override { return this; }
 
     void start() override;
-    void initScreen() override;
+    void initScreen(TftInterface &tft) override;
     void update() override;
-    void redraw() override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
@@ -45,7 +45,7 @@ public:
     void setShownValue(wifi_stack::ip_address_t value) { m_value = value; }
 
 private:
-    void drawRect(int index, int offset, uint32_t color) const;
+    void drawRect(TftInterface &tft, int index, int offset, uint32_t color) const;
 
     wifi_stack::ip_address_t m_value;
 

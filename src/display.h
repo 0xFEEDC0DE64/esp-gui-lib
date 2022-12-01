@@ -9,6 +9,7 @@
 
 // forward declares
 namespace espgui {
+class TftInterface;
 class TextInterface;
 class MenuDisplay;
 class ChangeValueDisplayInterface;
@@ -68,13 +69,13 @@ public:
     virtual void start() {}
 
     //! Display needs to fully initialize screen
-    virtual void initScreen();
+    virtual void initScreen(TftInterface &tft);
 
     //! Display can do work needed to update correctly
     virtual void update() {}
 
     //! Display can update screen incrementally
-    virtual void redraw() {}
+    virtual void redraw(TftInterface &tft) {}
 
     //! Display goes out of existance, is not shown anymore
     virtual void stop() {}

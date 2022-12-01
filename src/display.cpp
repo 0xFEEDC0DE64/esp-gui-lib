@@ -1,11 +1,15 @@
 #include "display.h"
 
+// 3rdparty lib includes
+#include "TFT_eSPI.h"
+
 // local includes
-#include "tftinstance.h"
+#include "tftinterface.h"
+#include "tftcolors.h"
 
 namespace espgui {
 
-void Display::initScreen()
+void Display::initScreen(TftInterface &tft)
 {
     tft.fillScreen(TFT_BLACK);
 }

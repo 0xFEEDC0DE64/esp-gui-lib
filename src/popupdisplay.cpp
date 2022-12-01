@@ -1,7 +1,6 @@
 #include "popupdisplay.h"
 
 // 3rdparty lib includes
-#include <tftinstance.h>
 #include <screenmanager.h>
 
 namespace espgui {
@@ -11,20 +10,33 @@ PopupDisplay::PopupDisplay(std::unique_ptr<Display> &&lastDisplay) :
 {
 }
 
-void PopupDisplay::initScreen()
+void PopupDisplay::initScreen(TftInterface &tft)
 {
-    Base::initScreen();
+    Base::initScreen(tft);
 
-    m_lastDisplay->initScreen();
+    m_lastDisplay->initScreen(tft);
 
-    initOverlay();
+    initOverlay(tft);
+}
+
+void PopupDisplay::redraw(TftInterface &tft)
+{
+    if (m_wantsClose)
+        closeOverlay(tft);
+    else
+        Base::redraw(tft);
 }
 
 void PopupDisplay::closeOverlay()
 {
+    m_wantsClose = true;
+}
+
+void PopupDisplay::closeOverlay(TftInterface &tft)
+{
     auto guard = std::move(espgui::currentDisplay);
     espgui::currentDisplay = std::move(m_lastDisplay);
-    espgui::currentDisplay->initScreen();
+    espgui::currentDisplay->initScreen(tft);
 }
 
 } // namespace espgui

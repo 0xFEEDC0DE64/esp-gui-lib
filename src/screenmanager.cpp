@@ -7,7 +7,7 @@ namespace espgui {
 std::unique_ptr<Display> currentDisplay;
 std::stack<std::unique_ptr<Display>> displayStack;
 
-std::function<void()> changeScreenCallback;
+std::function<void(TftInterface&)> changeScreenCallback;
 
 void deconstructScreen()
 {
@@ -28,7 +28,7 @@ void pushScreenInternal()
     }
 }
 
-void popScreen()
+void popScreenImpl(TftInterface &tft)
 {
     deconstructScreen();
 
@@ -38,9 +38,14 @@ void popScreen()
     currentDisplay = std::move(displayStack.top());
     displayStack.pop();
     currentDisplay->start();
-    currentDisplay->initScreen();
+    currentDisplay->initScreen(tft);
     currentDisplay->update();
-    currentDisplay->redraw();
+    currentDisplay->redraw(tft);
+}
+
+void popScreen()
+{
+    changeScreenCallback = [](TftInterface &tft){ popScreenImpl(tft); };
 }
 
 } // namespace espgui

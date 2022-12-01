@@ -2,6 +2,7 @@
 
 // system includes
 #include <string>
+#include <optional>
 
 // local includes
 #include "backinterface.h"
@@ -29,8 +30,8 @@ public:
     const ChangeValueDisplay<std::string> *asChangeValueDisplayString() const override { return this; }
 
     void start() override;
-    void initScreen() override;
-    void redraw() override;
+    void initScreen(TftInterface &tft) override;
+    void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
     void buttonReleased(Button button) override;
@@ -48,6 +49,8 @@ private:
 
     Label m_valueLabel{12, 55}; // 188, 53
     Keyboard<ChangeValueDisplay<std::string>> m_keyboard{*this};
+
+    std::optional<std::string> m_needsClear;
 };
 
 } // namespace espgui
