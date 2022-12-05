@@ -121,7 +121,6 @@ void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
     }
 
 #if 0
-
     const auto datum = tft.getTextDatum();
     tft.setTextDatum(MC_DATUM);
 
@@ -165,13 +164,13 @@ void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
     tft.setTextDatum(datum);
 
     // draw 3 extra buttons, back, space and enter (x=10, x=tft.width()/2, x=tft.width()-10)
-    const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight());
+    const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight(4));
 
     if (isLandscape(tft))
     {
         // align left (SHIFT, SPACE)
-        tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(30 + tft.textWidth(SHIFT) - 2, y - 1, tft.textWidth(SPACE) + 4, tft.fontHeight() + 2, 3,
+        tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight(4) + 2, 3, TFT_DARKGREY);
+        tft.drawRoundRect(30 + tft.textWidth(SHIFT, 4) - 2, y - 1, tft.textWidth(SPACE, 4) + 4, tft.fontHeight() + 2, 3,
                           TFT_DARKGREY);
 
         // align right (BACKSPACE, ENTER); align from tft.width()
