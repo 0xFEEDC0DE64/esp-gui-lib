@@ -25,6 +25,8 @@ public:
     virtual void     setRotation(uint8_t r) = 0; // Set the display image orientation to 0, 1, 2 or 3
     virtual uint8_t  getRotation(void) const = 0;      // Read the current rotation
 
+    virtual void     setTextSize(uint8_t size);  // Set character size multiplier (this increases pixel size)
+
     // Graphics drawing
     virtual void     fillScreen(uint32_t color) = 0;
     virtual void     drawRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color) = 0;

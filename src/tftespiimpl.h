@@ -27,6 +27,8 @@ public:
     void     setRotation(uint8_t r) override { m_tft.setRotation(r); }
     uint8_t  getRotation(void) const { return m_tft.getRotation(); }
 
+    void     setTextSize(uint8_t s) override { m_tft.setTextSize(s); }
+
     // Graphics drawing
     void     fillScreen(uint32_t color) override { m_tft.fillScreen(color); }
     void     drawRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color) override { m_tft.drawRect(x, y, w, h, color); }
