@@ -67,7 +67,7 @@ void GraphDisplay<COUNT>::initScreen(TftInterface &tft)
 {
     Base::initScreen(tft);
 
-    m_graph.start(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
+    m_graph.start(tft, static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
 }
 
 template<size_t COUNT>
@@ -75,7 +75,7 @@ void GraphDisplay<COUNT>::redraw(TftInterface &tft)
 {
     Base::redraw(tft);
 
-    m_graph.redraw(static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
+    m_graph.redraw(tft, static_cast<const GraphAccessorInterface<COUNT> &>(*this).getBuffers());
 }
 
 template<size_t COUNT>
