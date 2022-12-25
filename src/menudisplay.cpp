@@ -161,7 +161,16 @@ void MenuDisplay::redraw(TftInterface &tft)
                 labelsIter->start(tft);
 
                 if (auto icon = item.selectedIcon())
-                    tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
+                {
+#ifdef CONFIG_ESPGUI_ICONS_SWAPBYTES
+                    tft.setSwapBytes(true);
+#endif
+                    tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT,
+                                  icon->buffer);
+#ifdef CONFIG_ESPGUI_ICONS_SWAPBYTES
+                    tft.setSwapBytes(false);
+#endif
+                }
             }
         }
         else if (relativeIndex == m_highlightedIndex)
@@ -177,7 +186,15 @@ void MenuDisplay::redraw(TftInterface &tft)
         {
             auto icon = item.icon();
             if (icon)
+            {
+#ifdef CONFIG_ESPGUI_ICONS_SWAPBYTES
+                tft.setSwapBytes(true);
+#endif
                 tft.pushImage(6, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
+#ifdef CONFIG_ESPGUI_ICONS_SWAPBYTES
+                tft.setSwapBytes(false);
+#endif
+            }
             else if (*iconsIter)
                 tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
             *iconsIter = icon;
