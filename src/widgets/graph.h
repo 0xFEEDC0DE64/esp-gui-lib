@@ -26,11 +26,11 @@ public:
 
     Graph(int x, int y, int height);
 
-    void start(const Container &buffers);
-    void redraw(const Container &buffers);
+    void start(TftInterface &tft, const Container &buffers);
+    void redraw(TftInterface &tft, const Container &buffers);
 
 private:
-    void render(const Container &buffers, bool delta);
+    void render(TftInterface &tft, const Container &buffers, bool delta);
 
     const int m_x, m_y, m_height;
 
@@ -56,7 +56,7 @@ Graph<LENGTH, COUNT>::Graph(int x, int y, int height) :
 }
 
 template<size_t LENGTH, size_t COUNT>
-void Graph<LENGTH, COUNT>::start(const Container &buffers)
+void Graph<LENGTH, COUNT>::start(TftInterface &tft, const Container &buffers)
 {
     m_min = 0.f;
     m_max = 10.f;
@@ -66,20 +66,20 @@ void Graph<LENGTH, COUNT>::start(const Container &buffers)
     for (auto iter = std::begin(m_labels); iter != std::end(m_labels); iter++)
     {
         tft.drawFastHLine(m_x+leftMargin-5, float(m_y)+(float(m_height)/(m_labels.size()-1)*std::distance(std::begin(m_labels), iter)), 4, TFT_WHITE);
-        iter->start();
+        iter->start(tft);
     }
 
-    render(buffers, false);
+    render(tft, buffers, false);
 }
 
 template<size_t LENGTH, size_t COUNT>
-void Graph<LENGTH, COUNT>::redraw(const Container &buffers)
+void Graph<LENGTH, COUNT>::redraw(TftInterface &tft, const Container &buffers)
 {
-    render(buffers, true);
+    render(tft, buffers, true);
 }
 
 template<size_t LENGTH, size_t COUNT>
-void Graph<LENGTH, COUNT>::render(const Container &buffers, bool delta)
+void Graph<LENGTH, COUNT>::render(TftInterface &tft, const Container &buffers, bool delta)
 {
     float min{std::numeric_limits<float>::quiet_NaN()}, max{std::numeric_limits<float>::quiet_NaN()};
     bool first{true};
@@ -115,10 +115,8 @@ void Graph<LENGTH, COUNT>::render(const Container &buffers, bool delta)
     if (m_min < 0 && m_max < 0)
         m_max = 0;
 
-    tft.setTextFont(2);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
     for (auto iter = std::begin(m_labels); iter != std::end(m_labels); iter++)
-        iter->redraw(std::to_string(int(m_max+((m_min-m_max)/(m_labels.size()-1)*std::distance(std::begin(m_labels), iter)))));
+        iter->redraw(tft, std::to_string(int(m_max+((m_min-m_max)/(m_labels.size()-1)*std::distance(std::begin(m_labels), iter)))), TFT_WHITE, TFT_BLACK, 2);
 
     int x{leftMargin};
     for (auto pixelsIter = std::begin(m_lastPixels); pixelsIter!=std::end(m_lastPixels); pixelsIter++)

@@ -75,22 +75,20 @@ void SplitGraphDisplay<COUNT0, COUNT1>::initScreen(TftInterface &tft)
 {
     Base::initScreen(tft);
 
-    m_titleLabel.start();
+    m_titleLabel.start(tft);
     tft.fillRect(0, 34, tft.width(), 3, TFT_WHITE);
 
-    m_graph0.start(static_cast<const TopGraphAccessorInterface<COUNT0>&>(*this).getTopBuffers());
-    m_graph1.start(static_cast<const BottomGraphAccessorInterface<COUNT1>&>(*this).getBottomBuffers());
+    m_graph0.start(tft, static_cast<const TopGraphAccessorInterface<COUNT0>&>(*this).getTopBuffers());
+    m_graph1.start(tft, static_cast<const BottomGraphAccessorInterface<COUNT1>&>(*this).getBottomBuffers());
 }
 
 template<std::size_t COUNT0, std::size_t COUNT1>
 void SplitGraphDisplay<COUNT0, COUNT1>::redraw(TftInterface &tft)
 {
-    tft.setTextFont(4);
-    tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-    m_titleLabel.redraw(text());
+    m_titleLabel.redraw(tft, text(), TFT_YELLOW, TFT_BLACK, 4);
 
-    m_graph0.redraw(static_cast<const TopGraphAccessorInterface<COUNT0>&>(*this).getTopBuffers());
-    m_graph1.redraw(static_cast<const BottomGraphAccessorInterface<COUNT1>&>(*this).getBottomBuffers());
+    m_graph0.redraw(tft, static_cast<const TopGraphAccessorInterface<COUNT0>&>(*this).getTopBuffers());
+    m_graph1.redraw(tft, static_cast<const BottomGraphAccessorInterface<COUNT1>&>(*this).getBottomBuffers());
 }
 
 template<std::size_t COUNT0, std::size_t COUNT1>
