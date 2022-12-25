@@ -91,7 +91,7 @@ public:
 
     // Swap the byte order for pushImage() and pushPixels() - corrects endianness
     virtual void     setSwapBytes(bool swap) = 0;
-    virtual bool     getSwapBytes(void) const = 0;
+    virtual bool     getSwapBytes(void) = 0;
 
     // Bare metal functions
     virtual void     startWrite(void) = 0;

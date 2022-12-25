@@ -77,7 +77,7 @@ public:
     uint16_t decodeUTF8(uint8_t c) override { return m_tft.decodeUTF8(c); }
 
     void    setSwapBytes(bool swap) override { m_tft.setSwapBytes(swap); }
-    bool    getSwapBytes(void) const override { return m_tft.getSwapBytes(); }
+    bool    getSwapBytes(void) override { return m_tft.getSwapBytes(); }
 
     void     startWrite(void) override { m_tft.startWrite(); }
     void     writeColor(uint16_t color, uint32_t len) override { m_tft.writeColor(color, len); }
