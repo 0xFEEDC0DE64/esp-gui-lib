@@ -84,6 +84,25 @@ public:
     // These are used to render images or sprites stored in RAM arrays (used by Sprite class for 16bpp Sprites)
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data) = 0;
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data, uint16_t transparent) = 0;
+
+    // Used by library and Smooth font class to extract Unicode point codes from a UTF8 encoded string
+    virtual uint16_t decodeUTF8(const uint8_t *buf, uint16_t *index, uint16_t remaining) = 0;
+    virtual uint16_t decodeUTF8(uint8_t c) = 0;
+
+    // Swap the byte order for pushImage() and pushPixels() - corrects endianness
+    virtual void     setSwapBytes(bool swap) = 0;
+    virtual bool     getSwapBytes(void) const = 0;
+
+    // Bare metal functions
+    virtual void     startWrite(void) = 0;
+    virtual void     writeColor(uint16_t color, uint32_t len) = 0;
+    virtual void     endWrite(void) = 0;
+
+    // Push (aka write pixel) colours to the set window
+    virtual void     pushColor(uint16_t color, uint32_t len) = 0;
+
+    // The TFT_eSprite class inherits the following functions (not all are useful to Sprite class
+    virtual void     setAddrWindow(int32_t xs, int32_t ys, int32_t w, int32_t h) = 0;
 };
 
 inline bool isLandscape(const TftInterface &tft)
