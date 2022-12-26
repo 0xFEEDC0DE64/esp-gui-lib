@@ -6,6 +6,8 @@
 
 using namespace std::chrono_literals;
 
+#include "esp_log.h"
+
 namespace espgui {
 void MenuDisplay::start()
 {
@@ -135,6 +137,24 @@ void MenuDisplay::redraw(TftInterface &tft)
         //                  color);
     };
 
+    int longestLabelWidth{0};
+
+    runForEveryMenuItem([&](MenuItem &item){
+        if (item.text().size() > longestLabelWidth)
+            longestLabelWidth = item.text().size();
+    });
+
+    if (((espchrono::ago(m_lastScrollTimestamp) > 500ms && m_labelScrollOffset > 0) || (espchrono::ago(m_lastScrollTimestamp) > 1250ms && m_labelScrollOffset == 0)) && longestLabelWidth > 18)
+    {
+        m_lastScrollTimestamp = espchrono::millis_clock::now();
+        m_labelScrollOffset++;
+
+        if (m_labelScrollOffset > longestLabelWidth - 18)
+            m_labelScrollOffset = 0;
+    }
+
+    // ESP_LOGI("MenuDisplay", "m_labelScrollOffset: %d, longestLabelWidth: %d", m_labelScrollOffset, longestLabelWidth);
+
     runForEveryMenuItem([&](MenuItem &item){
         const auto index = i++;
 
@@ -180,7 +200,14 @@ void MenuDisplay::redraw(TftInterface &tft)
             labelsIter->start(tft);
         }                
 
-        labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
+        const auto text = item.text();
+        const auto textLength = text.size();
+
+        // labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
+        if (textLength > 18)
+            labelsIter->redraw(tft, text.substr(std::min<uint>(m_labelScrollOffset, textLength - 18)), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
+        else
+            labelsIter->redraw(tft, text, item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
 
         if (item.icon() != *iconsIter)
         {
