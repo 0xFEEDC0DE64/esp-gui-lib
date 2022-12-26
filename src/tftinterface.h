@@ -77,7 +77,7 @@ public:
 
     // Handle char arrays
     // Use with setTextDatum() to position string on TFT, and setTextPadding() to blank old displayed strings
-    virtual int16_t drawString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) = 0;  // Draw string using specifed font number
+    virtual int16_t drawString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font, uint8_t datum = 0) = 0;  // Draw string using specifed font number
     virtual int16_t drawCentreString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) = 0;  // Deprecated, use setTextDatum() and drawString()
     virtual int16_t drawRightString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) = 0;   // Deprecated, use setTextDatum() and drawString()
 
