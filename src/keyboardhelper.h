@@ -106,6 +106,8 @@ void Keyboard<TDisplay>::nextScreen()
 template<typename TDisplay>
 void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
 {
+    constexpr const int FONT = 4;
+
     size_t char_index{0};
     std::string keyboard_screen{m_keyboard};
 
@@ -120,15 +122,9 @@ void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
         keyboard_lines.push_back(line);
     }
 
-#if 0
-    const auto datum = tft.getTextDatum();
-    tft.setTextDatum(MC_DATUM);
-
     for (size_t i = 0; i < keyboard_lines.size(); i++)
     {
-        tft.setTextColor(TFT_GREY);
-
-        const int32_t y = m_keyboard_start_y + (i * tft.fontHeight() + 9);
+        const int32_t y = m_keyboard_start_y + (i * tft.fontHeight(FONT) + 9);
         std::string line = keyboard_lines[i];
         const int16_t x = tft.width() / (line.size() + 1);
         for (size_t j = 0; j < line.size(); j++)
@@ -137,120 +133,73 @@ void Keyboard<TDisplay>::drawKeyboard(TftInterface &tft, bool dont_draw_string)
             const int32_t x_pos = x * (j + 1);
             const int32_t y_pos = y;
 
-            const auto width = tft.textWidth(_char) + 2;
-            const auto height = tft.fontHeight() + 4;
-            if (char_index == m_char_index)
-                tft.drawRoundRect(x_pos-width/2-1, y_pos-height/2, width+2, height-4, 3, TFT_DARKGREY);
+            const auto width = tft.textWidth(_char, FONT) + 2;
+            const auto height = tft.fontHeight(FONT) + 4;
 
-            if (char_index == m_last_char_index)
-            {
-                tft.drawRoundRect(x_pos-width/2-1, y_pos-height/2, width+2, height-4, 3, TFT_BLACK);
-            }
+            tft.drawRoundRect(x_pos-width/2-1, y_pos-height/2, width+2, height-4, 3, espgui::TFT_BLACK);
+
+            if (char_index == m_char_index)
+                tft.drawRoundRect(x_pos-width/2-1, y_pos-height/2, width+2, height-4, 3, espgui::TFT_DARKGREY);
 
             if (!dont_draw_string || char_index == m_char_index || char_index == m_last_char_index)
             {
-                if (char_index == m_char_index || char_index == m_last_char_index)
-                    tft.setTextColor(char_index == m_last_char_index ? TFT_GREY : TFT_WHITE);
-
-                tft.drawString(_char, x_pos, y_pos);
-
-                if (char_index == m_char_index)
-                    tft.setTextColor(TFT_GREY);
+                tft.drawString(_char, x_pos, y_pos, (char_index == m_char_index ? espgui::TFT_WHITE : espgui::TFT_GREY), espgui::TFT_BLACK, FONT, 4); // 4 = center
             }
             char_index++;
         }
     }
 
-    tft.setTextDatum(datum);
-
     // draw 3 extra buttons, back, space and enter (x=10, x=tft.width()/2, x=tft.width()-10)
-    const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight(4));
+    const int32_t y = m_keyboard_start_y + (keyboard_lines.size() * tft.fontHeight(FONT));
 
     if (isLandscape(tft))
     {
         // align left (SHIFT, SPACE)
-        tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight(4) + 2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(30 + tft.textWidth(SHIFT, 4) - 2, y - 1, tft.textWidth(SPACE, 4) + 4, tft.fontHeight() + 2, 3,
-                          TFT_DARKGREY);
+        tft.drawRoundRect(15 - 2, y - 1, tft.textWidth(SHIFT, FONT) + 4, tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
+        tft.drawRoundRect(30 + tft.textWidth(SHIFT, FONT) - 2, y - 1, tft.textWidth(SPACE, FONT) + 4, tft.fontHeight(FONT) + 2, 3,
+                          espgui::TFT_DARKGREY);
 
         // align right (BACKSPACE, ENTER); align from tft.width()
-        tft.drawRoundRect(tft.width() - 30 - tft.textWidth(ENTER) - tft.textWidth(BACKSPACE) - 2, y - 1,
-                          tft.textWidth(BACKSPACE) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER) - 2, y - 1, tft.textWidth(ENTER) + 4,
-                          tft.fontHeight() + 2, 3, TFT_DARKGREY);
+        tft.drawRoundRect(tft.width() - 30 - tft.textWidth(ENTER, FONT) - tft.textWidth(BACKSPACE, FONT) - 2, y - 1,
+                          tft.textWidth(BACKSPACE, FONT) + 4, tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
+        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER, FONT) - 2, y - 1, tft.textWidth(ENTER, FONT) + 4,
+                          tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
 
         // if (!dont_draw_string)
         {
             // align left (SHIFT, SPACE)
-            if (m_char_index == m_char_length)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SHIFT, 15, y);
-
-            if (m_char_index == m_char_length + 1)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SPACE, 30 + tft.textWidth(SHIFT), y);
+            tft.drawString(SHIFT, 15, y, (m_char_index == m_char_length ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
+            tft.drawString(SPACE, 30 + tft.textWidth(SHIFT, FONT), y, (m_char_index == m_char_length + 1 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length +1 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
 
             // align right (BACKSPACE, ENTER); align from tft.width()
-            if (m_char_index == m_char_length + 2)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(BACKSPACE, tft.width() - 30 - tft.textWidth(ENTER) - tft.textWidth(BACKSPACE), y);
-
-            if (m_char_index == m_char_length + 3)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER), y);
+            tft.drawString(BACKSPACE, tft.width() - 30 - tft.textWidth(ENTER, FONT) - tft.textWidth(BACKSPACE, FONT), y, (m_char_index == m_char_length + 2 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length + 2 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
+            tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER, FONT), y, (m_char_index == m_char_length + 3 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length + 3 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
         }
     }
     else
     {
-        const int32_t y_2 = y + tft.fontHeight() + 4;
+        const int32_t y_2 = y + tft.fontHeight(FONT) + 4;
         // align left (SHIFT, SPACE)
-        tft.drawRoundRect(15 - 2,   y - 1, tft.textWidth(SHIFT) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(15 - 2, y_2 - 1, tft.textWidth(SPACE) + 4, tft.fontHeight() + 2, 3, TFT_DARKGREY);
+        tft.drawRoundRect(15 - 2,   y - 1, tft.textWidth(SHIFT, FONT) + 4, tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
+        tft.drawRoundRect(15 - 2, y_2 - 1, tft.textWidth(SPACE, FONT) + 4, tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
 
         // align right (BACKSPACE, ENTER); align from tft.width()
-        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER) - 2, y - 1, tft.textWidth(ENTER) + 4,
-                          tft.fontHeight() + 2, 3, TFT_DARKGREY);
-        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(BACKSPACE) - 2, y_2 - 1, tft.textWidth(BACKSPACE) + 4,
-                          tft.fontHeight() + 2, 3, TFT_DARKGREY);
+        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(ENTER, FONT) - 2, y - 1, tft.textWidth(ENTER, FONT) + 4,
+                          tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
+        tft.drawRoundRect(tft.width() - 15 - tft.textWidth(BACKSPACE, FONT) - 2, y_2 - 1, tft.textWidth(BACKSPACE, FONT) + 4,
+                          tft.fontHeight(FONT) + 2, 3, espgui::TFT_DARKGREY);
 
         // if (!dont_draw_string)
         {
             // align left (SHIFT, SPACE)
-            if (m_char_index == m_char_length)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SHIFT, 15, y);
-
-            if (m_char_index == m_char_length + 1)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(SPACE, 15, y_2);
+            tft.drawString(SHIFT, 15, y, (m_char_index == m_char_length ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
+            tft.drawString(SPACE, 15, y_2, (m_char_index == m_char_length + 1 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length + 1 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
 
             // align right (BACKSPACE, ENTER); align from tft.width()
-            if (m_char_index == m_char_length + 2)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(BACKSPACE, tft.width() - 15 - tft.textWidth(BACKSPACE), y_2);
-
-            if (m_char_index == m_char_length + 3)
-                tft.setTextColor(TFT_BLACK, TFT_WHITE);
-            else
-                tft.setTextColor(TFT_WHITE, TFT_BLACK);
-            tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER), y);
+            tft.drawString(BACKSPACE, tft.width() - 15 - tft.textWidth(BACKSPACE, FONT), y_2, (m_char_index == m_char_length + 2 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length + 2 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
+            tft.drawString(ENTER, tft.width() - 15 - tft.textWidth(ENTER, FONT), y, (m_char_index == m_char_length + 3 ? espgui::TFT_BLACK : espgui::TFT_WHITE), (m_char_index == m_char_length + 3 ? espgui::TFT_WHITE : espgui::TFT_BLACK), FONT);
         }
     }
-#endif
 }
 
 template<typename TDisplay>
@@ -327,7 +276,7 @@ void Keyboard<TDisplay>::redraw(TftInterface &tft)
     if (m_needsRedraw)
     {
         m_needsRedraw = false;
-        drawKeyboard(tft, true);
+        drawKeyboard(tft);
     }
 }
 

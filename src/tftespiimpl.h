@@ -66,7 +66,7 @@ public:
     int16_t  textWidth(std::string_view string, uint8_t font) override { return m_tft.textWidth(string, font); }
     int16_t  fontHeight(int16_t font) override { return m_tft.fontHeight(font); }
 
-    int16_t drawString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) override { return m_tft.drawString(string, x, y, color, bgcolor, font); }
+    int16_t drawString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font, uint8_t datum = 0) override { return m_tft.drawString(string, x, y, color, bgcolor, font, datum); }
     int16_t drawCentreString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) override { return m_tft.drawCentreString(string, x, y, color, bgcolor, font); }
     int16_t drawRightString(std::string_view string, int32_t x, int32_t y, uint16_t color, uint16_t bgcolor, uint8_t font) override { return m_tft.drawRightString(string, x, y, color, bgcolor, font); }
 
