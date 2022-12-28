@@ -14,6 +14,7 @@ set(headers
     src/changevaluedisplay.h
     src/changevaluedisplay_bool.h
     src/changevaluedisplay_chrono.h
+    src/changevaluedisplay_colorhelper.h
     src/changevaluedisplay_daylightsavingmode.h
     src/changevaluedisplay_ip_address_t.h
     src/changevaluedisplay_sntp_sync_mode_t.h
@@ -49,6 +50,7 @@ set(headers
     src/tftcolors.h
     src/tftespiimpl.h
     src/tftinterface.h
+    src/tftutils.h
     src/visibleinterface.h
     src/widgets/graph.h
     src/widgets/label.h
@@ -62,6 +64,7 @@ set(headers
 set(sources
     src/changevaluedisplay.cpp
     src/changevaluedisplay_bool.cpp
+    src/changevaluedisplay_colorhelper.cpp
     src/changevaluedisplay_daylightsavingmode.cpp
     src/changevaluedisplay_ip_address_t.cpp
     src/changevaluedisplay_sntp_sync_mode_t.cpp
@@ -75,6 +78,7 @@ set(sources
     src/messagepopupdisplay.cpp
     src/screenmanager.cpp
     src/splitgraphdisplay.cpp
+    src/tftutils.cpp
     src/popupdisplay.cpp
     src/richtextrenderer.cpp
     src/icons/back.cpp
