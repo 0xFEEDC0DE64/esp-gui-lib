@@ -14,6 +14,18 @@ enum Button
     ButtonMax = Down
 };
 
+inline std::string toString(Button button)
+{
+    switch (button)
+    {
+    case Button::Left: return "Left";
+    case Button::Right: return "Right";
+    case Button::Up: return "Up";
+    case Button::Down: return "Down";
+    default: return "Unknown";
+    }
+}
+
 class ButtonsInterface
 {
 public:
