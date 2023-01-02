@@ -33,7 +33,7 @@ public:
     explicit Keyboard(TDisplay &display) : m_display(display) {}
 
     void start(TftInterface &tft);
-
+    void update();
     void redraw(TftInterface &tft);
 
     void buttonPressed(Button button);
@@ -71,6 +71,18 @@ private:
 
     bool m_needsStart{};
     bool m_needsRedraw{};
+
+    std::optional<espchrono::millis_clock::time_point> m_back_pressed_time{};
+    std::optional<espchrono::millis_clock::time_point> m_confirm_pressed_time{};
+
+    struct ButtonHeldInfo
+    {
+        espchrono::millis_clock::time_point nextTimestamp;
+        int counter{};
+    };
+
+    std::optional<ButtonHeldInfo> m_upHeld;
+    std::optional<ButtonHeldInfo> m_downHeld;
 };
 
 template<typename TDisplay>
@@ -96,11 +108,15 @@ void Keyboard<TDisplay>::moveSelectorDown()
 template<typename TDisplay>
 void Keyboard<TDisplay>::nextScreen()
 {
+
     m_current_screen = static_cast<Screen>(static_cast<uint8_t>(m_current_screen) + uint8_t{1});
     if (m_current_screen >= Screen::SCREEN_MAX)
         m_current_screen = Screen::SCREEN_1;
+
     updateCharLength();
+
     m_needsStart = true;
+    m_needsRedraw = true;
 }
 
 template<typename TDisplay>
@@ -262,15 +278,22 @@ void Keyboard<TDisplay>::start(TftInterface &tft)
 
     updateCharLength();
     drawKeyboard(tft);
+
+    m_upHeld = std::nullopt;
+    m_downHeld = std::nullopt;
 }
 
 template<typename TDisplay>
 void Keyboard<TDisplay>::redraw(TftInterface &tft)
 {
+    const auto isLandscape = espgui::isLandscape(tft);
+
     if (m_needsStart)
     {
         m_needsStart = false;
-        drawKeyboard(tft, true);
+        tft.fillRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_BLACK);
+        tft.drawSunkenRect(1, m_keyboard_start_y - 10, tft.width()-1, tft.height() - m_keyboard_start_y - (isLandscape ? 0 : 30), TFT_WHITE, TFT_GREY, TFT_BLACK);
+        updateCharLength();
     }
 
     if (m_needsRedraw)
@@ -283,45 +306,122 @@ void Keyboard<TDisplay>::redraw(TftInterface &tft)
 template<typename TDisplay>
 void Keyboard<TDisplay>::buttonPressed(Button button)
 {
+    using namespace std::chrono_literals;
+
     switch (button)
     {
     case Right:
     {
-        if (m_char_index < m_char_length)
-            m_display.setShownValue(m_display.shownValue() + m_keyset[m_char_index]);
-        else if (m_char_index == m_char_length) // shift
-        {
-            nextScreen();
-        }
-        else if (m_char_index == m_char_length + 1) // space
-        {
-            m_display.setShownValue(m_display.shownValue() + " ");
-        }
-        else if (m_char_index == m_char_length + 2) // backspace
-        {
-            m_display.removeLastCharFromShownValue();
-        }
-        else if (m_char_index == m_char_length + 3) // enter
-        {
-            m_display.confirmValue();
-        }
+        m_confirm_pressed_time = espchrono::millis_clock::now();
         break;
     }
     case Left:
-        popScreen();
-        return;
+        m_back_pressed_time = espchrono::millis_clock::now();
+        break;
     case Up:
         moveSelectorLeft();
         m_needsRedraw = true;
+        m_upHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
         break;
     case Down:
         moveSelectorRight();
         m_needsRedraw = true;
+        m_downHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
         break;
     default:;
     }
 }
 
 template<typename TDisplay>
-void Keyboard<TDisplay>::buttonReleased(espgui::Button button) {}
+void Keyboard<TDisplay>::buttonReleased(espgui::Button button)
+{
+    using namespace std::chrono_literals;
+
+    switch (button)
+    {
+    case Left:
+        if (!m_back_pressed_time)
+            return;
+
+        if (espchrono::ago(*m_back_pressed_time) < 350ms)
+            m_display.removeLastCharFromShownValue();
+
+        m_back_pressed_time = std::nullopt;
+        break;
+    case Right:
+        if (!m_confirm_pressed_time)
+            return;
+
+        if (espchrono::ago(*m_confirm_pressed_time) < 350ms)
+        {
+            if (m_char_index < m_char_length)
+                m_display.setShownValue(m_display.shownValue() + m_keyset[m_char_index]);
+            else if (m_char_index == m_char_length) // shift
+            {
+                nextScreen();
+            }
+            else if (m_char_index == m_char_length + 1) // space
+            {
+                m_display.setShownValue(m_display.shownValue() + " ");
+            }
+            else if (m_char_index == m_char_length + 2) // backspace
+            {
+                m_display.removeLastCharFromShownValue();
+            }
+            else if (m_char_index == m_char_length + 3) // enter
+            {
+                m_display.confirmValue();
+            }
+        }
+        m_confirm_pressed_time = std::nullopt;
+        break;
+    case Up:
+        m_upHeld = std::nullopt;
+        break;
+    case Down:
+        m_downHeld = std::nullopt;
+        break;
+    default:;
+    }
+}
+
+template<typename TDisplay>
+void Keyboard<TDisplay>::update()
+{
+    using namespace std::chrono_literals;
+
+    const auto now = espchrono::millis_clock::now();
+    if (m_back_pressed_time)
+    {
+        if (espchrono::ago(*m_back_pressed_time) > 350ms)
+        {
+            m_back_pressed_time = std::nullopt;
+            popScreen();
+        }
+    }
+
+    if (m_confirm_pressed_time)
+    {
+        if (espchrono::ago(*m_confirm_pressed_time) > 350ms)
+        {
+            m_confirm_pressed_time = std::nullopt;
+            nextScreen();
+        }
+    }
+
+    if (m_upHeld && now >= m_upHeld->nextTimestamp)
+    {
+        m_upHeld->nextTimestamp += m_upHeld->counter > 3 ? 100ms : 200ms;
+        m_upHeld->counter++;
+        moveSelectorLeft();
+        m_needsRedraw = true;
+    }
+    if (m_downHeld && now >= m_downHeld->nextTimestamp)
+    {
+        m_downHeld->nextTimestamp += m_downHeld->counter > 3 ? 100ms : 200ms;
+        m_downHeld->counter++;
+        moveSelectorRight();
+        m_needsRedraw = true;
+    }
+}
 } // namespace espgui

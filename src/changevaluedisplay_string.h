@@ -31,6 +31,7 @@ public:
 
     void start() override;
     void initScreen(TftInterface &tft) override;
+    void update() override;
     void redraw(TftInterface &tft) override;
 
     void buttonPressed(Button button) override;
@@ -45,6 +46,8 @@ public:
     void removeLastCharFromShownValue();
 
 private:
+    bool m_locked{false};
+
     std::string m_value;
 
     Label m_valueLabel{12, 55}; // 188, 53
