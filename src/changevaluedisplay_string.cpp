@@ -45,7 +45,6 @@ void espgui::ChangeValueDisplay<std::string>::redraw(TftInterface &tft)
     const auto char_width = tft.textWidth(m_value, 4) / ((!m_value.empty()) ? m_value.size() : 1);
     const auto maxChars = (tft.width() - 40) / char_width;
     const auto substr_from = std::max(0U, m_value.size() < maxChars ? 0 : static_cast<int>(m_value.size()) - maxChars);
-    ESP_LOGI("ChangeValueDisplay<std::string>", "str: %s, strlen: %d, maxChars: %d, tft.width(): %d, char_width: %d, substr_from: %d, textWidth(\"a\")=%d, textWidth: %d", m_value.c_str(), m_value.size(), maxChars, tft.width(), char_width, substr_from, tft.textWidth("a", 4), tft.textWidth(m_value, 4));
     const auto string = m_value.substr(substr_from);
 
     if (m_needsClear)
