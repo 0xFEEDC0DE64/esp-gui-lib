@@ -2,6 +2,7 @@
 
 //system includes
 #include <cstdint>
+#include <string>
 
 namespace espgui {
 
