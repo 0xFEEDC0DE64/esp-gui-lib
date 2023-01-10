@@ -11,6 +11,7 @@
 namespace espgui {
 class TftInterface;
 class TextInterface;
+class TitleInterface;
 class MenuDisplay;
 class ChangeValueDisplayInterface;
 template<typename Tvalue> class ChangeValueDisplay;
@@ -60,6 +61,18 @@ public:
     }
 };
 
+template <typename T1, typename T2, typename T3, typename ...T4>
+class makeComponentArgs12 : public T1, public T2, public T3, public T4...
+{
+public:
+    template<typename Targ1, typename Targ2, typename Targ3>
+    makeComponentArgs12(Targ1&& arg1, Targ2&& arg2, Targ3&& arg3) :
+        T2{std::forward<Targ1>(arg1)},
+        T3{std::forward<Targ2>(arg2), std::forward<Targ3>(arg3)}
+    {
+    }
+};
+
 class Display : public virtual ButtonsInterface
 {
 public:
@@ -82,6 +95,9 @@ public:
 
     virtual TextInterface *asTextInterface() { return nullptr; }
     virtual const TextInterface *asTextInterface() const { return nullptr; }
+
+    virtual TitleInterface *asTitleInterface() { return nullptr; }
+    virtual const TitleInterface *asTitleInterface() const { return nullptr; }
 
     virtual MenuDisplay *asMenuDisplay() { return nullptr; }
     virtual const MenuDisplay *asMenuDisplay() const { return nullptr; }

@@ -2,20 +2,20 @@
 
 // local includes
 #include "display.h"
-#include "textinterface.h"
+#include "titleinterface.h"
 #include "widgets/label.h"
 
 namespace espgui {
 
 class DisplayWithTitle :
     public Display,
-    public virtual TextInterface
+    public virtual TitleInterface
 {
     using Base = Display;
 
 public:
-    TextInterface *asTextInterface() override { return this; }
-    const TextInterface *asTextInterface() const override { return this; }
+    TitleInterface *asTitleInterface() override { return this; }
+    const TitleInterface *asTitleInterface() const override { return this; }
 
     void initScreen(TftInterface &tft) override;
     void redraw(TftInterface &tft) override;

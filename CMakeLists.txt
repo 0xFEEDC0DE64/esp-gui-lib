@@ -49,6 +49,7 @@ set(headers
     src/tftcolors.h
     src/tftespiimpl.h
     src/tftinterface.h
+    src/titleinterface.h
     src/visibleinterface.h
     src/widgets/graph.h
     src/widgets/label.h

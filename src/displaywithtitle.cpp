@@ -18,7 +18,7 @@ void DisplayWithTitle::redraw(TftInterface &tft)
 {
     Base::redraw(tft);
 
-    m_titleLabel.redraw(tft, text(), TFT_YELLOW, TFT_BLACK, 4);
+    m_titleLabel.redraw(tft, title(), TFT_YELLOW, TFT_BLACK, 4);
 }
 
 } // namespace espgui
