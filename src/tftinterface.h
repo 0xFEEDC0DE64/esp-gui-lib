@@ -81,10 +81,6 @@ public:
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data) = 0;
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data, uint16_t transparent) = 0;
 
-    // Swap the byte order for pushImage() and pushPixels() - corrects endianness
-    virtual void     setSwapBytes(bool swap) = 0;
-    virtual bool     getSwapBytes(void) = 0;
-
     // Bare metal functions
     virtual void     startWrite(void) = 0;
     virtual void     writeColor(uint16_t color, uint32_t len) = 0;

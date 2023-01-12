@@ -71,9 +71,6 @@ public:
     void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data) { m_tft.pushImage(x, y, w, h, data); }
     void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data, uint16_t transparent) { m_tft.pushImage(x, y, w, h, data, transparent); }
 
-    void    setSwapBytes(bool swap) override { m_tft.setSwapBytes(swap); }
-    bool    getSwapBytes(void) override { return m_tft.getSwapBytes(); }
-
     void     startWrite(void) override { m_tft.startWrite(); }
     void     writeColor(uint16_t color, uint32_t len) override { m_tft.writeColor(color, len); }
     void     endWrite(void) override { m_tft.endWrite(); }

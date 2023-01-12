@@ -4,8 +4,4 @@ config ESPGUI_MENUDISPLAY_ROWS
     int "Number of rows for MenuDisplays"
     default 10
 
-config ESPGUI_ICONS_SWAPBYTES
-    bool "Swap bytes in icons"
-    default n
-
 endmenu
