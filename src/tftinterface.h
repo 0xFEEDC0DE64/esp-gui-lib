@@ -25,7 +25,7 @@ public:
     virtual void     setRotation(uint8_t r) = 0; // Set the display image orientation to 0, 1, 2 or 3
     virtual uint8_t  getRotation(void) const = 0;      // Read the current rotation
 
-    virtual void     setTextSize(uint8_t size);  // Set character size multiplier (this increases pixel size)
+    virtual void     setTextSize(uint8_t size) = 0;  // Set character size multiplier (this increases pixel size)
 
     // Graphics drawing
     virtual void     fillScreen(uint32_t color) = 0;
@@ -35,10 +35,6 @@ public:
 
     virtual void     fillRectVGradient(int16_t x, int16_t y, int16_t w, int16_t h, uint32_t color1, uint32_t color2) = 0;
     virtual void     fillRectHGradient(int16_t x, int16_t y, int16_t w, int16_t h, uint32_t color1, uint32_t color2) = 0;
-
-    // Draw a pixel blended with the pixel colour on the TFT or sprite, return blended colour
-    // If bg_color is not included the background pixel colour will be read from TFT or sprite
-    virtual uint16_t drawPixel(int32_t x, int32_t y, uint32_t color, uint8_t alpha, uint32_t bg_color = 0x00FFFFFF) = 0;
 
     // Draw a small anti-aliased filled circle at ax,ay with radius r (uses drawWideLine)
     // If bg_color is not included the background pixel colour will be read from TFT or sprite
@@ -72,8 +68,8 @@ public:
     virtual void     drawTriangle(int32_t x1,int32_t y1, int32_t x2,int32_t y2, int32_t x3,int32_t y3, uint32_t color) = 0;
     virtual void     fillTriangle(int32_t x1,int32_t y1, int32_t x2,int32_t y2, int32_t x3,int32_t y3, uint32_t color) = 0;
 
-    virtual int16_t  textWidth(std::string_view string, uint8_t font);     // Returns pixel width of string in specified font
-    virtual int16_t  fontHeight(int16_t font);                             // Returns pixel height of string in specified font
+    virtual int16_t  textWidth(std::string_view string, uint8_t font) = 0;     // Returns pixel width of string in specified font
+    virtual int16_t  fontHeight(int16_t font) = 0;                             // Returns pixel height of string in specified font
 
     // Handle char arrays
     // Use with setTextDatum() to position string on TFT, and setTextPadding() to blank old displayed strings
@@ -84,10 +80,6 @@ public:
     // These are used to render images or sprites stored in RAM arrays (used by Sprite class for 16bpp Sprites)
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data) = 0;
     virtual void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data, uint16_t transparent) = 0;
-
-    // Used by library and Smooth font class to extract Unicode point codes from a UTF8 encoded string
-    virtual uint16_t decodeUTF8(const uint8_t *buf, uint16_t *index, uint16_t remaining) = 0;
-    virtual uint16_t decodeUTF8(uint8_t c) = 0;
 
     // Swap the byte order for pushImage() and pushPixels() - corrects endianness
     virtual void     setSwapBytes(bool swap) = 0;

@@ -38,8 +38,6 @@ public:
     void     fillRectVGradient(int16_t x, int16_t y, int16_t w, int16_t h, uint32_t color1, uint32_t color2) override { m_tft.fillRectVGradient(x, y, w, h, color1, color2); }
     void     fillRectHGradient(int16_t x, int16_t y, int16_t w, int16_t h, uint32_t color1, uint32_t color2) override { m_tft.fillRectHGradient(x, y, w, h, color1, color2); }
 
-    uint16_t drawPixel(int32_t x, int32_t y, uint32_t color, uint8_t alpha, uint32_t bg_color = 0x00FFFFFF) override { return m_tft.drawPixel(x, y, color, alpha, bg_color); }
-
     void     drawSpot(float ax, float ay, float r, uint32_t fg_color, uint32_t bg_color = 0x00FFFFFF) override { m_tft.drawSpot(ax, ay, r, fg_color, bg_color); }
 
     void     fillSmoothCircle(int32_t x, int32_t y, int32_t r, uint32_t color, uint32_t bg_color = 0x00FFFFFF) override { m_tft.fillSmoothCircle(x, y, r, color, bg_color); }
@@ -72,9 +70,6 @@ public:
 
     void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data) { m_tft.pushImage(x, y, w, h, data); }
     void     pushImage(int32_t x, int32_t y, int32_t w, int32_t h, const uint16_t *data, uint16_t transparent) { m_tft.pushImage(x, y, w, h, data, transparent); }
-
-    uint16_t decodeUTF8(const uint8_t *buf, uint16_t *index, uint16_t remaining) override { return m_tft.decodeUTF8(buf, index, remaining); }
-    uint16_t decodeUTF8(uint8_t c) override { return m_tft.decodeUTF8(c); }
 
     void    setSwapBytes(bool swap) override { m_tft.setSwapBytes(swap); }
     bool    getSwapBytes(void) override { return m_tft.getSwapBytes(); }
