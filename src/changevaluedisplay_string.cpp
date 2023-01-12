@@ -2,6 +2,7 @@
 
 // 3rdparty lib includes
 #include <espchrono.h>
+#include <fontrenderer.h>
 
 // local includes
 #include "tftinterface.h"
@@ -41,21 +42,23 @@ void espgui::ChangeValueDisplay<std::string>::redraw(TftInterface &tft)
 {
     Base::redraw(tft);
 
+    FontRenderer fontRenderer{tft};
+
     const auto now_ts = espchrono::millis_clock::now().time_since_epoch();
-    const auto char_width = tft.textWidth(m_value, 4) / ((!m_value.empty()) ? m_value.size() : 1);
+    const auto char_width = fontRenderer.textWidth(m_value, 4) / ((!m_value.empty()) ? m_value.size() : 1);
     const auto maxChars = (tft.width() - 40) / char_width;
     const auto substr_from = std::max(0U, m_value.size() < maxChars ? 0 : static_cast<int>(m_value.size()) - maxChars);
     const auto string = m_value.substr(substr_from);
 
     if (m_needsClear)
     {
-        tft.drawRect(m_valueLabel.x() + tft.textWidth(*m_needsClear, 4) + 3, m_valueLabel.y(), 2, tft.fontHeight(4), TFT_BLACK);
+        tft.drawRect(m_valueLabel.x() + fontRenderer.textWidth(*m_needsClear, 4) + 3, m_valueLabel.y(), 2, fontRenderer.fontHeight(4), TFT_BLACK);
         m_needsClear = std::nullopt;
     }
 
     m_valueLabel.redraw(tft, string, TFT_WHITE, TFT_BLACK, 4);
 
-    tft.drawRect(m_valueLabel.x() + tft.textWidth(string, 4) + 3, m_valueLabel.y(), 2, tft.fontHeight(4), (now_ts % 1000ms < 500ms) ? TFT_WHITE : TFT_BLACK);
+    tft.drawRect(m_valueLabel.x() + fontRenderer.textWidth(string, 4) + 3, m_valueLabel.y(), 2, fontRenderer.fontHeight(4), (now_ts % 1000ms < 500ms) ? TFT_WHITE : TFT_BLACK);
 
     m_keyboard.redraw(tft);
 

@@ -1,5 +1,8 @@
 #include "changevaluedisplay_ip_address_t.h"
 
+// 3rdparty lib includes
+#include <fontrenderer.h>
+
 // local includes
 #include "tftinterface.h"
 #include "tftcolors.h"
@@ -19,7 +22,9 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::initScreen(TftInterface &tft)
 {
     Base::initScreen(tft);
 
-    tft.drawString("Change IP Address", 0, 50, TFT_WHITE, TFT_BLACK, 4);
+    FontRenderer fontRenderer{tft};
+
+    fontRenderer.drawString("Change IP Address", 0, 50, TFT_WHITE, TFT_BLACK, 4);
 
     for(int i = 0; i <= 3; i++)
     {
@@ -30,9 +35,9 @@ void ChangeValueDisplay<wifi_stack::ip_address_t>::initScreen(TftInterface &tft)
     for (auto &label : m_labels)
         label.start(tft);
 
-    tft.drawString(".", spacing+boxWidth+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
-    tft.drawString(".", spacing*2+boxWidth*2+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
-    tft.drawString(".", spacing*3+boxWidth*3+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
+    fontRenderer.drawString(".", spacing+boxWidth+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
+    fontRenderer.drawString(".", spacing*2+boxWidth*2+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
+    fontRenderer.drawString(".", spacing*3+boxWidth*3+spacing/4, y, TFT_WHITE, TFT_BLACK, 4);
 
     drawRect(tft, m_currentIndex, 1, TFT_YELLOW);
     drawRect(tft, m_currentIndex, 2, TFT_YELLOW);

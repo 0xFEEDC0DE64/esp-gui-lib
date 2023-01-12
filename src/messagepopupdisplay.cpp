@@ -6,6 +6,7 @@
 // 3rdparty lib includes
 #include <screenmanager.h>
 #include <cppmacros.h>
+#include <fontrenderer.h>
 
 // local includes
 #include "tftinterface.h"
@@ -36,6 +37,8 @@ void MessagePopupDisplay::buttonPressed(Button button)
 
 void MessagePopupDisplay::initOverlay(TftInterface &tft)
 {
+    FontRenderer fontRenderer{tft};
+
     const auto leftMargin = 20;
     const auto rightMargin = leftMargin;
     const auto topMargin = tft.height() > 300 ? 50 : 20;
@@ -61,12 +64,12 @@ void MessagePopupDisplay::initOverlay(TftInterface &tft)
         if (c == '\n' || x > tft.width() - rightMargin - 10)
         {
             x = leftMargin + 5;
-            y += tft.fontHeight(4);
+            y += fontRenderer.fontHeight(4);
         }
 
         if (c != '\n')
         {
-            const auto addedWidth = tft.drawString(std::string_view{&c, 1}, x, y, TFT_WHITE, color565(30, 30, 30), 4);
+            const auto addedWidth = fontRenderer.drawString(std::string_view{&c, 1}, x, y, TFT_WHITE, color565(30, 30, 30), 4);
             x += addedWidth;
         }
 
@@ -83,7 +86,7 @@ void MessagePopupDisplay::initOverlay(TftInterface &tft)
                                    color565(100, 100, 100),
                                    color565(170, 170, 170));
 
-        tft.drawString("Retry", leftMargin + 18, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
+        fontRenderer.drawString("Retry", leftMargin + 18, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
     }
 
     tft.drawSunkenRect(leftMargin + 15 + ((width - 15 - 30 - 15) / 2) + 15, bottom - 40,
@@ -93,7 +96,7 @@ void MessagePopupDisplay::initOverlay(TftInterface &tft)
                                color565(100, 100, 100),
                                color565(170, 170, 170));
 
-    tft.drawString("Ok", leftMargin + 18 + ((width - 15 - 30 - 15) / 2) + 15 + 1, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
+    fontRenderer.drawString("Ok", leftMargin + 18 + ((width - 15 - 30 - 15) / 2) + 15 + 1, bottom - 37, TFT_BLACK, color565(170, 170, 170), 4);
 }
 
 } // namespace espgui

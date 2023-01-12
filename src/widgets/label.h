@@ -6,6 +6,7 @@
 // forward declares
 namespace espgui {
 class TftInterface;
+class FontRenderer;
 } // namespace espgui
 
 namespace espgui {
@@ -19,6 +20,7 @@ public:
 
     void start(TftInterface &tft);
     void redraw(TftInterface &tft, std::string_view str, uint16_t color, uint16_t bgcolor, uint8_t font, bool forceRedraw = false);
+    void redraw(TftInterface &tft, FontRenderer &fontRenderer, std::string_view str, uint16_t color, uint16_t bgcolor, uint8_t font, bool forceRedraw = false);
     void clear(TftInterface &tft, uint16_t bgcolor);
 
 private:

@@ -5,6 +5,7 @@
 
 // 3rdparty lib includes
 #include <strutils.h>
+#include <fontrenderer.h>
 
 // local includes
 #include "tftinterface.h"
@@ -24,22 +25,24 @@ std::string richTextEscape(std::string_view subject)
 
 int16_t renderRichText(TftInterface &tft, std::string_view str, int32_t poX, int32_t poY, uint16_t color, uint16_t bgcolor, uint8_t font)
 {
+    FontRenderer fontRenderer{tft};
+
     if (str.empty())
         return 0;
 
-    const int16_t fontHeight = tft.fontHeight(font);
+    const int16_t fontHeight = fontRenderer.fontHeight(font);
 
     const uint16_t oldColor = color;
     const uint8_t oldFont = font;
 
     int16_t width{};
 
-    const auto drawString = [&tft, &poX, &poY, &color, &bgcolor, &font, &width, &fontHeight, &oldFont](std::string_view str) {
-        const auto addedWith = tft.drawString(str, poX, poY, color, bgcolor, font);
+    const auto drawString = [&tft, &fontRenderer, &poX, &poY, &color, &bgcolor, &font, &width, &fontHeight, &oldFont](std::string_view str) {
+        const auto addedWith = fontRenderer.drawString(str, poX, poY, color, bgcolor, font);
 
         if (font != oldFont)
         {
-            if (const int16_t newFontHeight = tft.fontHeight(font); newFontHeight < fontHeight)
+            if (const int16_t newFontHeight = fontRenderer.fontHeight(font); newFontHeight < fontHeight)
             {
                 tft.fillRect(poX, poY + newFontHeight,
                              addedWith, fontHeight - newFontHeight,

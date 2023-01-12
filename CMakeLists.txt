@@ -47,8 +47,6 @@ set(headers
     src/textinterface.h
     src/textwithvaluehelper.h
     src/tftcolors.h
-    src/tftespiimpl.h
-    src/tftinterface.h
     src/titleinterface.h
     src/visibleinterface.h
     src/widgets/graph.h
@@ -98,6 +96,8 @@ set(dependencies
     espwifistack
     fmt
     TFT_eSPI
+    esptftlib
+    espfontlib
 )
 
 idf_component_register(

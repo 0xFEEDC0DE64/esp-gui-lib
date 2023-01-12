@@ -6,6 +6,7 @@
 // 3rdparty lib includes
 #include <cpputils.h>
 #include <stdlib_noniso.h>
+#include <fontrenderer.h>
 
 // local includes
 #include "tftinterface.h"
@@ -14,6 +15,8 @@
 namespace espgui {
 void VuMeter::start(TftInterface &tft)
 {
+    FontRenderer fontRenderer{tft};
+
     ltx = 0;
     osx = 120;
     osy = 120;
@@ -79,11 +82,11 @@ void VuMeter::start(TftInterface &tft)
             x0 = sx * (100 + tl + 10) + 120;
             y0 = sy * (100 + tl + 10) + 140;
             switch (i / 25) {
-                case -2: tft.drawCentreString("0", x0, y0 - 12, TFT_BLACK, TFT_BLACK, 2); break;
-                case -1: tft.drawCentreString("7.5", x0, y0 - 9, TFT_BLACK, TFT_BLACK, 2); break;
-                case 0: tft.drawCentreString("15", x0, y0 - 6, TFT_BLACK, TFT_BLACK, 2); break;
-                case 1: tft.drawCentreString("22.5", x0, y0 - 9, TFT_BLACK, TFT_BLACK, 2); break;
-                case 2: tft.drawCentreString("30", x0, y0 - 12, TFT_BLACK, TFT_BLACK, 2); break;
+                case -2: fontRenderer.drawCentreString("0", x0, y0 - 12, TFT_BLACK, TFT_BLACK, 2); break;
+                case -1: fontRenderer.drawCentreString("7.5", x0, y0 - 9, TFT_BLACK, TFT_BLACK, 2); break;
+                case 0: fontRenderer.drawCentreString("15", x0, y0 - 6, TFT_BLACK, TFT_BLACK, 2); break;
+                case 1: fontRenderer.drawCentreString("22.5", x0, y0 - 9, TFT_BLACK, TFT_BLACK, 2); break;
+                case 2: fontRenderer.drawCentreString("30", x0, y0 - 12, TFT_BLACK, TFT_BLACK, 2); break;
             }
         }
 
@@ -96,15 +99,17 @@ void VuMeter::start(TftInterface &tft)
         if (i < 50) tft.drawLine(x0, y0, x1, y1, TFT_BLACK);
     }
 
-    tft.drawString("KM/h", 5 + 230 - 40, 119 - 20, TFT_BLACK, TFT_BLACK, 2); // Units at bottom right
-    tft.drawCentreString("KM/h", 120, 70, TFT_BLACK, TFT_BLACK, 4); // Comment out to avoid font 4
+    fontRenderer.drawString("KM/h", 5 + 230 - 40, 119 - 20, TFT_BLACK, TFT_BLACK, 2); // Units at bottom right
+    fontRenderer.drawCentreString("KM/h", 120, 70, TFT_BLACK, TFT_BLACK, 4); // Comment out to avoid font 4
     tft.drawRect(5, 3, 230, 119, TFT_BLACK); // Draw bezel line
 }
 
 void VuMeter::redraw(TftInterface &tft, float value)
 {
+    FontRenderer fontRenderer{tft};
+
     char buf[8]; dtostrf(value, 4, 0, buf);
-    tft.drawRightString(buf, 50, 119 - 25, TFT_BLACK, TFT_WHITE, 4);
+    fontRenderer.drawRightString(buf, 50, 119 - 25, TFT_BLACK, TFT_WHITE, 4);
 
     if (value < -3) value = -3; // Limit value to emulate needle end stops
     if (value > 33) value = 33;
@@ -123,7 +128,7 @@ void VuMeter::redraw(TftInterface &tft, float value)
     tft.drawLine(120 + 20 * ltx + 1, 140 - 20, osx + 1, osy, TFT_WHITE);
 
     // Re-plot text under needle
-    tft.drawCentreString("KM/h", 120, 70, TFT_BLACK, TFT_BLACK, 4); // // Comment out to avoid font 4
+    fontRenderer.drawCentreString("KM/h", 120, 70, TFT_BLACK, TFT_BLACK, 4); // // Comment out to avoid font 4
 
     // Store new needle end coords for next erase
     ltx = tx;

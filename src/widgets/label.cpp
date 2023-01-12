@@ -1,5 +1,8 @@
 #include "label.h"
 
+// 3rdparty lib includes
+#include <fontrenderer.h>
+
 // local includes
 #include "tftinterface.h"
 #include "richtextrenderer.h"
@@ -23,6 +26,12 @@ void Label::start(TftInterface &tft)
 
 void Label::redraw(TftInterface &tft, std::string_view str, uint16_t color, uint16_t bgcolor, uint8_t font, bool forceRedraw)
 {
+    espgui::FontRenderer fontRenderer{tft};
+    redraw(tft, fontRenderer, str, color, bgcolor, font, forceRedraw);
+}
+
+void Label::redraw(TftInterface &tft, FontRenderer &fontRenderer, std::string_view str, uint16_t color, uint16_t bgcolor, uint8_t font, bool forceRedraw)
+{
     if (m_lastStr == str &&
         m_lastColor == color &&
         m_lastFont == font &&
@@ -30,7 +39,7 @@ void Label::redraw(TftInterface &tft, std::string_view str, uint16_t color, uint
         return;
 
     const auto renderedWidth = renderRichText(tft, str, m_x, m_y, color, bgcolor, font);
-    const auto renderedHeight = tft.fontHeight(font);
+    const auto renderedHeight = fontRenderer.fontHeight(font);
 
     if (renderedWidth < m_lastWidth)
         tft.fillRect(m_x + renderedWidth, m_y,
