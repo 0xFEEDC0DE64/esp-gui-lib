@@ -38,7 +38,7 @@ void Label::redraw(TftInterface &tft, FontRenderer &fontRenderer, std::string_vi
         !forceRedraw)
         return;
 
-    const auto renderedWidth = renderRichText(tft, str, m_x, m_y, color, bgcolor, font);
+    const auto renderedWidth = renderRichText(tft, fontRenderer, str, m_x, m_y, color, bgcolor, font);
     const auto renderedHeight = fontRenderer.fontHeight(font);
 
     if (renderedWidth < m_lastWidth)

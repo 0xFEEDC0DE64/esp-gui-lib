@@ -26,7 +26,11 @@ std::string richTextEscape(std::string_view subject)
 int16_t renderRichText(TftInterface &tft, std::string_view str, int32_t poX, int32_t poY, uint16_t color, uint16_t bgcolor, uint8_t font)
 {
     FontRenderer fontRenderer{tft};
+    return renderRichText(tft, fontRenderer, str, poX, poY, color, bgcolor, font);
+}
 
+int16_t renderRichText(TftInterface &tft, FontRenderer &fontRenderer, std::string_view str, int32_t poX, int32_t poY, uint16_t color, uint16_t bgcolor, uint8_t font)
+{
     if (str.empty())
         return 0;
 
