@@ -162,8 +162,7 @@ void MenuDisplay::redraw(TftInterface &tft)
 
                 if (auto icon = item.selectedIcon())
                 {
-                    tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT,
-                                  icon->buffer);
+                    tft.pushImage(tft.width() - 6 - icon->WIDTH, labelsIter->y() + 1, *icon);
                 }
             }
         }
@@ -180,7 +179,7 @@ void MenuDisplay::redraw(TftInterface &tft)
         {
             auto icon = item.icon();
             if (icon)
-                tft.pushImage(6, labelsIter->y() + 1, icon->WIDTH, icon->HEIGHT, icon->buffer);
+                tft.pushImage(6, labelsIter->y() + 1, *icon);
             else if (*iconsIter)
                 tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
             *iconsIter = icon;

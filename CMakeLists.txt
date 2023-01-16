@@ -28,7 +28,6 @@ set(headers
     src/errorhandlerinterface.h
     src/fontinterface.h
     src/graphdisplay.h
-    src/icon.h
     src/iconinterface.h
     src/keyboardhelper.h
     src/icons/back.h
