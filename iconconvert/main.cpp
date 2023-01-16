@@ -13,7 +13,7 @@ constexpr uint16_t color565(uint8_t red, uint8_t green, uint8_t blue) noexcept
 }
 uint16_t color565(const QColor &color) noexcept
 {
-    return color565(color.red(), color.green(), color.blue());
+    return color565(color.red() * color.alphaF(), color.green() * color.alphaF(), color.blue() * color.alphaF());
 }
 } // namespace
 
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
                 else
                     bytes += ", ";
 
-                bytes += QStringLiteral("0x%0").arg(color565(image.pixel(x, y)), 4, 16, QLatin1Char('0'));
+                bytes += QStringLiteral("0x%0").arg(color565(image.pixelColor(x, y)), 4, 16, QLatin1Char('0'));
 
                 if (++i == 16)
                 {
