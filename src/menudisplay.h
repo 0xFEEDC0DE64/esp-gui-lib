@@ -42,7 +42,6 @@ public:
 
     int selectedIndex() const { return m_selectedIndex; }
 
-
     std::size_t menuItemCount() const { return m_menuItems.size(); }
 
     MenuItem& getMenuItem(std::size_t index)
@@ -94,6 +93,11 @@ public:
         std::unique_ptr<MenuItem> ptr = std::move(m_menuItems.back());
         m_menuItems.pop_back();
         return ptr;
+    }
+
+    void rotate(int offset)
+    {
+        m_rotateOffset += offset;
     }
 
 protected:
