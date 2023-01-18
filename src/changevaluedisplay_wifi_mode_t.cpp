@@ -7,6 +7,7 @@
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
 #include "icons/back.h"
+#include "icons/back_grey.h"
 
 namespace espgui {
 namespace {
@@ -25,7 +26,7 @@ ChangeValueDisplay<wifi_mode_t>::ChangeValueDisplay()
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_mode_t>, StaticText<TEXT_STA>>>(WIFI_MODE_STA, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_mode_t>, StaticText<TEXT_AP>>>(WIFI_MODE_AP, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_mode_t>, StaticText<TEXT_APSTA>>>(WIFI_MODE_APSTA, *this, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&espgui::icons::back>>>(*this);
+    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back, &icons::back_grey>>>(*this);
 }
 
 void ChangeValueDisplay<wifi_mode_t>::start()

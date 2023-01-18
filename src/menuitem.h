@@ -13,12 +13,40 @@ namespace espgui {
 
 using MenuItemIcon = Icon<24, 24>;
 
-using MenuItemIconInterface = IconInterface<24, 24>;
+template<uint16_t width, uint16_t height>
+class SelectableIconInterface
+{
+public:
+    virtual const Icon<width, height> *icon(bool selected) const { return nullptr; }
+};
+
+template<uint16_t width, uint16_t height, const Icon<width, height> *T, const Icon<width, height> *Tselected>
+class StaticSelectableIcon : public virtual SelectableIconInterface<width, height>
+{
+public:
+    virtual const Icon<width, height> *icon(bool selected) const override { return selected ? Tselected : T; }
+};
+
+template<uint16_t width, uint16_t height>
+class SelectedIconInterface
+{
+public:
+    virtual const Icon<width, height> *selectedIcon() const { return nullptr; }
+};
+
+template<uint16_t width, uint16_t height, const Icon<width, height> *T>
+class StaticSelectedIcon : public virtual SelectedIconInterface<width, height>
+{
+public:
+    virtual const Icon<width, height> *selectedIcon() const override { return T; }
+};
+
+using MenuItemIconInterface = SelectableIconInterface<24, 24>;
 
 using MenuItemSelectedIconInterface = SelectedIconInterface<24, 24>;
 
-template<const MenuItemIcon *T>
-using StaticMenuItemIcon = StaticIcon<24, 24, T>;
+template<const MenuItemIcon *T, const MenuItemIcon *Tselected>
+using StaticMenuItemIcon = StaticSelectableIcon<24, 24, T, Tselected>;
 
 template<const MenuItemIcon *T>
 using StaticMenuItemSelectedIcon = StaticSelectedIcon<24, 24, T>;

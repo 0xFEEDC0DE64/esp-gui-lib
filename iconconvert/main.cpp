@@ -7,19 +7,25 @@
 #include <QDebug>
 
 namespace {
+QColor backgroundColor;
+
 constexpr uint16_t color565(uint8_t red, uint8_t green, uint8_t blue) noexcept
 {
     return __builtin_bswap16(((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3));
 }
 uint16_t color565(const QColor &color) noexcept
 {
-    return color565(color.red() * color.alphaF(), color.green() * color.alphaF(), color.blue() * color.alphaF());
+    return color565(
+        color.red() * color.alphaF() + ((1-color.alphaF())*backgroundColor.red()),
+        color.green() * color.alphaF() + ((1-color.alphaF())*backgroundColor.green()),
+        color.blue() * color.alphaF() + ((1-color.alphaF())*backgroundColor.blue())
+    );
 }
 } // namespace
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
+    QCoreApplication app{argc, argv};
     QCoreApplication::setApplicationName("iconconvert");
     QCoreApplication::setApplicationVersion("1.0");
 
@@ -27,12 +33,31 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription("Converts icons to .h/.cpp sources");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("icon", QCoreApplication::translate("main", "Icon file."));
-    parser.addPositionalArgument("destination", QCoreApplication::translate("main", "Destination directory."));
+    parser.addPositionalArgument("icon-file", QCoreApplication::translate("main", "Icon file."));
+    parser.addPositionalArgument("destination-dir", QCoreApplication::translate("main", "Destination directory."));
     parser.addPositionalArgument("header-templ", QCoreApplication::translate("main", "Header template"));
     parser.addPositionalArgument("footer-templ", QCoreApplication::translate("main", "Footer template"));
+    QCommandLineOption backgroundColorOption{
+        {"b", "background-color"},
+        QCoreApplication::translate("main", "Background color for transparent icons"),
+        "name", "#000000"
+    };
+    parser.addOption(backgroundColorOption);
+    QCommandLineOption nameOverrideOption{
+        {"n", "name-override"},
+        QCoreApplication::translate("main", "Override name for generated .h .cpp files"),
+        "name"
+    };
+    parser.addOption(nameOverrideOption);
 
     parser.process(app);
+
+    backgroundColor = QColor{parser.value(backgroundColorOption)};
+    if (!backgroundColor.isValid())
+    {
+        qWarning() << "invalid background color, falling back to #000000";
+        backgroundColor = QColor{0, 0, 0};
+    }
 
     const QStringList args = parser.positionalArguments();
     if (args.size() < 1)
@@ -111,6 +136,9 @@ int main(int argc, char *argv[])
         }
     }
 
+    const auto &nameOverrideValue = parser.value(nameOverrideOption);
+    const auto &basename = nameOverrideValue.isEmpty() ? fileInfo.baseName() : nameOverrideValue;
+
     {
         QString templ;
 
@@ -126,7 +154,7 @@ int main(int argc, char *argv[])
         }
 
         {
-            QFile file{dir.absoluteFilePath(QStringLiteral("%0.h").arg(fileInfo.baseName()))};
+            QFile file{dir.absoluteFilePath(QStringLiteral("%0.h").arg(basename))};
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
             {
                 qCritical("could not open .h file for writing %s", qPrintable(file.errorString()));
@@ -134,7 +162,7 @@ int main(int argc, char *argv[])
             }
 
             const auto content = templ
-                                     .replace("${name}", fileInfo.baseName())
+                                     .replace("${name}", basename)
                                      .replace("${width}", QString::number(image.width()))
                                      .replace("${height}", QString::number(image.height()))
                                      .toUtf8();
@@ -162,7 +190,7 @@ int main(int argc, char *argv[])
         }
 
         {
-            QFile file{dir.absoluteFilePath(QStringLiteral("%0.cpp").arg(fileInfo.baseName()))};
+            QFile file{dir.absoluteFilePath(QStringLiteral("%0.cpp").arg(basename))};
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
             {
                 qCritical("could not open .cpp file for writing %s", qPrintable(file.errorString()));
@@ -170,7 +198,7 @@ int main(int argc, char *argv[])
             }
 
             const auto content = templ
-                                     .replace("${name}", fileInfo.baseName())
+                                     .replace("${name}", basename)
                                      .replace("${width}", QString::number(image.width()))
                                      .replace("${height}", QString::number(image.height()))
                                      .replace("${bytes}", bytes)
@@ -184,7 +212,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    qDebug() << fileInfo.baseName() << image.width() << image.height();
+    qDebug() << basename << image.width() << image.height();
 
     return 0;
 }

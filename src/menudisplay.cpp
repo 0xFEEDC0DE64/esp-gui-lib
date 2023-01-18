@@ -175,9 +175,8 @@ void MenuDisplay::redraw(TftInterface &tft)
 
         labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
 
-        if (item.icon() != *iconsIter)
+        if (const auto icon = item.icon(selected); icon != *iconsIter)
         {
-            auto icon = item.icon();
             if (icon)
                 tft.pushImage(6, labelsIter->y() + 1, *icon);
             else if (*iconsIter)

@@ -33,6 +33,9 @@ set(headers
     src/icons/back.h
     src/icons/checked.h
     src/icons/unchecked.h
+    src/icons/back_grey.h
+    src/icons/checked_grey.h
+    src/icons/unchecked_grey.h
     src/marginmenuitem.h
     src/menudisplay.h
     src/menuitem.h
@@ -78,6 +81,9 @@ set(sources
     src/icons/back.cpp
     src/icons/checked.cpp
     src/icons/unchecked.cpp
+    src/icons/back_grey.cpp
+    src/icons/checked_grey.cpp
+    src/icons/unchecked_grey.cpp
     src/widgets/label.cpp
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp

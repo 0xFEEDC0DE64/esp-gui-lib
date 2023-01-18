@@ -7,6 +7,7 @@
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
 #include "icons/back.h"
+#include "icons/back_grey.h"
 
 namespace espgui {
 namespace {
@@ -21,7 +22,7 @@ ChangeValueDisplay<sntp_sync_mode_t>::ChangeValueDisplay()
 {
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<sntp_sync_mode_t>, StaticText<TEXT_IMMED>>>(SNTP_SYNC_MODE_IMMED, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<sntp_sync_mode_t>, StaticText<TEXT_SMOOTH>>>(SNTP_SYNC_MODE_SMOOTH, *this, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back>>>(*this);
+    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back, &icons::back_grey>>>(*this);
 }
 
 void ChangeValueDisplay<sntp_sync_mode_t>::start()

@@ -7,6 +7,7 @@
 #include "actions/setvalueaction.h"
 #include "actions/backproxyaction.h"
 #include "icons/back.h"
+#include "icons/back_grey.h"
 
 namespace espgui {
 namespace {
@@ -35,7 +36,7 @@ ChangeValueDisplay<wifi_auth_mode_t>::ChangeValueDisplay()
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA3_PSK>>>(WIFI_AUTH_WPA3_PSK, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WPA2_WPA3_PSK>>>(WIFI_AUTH_WPA2_WPA3_PSK, *this, *this, *this);
     constructMenuItem<makeComponentArgs<MenuItem, SetValueAction<wifi_auth_mode_t>, StaticText<TEXT_WAPI_PSK>>>(WIFI_AUTH_WAPI_PSK, *this, *this, *this);
-    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&espgui::icons::back>>>(*this);
+    constructMenuItem<makeComponentArgs<MenuItem, BackProxyAction, StaticText<TEXT_BACK>, StaticMenuItemIcon<&icons::back, &icons::back_grey>>>(*this);
 }
 
 void ChangeValueDisplay<wifi_auth_mode_t>::start()
