@@ -45,7 +45,7 @@ template<typename Tvalue>
 class ChangeValueDisplaySettingsInterface
 {
 public:
-    virtual Tvalue step() const { return 1; };
+    virtual Tvalue step() const { return Tvalue{1}; }
 };
 
 template<typename Tvalue, typename Tratio>

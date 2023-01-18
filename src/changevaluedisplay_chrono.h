@@ -26,7 +26,8 @@ class ChangeValueDisplayChrono :
     public virtual AccessorInterface<T>,
     public virtual ConfirmInterface,
     public virtual BackInterface,
-    public virtual ErrorHandlerInterface
+    public virtual ErrorHandlerInterface,
+    public virtual ChangeValueDisplaySettingsInterface<T>
 {
     using Base = DisplayWithTitle;
 
@@ -41,9 +42,20 @@ public:
 
 private:
     T m_value;
+
+    int m_rotateOffset;
     bool m_pressed{};
 
     Label m_valueLabel{36, 71}; // 188, 53
+
+    struct ButtonHeldInfo
+    {
+        espchrono::millis_clock::time_point nextTimestamp;
+        int counter{};
+    };
+
+    std::optional<ButtonHeldInfo> m_upHeld;
+    std::optional<ButtonHeldInfo> m_downHeld;
 };
 
 template<typename T>
@@ -86,6 +98,29 @@ void ChangeValueDisplayChrono<T>::update()
 {
     Base::update();
 
+    const auto now = espchrono::millis_clock::now();
+    if (m_upHeld && now >= m_upHeld->nextTimestamp)
+    {
+        using namespace std::chrono_literals;
+        m_upHeld->nextTimestamp += m_upHeld->counter > 10 ? 50ms : (m_upHeld->counter > 3 ? 100ms : 200ms);
+        m_upHeld->counter++;
+        m_rotateOffset--;
+    }
+    if (m_downHeld && now >= m_downHeld->nextTimestamp)
+    {
+        using namespace std::chrono_literals;
+        m_downHeld->nextTimestamp += m_downHeld->counter > 10 ? 50ms : (m_downHeld->counter > 3 ? 100ms : 200ms);
+        m_downHeld->counter++;
+        m_rotateOffset++;
+    }
+
+    {
+        const auto rotateOffset = m_rotateOffset;
+        m_rotateOffset = 0;
+
+        m_value -= rotateOffset * this->step();
+    }
+
     if (m_pressed)
     {
         m_pressed = false;
@@ -113,8 +148,15 @@ void ChangeValueDisplayChrono<T>::buttonPressed(Button button)
     {
     case Button::Left: this->back(); break;
     case Button::Right: m_pressed = true; break;
-    case Button::Up: m_value += T{1}; break;
-    case Button::Down: m_value -= T{1}; break;
+        using namespace std::chrono_literals;
+    case Button::Up:
+        m_rotateOffset--;
+        m_upHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
+        break;
+    case Button::Down:
+        m_rotateOffset++;
+        m_downHeld = ButtonHeldInfo { .nextTimestamp = espchrono::millis_clock::now() + 300ms };
+        break;
     default:;
     }
 }
@@ -124,7 +166,16 @@ void ChangeValueDisplayChrono<T>::buttonReleased(Button button)
 {
     //Base::buttonPressed(button);
 
-    // TODO stop auto scroll
+    switch (button)
+    {
+    case Button::Up:
+        m_upHeld = std::nullopt;
+        break;
+    case Button::Down:
+        m_downHeld = std::nullopt;
+        break;
+    default:;
+    }
 }
 
 } // namespace detail
