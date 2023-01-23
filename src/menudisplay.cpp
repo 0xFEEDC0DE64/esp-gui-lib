@@ -88,7 +88,7 @@ void MenuDisplay::update()
             item.update();
         });
 
-        if (m_selectedIndex >= 0 && getMenuItem(m_selectedIndex).skipScroll())
+        if (m_selectedIndex >= 0 && m_selectedIndex < m_menuItems.size() && getMenuItem(m_selectedIndex).skipScroll())
         {
             if (offset > 0)
             {
@@ -104,7 +104,7 @@ void MenuDisplay::update()
     if (m_pressed)
     {
         m_pressed = false;
-        if (m_selectedIndex >= 0)
+        if (m_selectedIndex >= 0 && m_selectedIndex < m_menuItems.size())
             getMenuItem(m_selectedIndex).triggered();
     }
 }
