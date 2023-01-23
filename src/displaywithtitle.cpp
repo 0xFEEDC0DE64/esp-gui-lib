@@ -12,16 +12,16 @@ void DisplayWithTitle::initScreen(TftInterface &tft)
 
     m_titleLabel.start(tft);
 
-    tft.fillRect(0, 0, tft.width(), 35, TFT_GREY);
+//    tft.fillRect(0, 0, tft.width(), 35, TFT_GREY);
 
-//    tft.fillRect(0, 34, tft.width(), 3, TFT_WHITE);
+    tft.fillRect(0, 34, tft.width(), 2, TFT_GREY);
 }
 
 void DisplayWithTitle::redraw(TftInterface &tft)
 {
     Base::redraw(tft);
 
-    m_titleLabel.redraw(tft, title(), TFT_WHITE, TFT_GREY, 4);
+    m_titleLabel.redraw(tft, title(), TFT_GREY, TFT_BLACK, 4);
 }
 
 } // namespace espgui
