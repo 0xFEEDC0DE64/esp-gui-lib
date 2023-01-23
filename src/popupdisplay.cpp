@@ -19,17 +19,11 @@ void PopupDisplay::initScreen(TftInterface &tft)
     initOverlay(tft);
 }
 
-void PopupDisplay::redraw(TftInterface &tft)
-{
-    if (m_wantsClose)
-        closeOverlay(tft);
-    else
-        Base::redraw(tft);
-}
-
 void PopupDisplay::closeOverlay()
 {
-    m_wantsClose = true;
+    espgui::changeScreenCallback = [this](espgui::TftInterface &tft){
+        closeOverlay(tft);
+    };
 }
 
 void PopupDisplay::closeOverlay(TftInterface &tft)
