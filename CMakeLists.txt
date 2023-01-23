@@ -51,6 +51,7 @@ set(headers
     src/tftcolors.h
     src/titleinterface.h
     src/visibleinterface.h
+    src/widgets/centeredlabel.h
     src/widgets/graph.h
     src/widgets/label.h
     src/widgets/progressbar.h
@@ -84,6 +85,7 @@ set(sources
     src/icons/back_grey.cpp
     src/icons/checked_grey.cpp
     src/icons/unchecked_grey.cpp
+    src/widgets/centeredlabel.cpp
     src/widgets/label.cpp
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp
