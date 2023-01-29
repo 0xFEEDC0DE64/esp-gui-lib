@@ -4,7 +4,7 @@
 #include "display.h"
 #include "tftinterface.h"
 #include "tftcolors.h"
-#include "textinterface.h"
+#include "titleinterface.h"
 #include "widgets/label.h"
 #include "widgets/graph.h"
 #include "confirminterface.h"
@@ -49,7 +49,7 @@ public:
 template<std::size_t COUNT0, std::size_t COUNT1>
 class SplitGraphDisplay :
     public Display,
-    public virtual TextInterface,
+    public virtual TitleInterface,
     public virtual TopGraphAccessorInterface<COUNT0>,
     public virtual BottomGraphAccessorInterface<COUNT1>,
     public virtual ConfirmInterface,
@@ -85,7 +85,7 @@ void SplitGraphDisplay<COUNT0, COUNT1>::initScreen(TftInterface &tft)
 template<std::size_t COUNT0, std::size_t COUNT1>
 void SplitGraphDisplay<COUNT0, COUNT1>::redraw(TftInterface &tft)
 {
-    m_titleLabel.redraw(tft, text(), TFT_YELLOW, TFT_BLACK, 4);
+    m_titleLabel.redraw(tft, title(), TFT_YELLOW, TFT_BLACK, 4);
 
     m_graph0.redraw(tft, static_cast<const TopGraphAccessorInterface<COUNT0>&>(*this).getTopBuffers());
     m_graph1.redraw(tft, static_cast<const BottomGraphAccessorInterface<COUNT1>&>(*this).getBottomBuffers());
