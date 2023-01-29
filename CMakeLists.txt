@@ -57,6 +57,8 @@ set(headers
     src/widgets/progressbar.h
     src/widgets/reverseprogressbar.h
     src/widgets/slider.h
+    src/widgets/variablerangeprogressbar.h
+    src/widgets/variablerangereverseprogressbar.h
     src/widgets/verticalmeter.h
     src/widgets/vumeter.h
 )
@@ -90,6 +92,8 @@ set(sources
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp
     src/widgets/slider.cpp
+    src/widgets/variablerangeprogressbar.cpp
+    src/widgets/variablerangereverseprogressbar.cpp
     src/widgets/verticalmeter.cpp
     src/widgets/vumeter.cpp
 )
