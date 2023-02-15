@@ -53,6 +53,7 @@ set(headers
     src/visibleinterface.h
     src/widgets/centeredlabel.h
     src/widgets/graph.h
+    src/widgets/iconwidget.h
     src/widgets/label.h
     src/widgets/progressbar.h
     src/widgets/reverseprogressbar.h
@@ -88,6 +89,7 @@ set(sources
     src/icons/checked_grey.cpp
     src/icons/unchecked_grey.cpp
     src/widgets/centeredlabel.cpp
+    src/widgets/iconwidget.cpp
     src/widgets/label.cpp
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp
