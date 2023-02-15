@@ -42,4 +42,5 @@ private:
 
     const uint16_t *m_lastIcon;
 };
-}
+
+} // namespace espgui
