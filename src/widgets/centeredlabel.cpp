@@ -5,7 +5,6 @@
 
 // local includes
 #include "tftinterface.h"
-#include "richtextrenderer.h"
 
 namespace espgui {
 CenteredLabel::CenteredLabel(int x, int y) :
@@ -76,7 +75,7 @@ void CenteredLabel::redraw(TftInterface &tft, FontRenderer &fontRenderer, std::s
 void CenteredLabel::clear(TftInterface &tft, uint16_t bgcolor)
 {
     if (m_lastWidth || m_lastHeight)
-        tft.fillRect(m_x, m_y, m_lastWidth, m_lastHeight, bgcolor);
+        tft.fillRect(m_x - (m_lastWidth / 2), m_y, m_lastWidth, m_lastHeight, bgcolor);
 
     start(tft);
 }
