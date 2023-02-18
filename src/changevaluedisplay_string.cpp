@@ -45,9 +45,9 @@ void espgui::ChangeValueDisplay<std::string>::redraw(TftInterface &tft)
     FontRenderer fontRenderer{tft};
 
     const auto now_ts = espchrono::millis_clock::now().time_since_epoch();
-    const auto char_width = fontRenderer.textWidth(m_value, 4) / ((!m_value.empty()) ? m_value.size() : 1);
-    const auto maxChars = (tft.width() - 40) / char_width;
-    const auto substr_from = std::max(0U, m_value.size() < maxChars ? 0 : static_cast<int>(m_value.size()) - maxChars);
+    const uint16_t char_width = fontRenderer.textWidth(m_value, 4) / ((!m_value.empty()) ? m_value.size() : 1);
+    const int16_t maxChars = char_width > 0 ? ((tft.width() - 40) / char_width) : 0;
+    const auto substr_from = std::max(0, m_value.size() < maxChars ? 0 : static_cast<int>(m_value.size()) - maxChars);
     const auto string = m_value.substr(substr_from);
 
     if (m_needsClear)
