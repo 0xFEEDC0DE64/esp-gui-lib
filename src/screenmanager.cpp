@@ -1,8 +1,16 @@
 #include "screenmanager.h"
 
+// system includes
 #include <cassert>
 
+// esp-idf includes
+#include <esp_log.h>
+
 namespace espgui {
+
+namespace {
+constexpr const char * const TAG = "SCREENMANAGER";
+} // namespace
 
 std::unique_ptr<Display> currentDisplay;
 std::stack<std::unique_ptr<Display>> displayStack;
@@ -33,7 +41,10 @@ void popScreenImpl(TftInterface &tft)
     deconstructScreen();
 
     if (displayStack.empty())
+    {
+        ESP_LOGW(TAG, "displayStack is empty");
         return;
+    }
 
     currentDisplay = std::move(displayStack.top());
     displayStack.pop();
