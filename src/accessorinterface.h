@@ -2,15 +2,13 @@
 
 // system includes
 #include <string>
-
-// 3rdparty lib includes
-#include <tl/expected.hpp>
+#include <expected>
 
 namespace espgui {
 template<typename T>
 struct AccessorInterface
 {
-    using setter_result_t = tl::expected<void, std::string>;
+    using setter_result_t = std::expected<void, std::string>;
 
     virtual T getValue() const = 0;
     virtual setter_result_t setValue(T value) = 0;
@@ -24,6 +22,6 @@ struct RefAccessor : public virtual AccessorInterface<T>
     virtual T& getRef() const = 0;
 
     T getValue() const override { return getRef(); };
-    tl::expected<void, std::string> setValue(T value) override { getRef() = value; return {}; };
+    std::expected<void, std::string> setValue(T value) override { getRef() = value; return {}; };
 };
 } // namespace espgui
