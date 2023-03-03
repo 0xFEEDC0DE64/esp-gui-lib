@@ -16,7 +16,7 @@
 // local includes
 #include "displaywithtitle.h"
 #include "textinterface.h"
-#include "widgets/label.h"
+#include "widgets/scrolllabel.h"
 #include "menuitem.h"
 #include "backinterface.h"
 
@@ -110,37 +110,39 @@ private:
     static constexpr auto topMargin = 39;
     static constexpr auto lineHeight = 27;
     static constexpr auto verticalSpacing = 2;
+    static constexpr auto SCROLLMARGIN = 90;
 
-    std::array<Label, rowCount> m_labels {{
+    using LabelClass = ScrollLabel;
+    std::array<LabelClass, rowCount> m_labels {{
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 1
-        Label{horizontalSpacing + iconWidth, topMargin+(0*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(0*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 2
-        Label{horizontalSpacing + iconWidth, topMargin+(1*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(1*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 3
-        Label{horizontalSpacing + iconWidth, topMargin+(2*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(2*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 4
-        Label{horizontalSpacing + iconWidth, topMargin+(3*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(3*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 5
-        Label{horizontalSpacing + iconWidth, topMargin+(4*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(4*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 6
-        Label{horizontalSpacing + iconWidth, topMargin+(5*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(5*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 7
-        Label{horizontalSpacing + iconWidth, topMargin+(6*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(6*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 8
-        Label{horizontalSpacing + iconWidth, topMargin+(7*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(7*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 9
-        Label{horizontalSpacing + iconWidth, topMargin+(8*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(8*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
 #if CONFIG_ESPGUI_MENUDISPLAY_ROWS >= 10
-        Label{horizontalSpacing + iconWidth, topMargin+(9*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
+        LabelClass{horizontalSpacing + iconWidth, topMargin+(9*(lineHeight+verticalSpacing))}, // 240-(horizontalSpacing*2)-iconWidth, lineHeight
 #endif
     }};
 

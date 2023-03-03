@@ -26,7 +26,7 @@ void MenuDisplay::initScreen(TftInterface &tft)
     Base::initScreen(tft);
 
     for (auto &label : m_labels)
-        label.start(tft);
+        label.start(tft, tft.width() - SCROLLMARGIN);
 
     runForEveryMenuItem([](MenuItem &item){
         item.start();

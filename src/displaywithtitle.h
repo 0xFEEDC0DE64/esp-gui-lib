@@ -1,9 +1,12 @@
 #pragma once
 
+// 3rdparty lib includes
+#include <delayedconstruction.h>
+
 // local includes
 #include "display.h"
 #include "titleinterface.h"
-#include "widgets/label.h"
+#include "widgets/scrolllabel.h"
 
 namespace espgui {
 
@@ -21,7 +24,9 @@ public:
     void redraw(TftInterface &tft) override;
 
 private:
-    Label m_titleLabel{5, 5}; // 230, 25
+    static constexpr const auto SCROLLMARGIN = 40;
+
+    cpputils::DelayedConstruction<ScrollLabel> m_titleLabel;
 };
 
 } // namespace espgui
