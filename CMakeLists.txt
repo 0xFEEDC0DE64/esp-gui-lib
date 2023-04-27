@@ -81,6 +81,7 @@ set(sources
     src/screenmanager.cpp
     src/splitgraphdisplay.cpp
     src/popupdisplay.cpp
+    src/richtexthelper.cpp
     src/richtextrenderer.cpp
     src/icons/back.cpp
     src/icons/checked.cpp

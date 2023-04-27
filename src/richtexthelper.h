@@ -1,5 +1,9 @@
 #pragma once
 
+// system includes
+#include <string>
+#include <string_view>
+
 namespace espgui {
 namespace colors {
 constexpr char RED[] = "&1";    // #ff0000 (TFT_RED)
@@ -17,4 +21,8 @@ constexpr char SMALL[] = "&s";  // tft.setTextFont(2)
 constexpr char MEDIUM[] = "&m"; // tft.setTextFont(4)
 constexpr char RESTORE[] = "&f";  // restore original font
 } // namespace fonts
+
+void richTextEscape(std::string &subject);
+std::string richTextEscape(std::string_view subject);
+
 } // namespace espgui
