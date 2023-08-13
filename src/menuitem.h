@@ -77,8 +77,26 @@ using MenuItemIconInterface = SelectableIconInterface<24, 24>;
 
 using MenuItemSelectedIconInterface = SelectedIconInterface<24, 24>;
 
+template<const MenuItemIcon * ...T>
+class StaticMenuItemIcon;
+
 template<const MenuItemIcon *T, const MenuItemIcon *Tselected>
-using StaticMenuItemIcon = StaticSelectableIcon<24, 24, T, Tselected>;
+class StaticMenuItemIcon<T, Tselected> : public StaticSelectableIcon<24, 24, T, Tselected>
+{
+    using Base = StaticSelectableIcon<24, 24, T, Tselected>;
+
+public:
+    using Base::Base;
+};
+
+template<const MenuItemIcon *T>
+class StaticMenuItemIcon<T> : public StaticSelectableIcon<24, 24, T, T>
+{
+    using Base = StaticSelectableIcon<24, 24, T, T>;
+
+public:
+    using Base::Base;
+};
 
 template<const MenuItemIcon *T>
 using StaticMenuItemSelectedIcon = StaticSelectedIcon<24, 24, T>;
