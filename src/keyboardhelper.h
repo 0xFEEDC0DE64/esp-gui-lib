@@ -4,7 +4,6 @@
 #include <esp_log.h>
 
 // 3rdparty lib includes
-#include <fmt/core.h>
 #include <strutils.h>
 #include <fontrenderer.h>
 

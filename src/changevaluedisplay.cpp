@@ -1,7 +1,9 @@
 #include "changevaluedisplay.h"
 
+// system includes
+#include <format>
+
 // 3rdparty lib includes
-#include <fmt/core.h>
 #include <fontrenderer.h>
 
 // local includes
@@ -38,6 +40,6 @@ void ChangeValueDisplay<float>::redraw(TftInterface &tft)
 {
     Base::redraw(tft);
 
-    m_valueLabel.redraw(tft, fmt::format("{:.02f}", m_value), TFT_WHITE, TFT_BLACK, 7);
+    m_valueLabel.redraw(tft, std::format("{:.02f}", m_value), TFT_WHITE, TFT_BLACK, 7);
 }
 } // namespace espgui

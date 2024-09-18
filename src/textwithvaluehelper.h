@@ -1,7 +1,9 @@
 #pragma once
 
+// system includes
+#include <format>
+
 // 3rdparty lib includes
-#include <fmt/core.h>
 #include <strutils.h>
 #include <espstrutils.h>
 #include <espwifiutils.h>
@@ -26,7 +28,7 @@ struct TextWithValueHelper : public Taccessor, public virtual TextInterface
         using espchrono::toString;
         using wifi_stack::toString;
 
-        return fmt::format("{} {}", Tprefix, richTextEscape(toString(Taccessor::getValue())));
+        return std::format("{} {}", Tprefix, richTextEscape(toString(Taccessor::getValue())));
     }
 };
 
@@ -42,7 +44,7 @@ struct ChangeableTextWithValueHelper : public Taccessor, public virtual TextInte
         using espchrono::toString;
         using wifi_stack::toString;
 
-        return fmt::format("{} {}", m_prefix, richTextEscape(toString(Taccessor::getValue())));
+        return std::format("{} {}", m_prefix, richTextEscape(toString(Taccessor::getValue())));
     }
 
     const std::string &prefix() const { return m_prefix; }
@@ -65,7 +67,7 @@ struct TextWithHighlightedValueHelper : public Taccessor, public virtual TextInt
         using espchrono::toString;
         using wifi_stack::toString;
 
-        return fmt::format("{} {}{}", Tprefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
+        return std::format("{} {}{}", Tprefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
     }
 };
 
@@ -81,7 +83,7 @@ struct ChangeableTextWithHighlightedValueHelper : public Taccessor, public virtu
         using espchrono::toString;
         using wifi_stack::toString;
 
-        return fmt::format("{} {}{}", m_prefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
+        return std::format("{} {}{}", m_prefix, Tguilib_color, richTextEscape(toString(Taccessor::getValue())));
     }
 
     const std::string &prefix() const { return m_prefix; }
