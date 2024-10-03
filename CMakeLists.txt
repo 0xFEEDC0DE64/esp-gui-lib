@@ -57,6 +57,7 @@ set(headers
     src/widgets/label.h
     src/widgets/progressbar.h
     src/widgets/reverseprogressbar.h
+    src/widgets/scrollinglabel.h
     src/widgets/slider.h
     src/widgets/variablerangeprogressbar.h
     src/widgets/variablerangereverseprogressbar.h
@@ -94,6 +95,7 @@ set(sources
     src/widgets/label.cpp
     src/widgets/progressbar.cpp
     src/widgets/reverseprogressbar.cpp
+    src/widgets/scrollinglabel.cpp
     src/widgets/slider.cpp
     src/widgets/variablerangeprogressbar.cpp
     src/widgets/variablerangereverseprogressbar.cpp
