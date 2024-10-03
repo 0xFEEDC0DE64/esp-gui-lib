@@ -163,5 +163,8 @@ private:
 
     std::optional<ButtonHeldInfo> m_upHeld;
     std::optional<ButtonHeldInfo> m_downHeld;
+
+    espchrono::millis_clock::time_point m_lastScrollTimestamp;
+    uint m_labelScrollOffset{0};
 };
 } // namespace espgui
