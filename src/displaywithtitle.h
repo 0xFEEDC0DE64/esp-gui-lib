@@ -14,6 +14,9 @@ class DisplayWithTitle :
     using Base = Display;
 
 public:
+    constexpr static int TITLE_HEIGHT = 34;
+    constexpr static int TITLE_BORDER = 2;
+
     TitleInterface *asTitleInterface() override { return this; }
     const TitleInterface *asTitleInterface() const override { return this; }
 

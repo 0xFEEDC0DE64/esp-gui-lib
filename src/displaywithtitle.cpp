@@ -14,7 +14,7 @@ void DisplayWithTitle::initScreen(TftInterface &tft)
 
 //    tft.fillRect(0, 0, tft.width(), 35, TFT_GREY);
 
-    tft.fillRect(0, 34, tft.width(), 2, TFT_GREY);
+    tft.fillRect(0, TITLE_HEIGHT, tft.width(), TITLE_BORDER, TFT_GREY);
 }
 
 void DisplayWithTitle::redraw(TftInterface &tft)
