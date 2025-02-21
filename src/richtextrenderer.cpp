@@ -99,17 +99,29 @@ again:
             }
             case 'f':
             case 's':
+            case 'S':
             case 'm':
             {
-                font = [&controlChar,&oldFont]() -> uint8_t {
+                bool changeHeight = false;
+                font = [&controlChar,&oldFont,&changeHeight]() -> uint8_t {
                     switch (controlChar)
                     {
                     case 'f': return oldFont;
                     case 's': return 2;
+                    case 'S': {
+                        changeHeight = true;
+                        return 2;
+                    }
                     case 'm': return 4;
                     }
                     __builtin_unreachable();
                 }();
+
+                if (changeHeight)
+                {
+                    // adjust y rendering position to new font height
+                    poY += fontRenderer.fontHeight(oldFont) - fontRenderer.fontHeight(font);
+                }
 
                 auto newNewIter = newIter + 1;
                 if (newNewIter != std::end(str))
