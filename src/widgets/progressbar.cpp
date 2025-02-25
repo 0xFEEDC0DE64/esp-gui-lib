@@ -31,4 +31,22 @@ void ProgressBar::redraw(TftInterface &tft, int value)
 
     m_lastValue = value;
 }
+
+void ProgressBar::changeColor(TftInterface &tft, const uint32_t color, const uint32_t backgroundColor)
+{
+    if (color != m_color)
+    {
+        // redraw already drawn area in new color
+        tft.fillRect(m_x+1, m_y+1, m_lastValue-m_x-1, m_height-2, color);
+        m_color = color;
+    }
+
+    if (backgroundColor != m_backgroundColor)
+    {
+        // redraw background in new color
+        tft.fillRect(m_x+1, m_y+1, m_width-2, m_height-2, backgroundColor);
+        m_backgroundColor = backgroundColor;
+    }
+}
+
 } // namespace espgui

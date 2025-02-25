@@ -21,6 +21,8 @@ public:
     void start(TftInterface &tft);
     void redraw(TftInterface &tft, int value);
 
+    void changeColor(TftInterface &tft, const uint32_t color = TFT_YELLOW, const uint32_t backgroundColor = TFT_BLACK);
+
 private:
     const int m_x;
     const int m_y;
@@ -28,8 +30,8 @@ private:
     const int m_height;
     const int m_min;
     const int m_max;
-    const uint32_t m_color;
-    const uint32_t m_backgroundColor;
+    uint32_t m_color;
+    uint32_t m_backgroundColor;
 
     int m_lastValue{};
 };
