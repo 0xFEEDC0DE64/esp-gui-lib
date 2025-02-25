@@ -56,6 +56,32 @@ public:
         return *m_menuItems[index].get();
     }
 
+    int getNextAccessibleMenuItemIndex(int index) const
+    {
+        for (std::size_t i = index + 1; i < m_menuItems.size(); ++i)
+            if (!m_menuItems[i]->skipScroll())
+                return i;
+
+        for (std::size_t i = 0; i < index; ++i)
+            if (!m_menuItems[i]->skipScroll())
+                return i;
+
+        return -1;
+    }
+
+    int getPreviousAccessibleMenuItemIndex(int index) const
+    {
+        for (std::size_t i = index - 1; i < m_menuItems.size(); --i)
+            if (!m_menuItems[i]->skipScroll())
+                return i;
+
+        for (std::size_t i = m_menuItems.size() - 1; i > index; --i)
+            if (!m_menuItems[i]->skipScroll())
+                return i;
+
+        return -1;
+    }
+
     void runForEveryMenuItem(std::function<void(MenuItem&)> &&callback)
     {
         for (const auto &ptr : m_menuItems)

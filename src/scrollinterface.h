@@ -7,8 +7,11 @@ public:
 };
 
 template<bool TScroll>
-class StaticScrollBehaviour : public ScrollInterface {
+class StaticScrollBehaviour : public virtual ScrollInterface {
 public:
     bool skipScroll() const override { return TScroll; }
 };
+
+using SkipScroll = StaticScrollBehaviour<true>;
+
 } // namespace espgui
