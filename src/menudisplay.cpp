@@ -73,7 +73,9 @@ void MenuDisplay::update()
 
             if (getMenuItem(m_selectedIndex).skipScroll())
             {
-                m_selectedIndex = offset > 0 ? getNextAccessibleMenuItemIndex(m_selectedIndex) : getPreviousAccessibleMenuItemIndex(m_selectedIndex);
+                m_selectedIndex = offset >= 0 ?
+                    getNextAccessibleMenuItemIndex(m_selectedIndex) :
+                getPreviousAccessibleMenuItemIndex(m_selectedIndex);
             }
 
             if (m_selectedIndex < m_scrollOffset)
@@ -162,7 +164,7 @@ void MenuDisplay::redraw(TftInterface &tft)
             drawItemRect(*labelsIter, TFT_BLACK);
             *iconsIter = nullptr;
             labelsIter->start(tft);
-        }                
+        }
 
         labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
 
