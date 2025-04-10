@@ -4,4 +4,8 @@ config ESPGUI_MENUDISPLAY_ROWS
     int "Number of rows for MenuDisplays"
     default 10
 
+config ESPGUI_MENUITEM_BACKGROUND_COLOR
+    hex "MenuItem background color"
+    default 0x5AEB
+
 endmenu

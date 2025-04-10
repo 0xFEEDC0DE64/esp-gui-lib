@@ -149,7 +149,7 @@ void MenuDisplay::redraw(TftInterface &tft)
 
             if (relativeIndex != m_highlightedIndex)
             {
-                drawItemRect(*labelsIter, TFT_GREY);
+                drawItemRect(*labelsIter, CONFIG_ESPGUI_MENUITEM_BACKGROUND_COLOR);
                 *iconsIter = nullptr;
                 labelsIter->start(tft);
 
@@ -166,20 +166,20 @@ void MenuDisplay::redraw(TftInterface &tft)
             labelsIter->start(tft);
         }
 
-        labelsIter->redraw(tft, item.text(), item.color(), selected ? TFT_GREY : TFT_BLACK, item.font());
+        labelsIter->redraw(tft, item.text(), item.color(), selected ? CONFIG_ESPGUI_MENUITEM_BACKGROUND_COLOR : TFT_BLACK, item.font());
 
         if (const auto icon = item.icon(selected); icon != *iconsIter)
         {
             if (icon)
                 tft.pushImage(6, labelsIter->y() + 1, *icon);
             else if (*iconsIter)
-                tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? TFT_GREY : TFT_BLACK);
+                tft.fillRect(6, labelsIter->y() + 1, 24, 24, selected ? CONFIG_ESPGUI_MENUITEM_BACKGROUND_COLOR : TFT_BLACK);
             *iconsIter = icon;
         }
 
 //        if (selected && (relativeIndex != m_highlightedIndex))
 //        {
-//            drawItemRect(*labelsIter, TFT_GREY);
+//            drawItemRect(*labelsIter, CONFIG_ESPGUI_MENUITEM_BACKGROUND_COLOR);
 //        }
 
         labelsIter++;
